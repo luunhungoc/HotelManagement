@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>La Siesta Danang Resort - Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <link rel="stylesheet" type="text/css" th:href="@{//fonts.googleapis.com/css?family=|Roboto+Sans:400,700|Playfair+Display:400,700}">
+
+    <link rel="stylesheet" th:href="@{/css/room.css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/room.css/animate.css}">
+    <link rel="stylesheet" th:href="@{/css/room.css/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/css/room.css/aos.css}">
+    <link rel="stylesheet" th:href="@{/css/room.css/bootstrap-datepicker.css}">
+    <link rel="stylesheet" th:href="@{/css/room.css/jquery.timepicker.css}">
+    <link rel="stylesheet" th:href="@{/css/room.css/fancybox.min.css}">
+    <link rel="icon" th:href="@{img/favicon.jpg}">
+    <!-- Theme Style -->
+    <link rel="stylesheet" th:href="@{/css/room.css/style.css}">
+    <link th:href="@{/css/home.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/room.fonts/ionicons/css/ionicons.min.css}">
+    <link rel="stylesheet" th:href="@{/css/room.fonts/fontawesome/css/font-awesome.min.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Theme Style -->
+  </head>
+  <body>
+
+  <div th:replace="~{website/header-2 :: header}"></div>
+    <!-- END head -->
+
+    <section class="site-hero inner-page overlay" style="background-image: url('https://366e203a.rocketcdn.me/wp-content/uploads/2021/05/Soneva-Fushi.jpg')" data-stellar-background-ratio="0.5">
+      <div class="container">
+        <div class="row site-hero-inner justify-content-center align-items-center">
+          <div class="col-md-10 text-center" data-aos="fade">
+            <h1 class="heading mb-3">Rooms</h1>
+            <ul class="custom-breadcrumbs mb-4">
+              <li><a th:href="@{/}">Home</a></li>
+              <li>&bullet;</li>
+              <li>Rooms</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </section>
+    <!-- END section -->
+
+    <section class="section pb-4">
+      <div class="container">
+       
+        <div class="row check-availabilty" id="next">
+          <div class="block-32" data-aos="fade-up" data-aos-offset="-200">
+
+            <form th:action="@{/search-availability}" method="get">
+              <div class="row">
+                <div class="col-md-5 mb-3 mb-lg-0 col-lg-2">
+                  <label for="checkInDate" class="font-weight-bold text-black">Check In</label>
+                  <div class="field-icon-wrap">
+                    <div class="icon" style="margin-left: 10px;"><span class="icon-calendar"></span></div>
+
+                    <input style="width: 170px;" type="date" id="checkInDate" name="checkInDate" class="form-control" required>
+
+                  </div>
+                </div>
+                <div class="col-md-5 mb-3 mb-lg-0 col-lg-2">
+                  <label for="checkOutDate" class="font-weight-bold text-black">Check Out</label>
+                  <div class="field-icon-wrap">
+
+                    <input style="width: 170px;" type="date" id="checkOutDate" name="checkOutDate" class="form-control" required>
+
+
+                  </div>
+                </div>
+                <div class="col-md-8 mb-3 mb-md-0 col-lg-5">
+                  <div class="row">
+                    <div class="col-md-3 mb-md-0">
+                      <label for="adultCount" class="font-weight-bold text-black">Adults</label>
+                      <div class="field-icon-wrap">
+                        <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                        <select id="adultCount" name="adultCount" class="form-control">
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3 mb-md-0">
+                      <label for="childCount" class="font-weight-bold text-black">Children</label>
+                      <div class="field-icon-wrap">
+                        <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                        <select  id="childCount" name="childCount" class="form-control">
+                          <option value="0">0</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-md-0">
+                      <label for="roomTypeName" class="font-weight-bold text-black">Room Type</label>
+                      <div class="field-icon-wrap">
+                        <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                        <select id="roomTypeName" name="roomTypeName" class="form-control">
+                          <option value="">ALL ROOM TYPES</option>
+                          <option th:each="roomType : ${roomTypeList}"
+                                  th:value="${roomType.name}"
+                                  th:text="${roomType.name}">
+                          </option>
+                        </select>
+                        <script>
+                          const urlParams = new URLSearchParams(window.location.search);
+                          document.getElementById('checkInDate').value = urlParams.get('checkInDate');
+                          document.getElementById('checkOutDate').value = urlParams.get('checkOutDate');
+                          document.getElementById('adultCount').value = urlParams.get('adultCount');
+                          document.getElementById('childCount').value = urlParams.get('childCount');
+                          document.getElementById('roomTypeName').value = urlParams.get('roomTypeName');
+                        </script>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-3 align-self-end">
+                  <button class="btn btn-primary btn-block text-white">Check Availabilty</button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+
+        </div>
+      </div>
+    </section>
+
+    <div class="alert alert-warning" role="alert" style="margin: 10px 80px;"
+         th:if="${roomFullMessages != null && !roomFullMessages.isEmpty()}"
+         th:text="${roomFullMessages}">
+    </div>
+
+    <!-- Thông báo khi tất cả phòng đều fully booked -->
+    <div class="alert alert-warning" role="alert" style="margin: 10px 80px;"
+         th:if="${roomFullMessages == null && roomFullMessages.isEmpty() && (availableRooms == null || availableRooms.isEmpty())}">
+      All rooms are fully booked.
+    </div>
+
+  <h3 style="margin: 10px 80px;"> Choose room:</h3>
+    <div class="site-block-half d-block d-lg-flex bg-white" style="margin: 150px 180px;" data-aos-delay="100" th:each="roomInfo : ${availableRooms}">
+      <a href="#" class="image d-block bg-image-2" style="background-image: url('css/room.images/img_1.jpg'); width: 50%;"></a>
+      <div class="text" >
+        <span class="d-block mb-4"><span class="display-4 text-primary" th:text="${#numbers.formatDecimal(roomInfo.roomType.price, 0, 'COMMA', 0, 'POINT')}"></span> <span class="text-uppercase letter-spacing-2">VND / per night</span> </span>
+        <h2 class="mb-4" th:text="${roomInfo.roomType.name}"></h2>
+        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+
+        <!-- Add to Cart form -->
+<!--        <form th:action="@{cart/addToCart/{id}(id=${roomInfo.roomType.id})}" method="post">-->
+<!--          <button type="submit" class="btn btn-primary text-white">Add to Cart</button>-->
+<!--        </form>-->
+        <!-- Form to add to cart -->
+        <form th:action="@{/cart/addToCart/{id}(id=${roomInfo.roomType.id})}" method="post">
+          <input type="hidden" name="checkInDate" th:value="${param.checkInDate}"/>
+          <input type="hidden" name="checkOutDate" th:value="${param.checkOutDate}"/>
+          <input type="hidden" name="adultCount" th:value="${param.adultCount}"/>
+          <input type="hidden" name="childCount" th:value="${param.childCount}"/>
+          <button type="submit" class="btn btn-primary text-white">Add to Cart</button>
+        </form>
+
+      </div>
+      </div>
+    </div>
+
+    <section class="section bg-image overlay" style="background-image: url('https://366e203a.rocketcdn.me/wp-content/uploads/2021/05/Soneva-Fushi.jpg');">
+      <div class="container" >
+        <div class="row align-items-center">
+          <div class="col-12 col-md-6 text-center mb-4 mb-md-0 text-md-left" data-aos="fade-up">
+            <h2 class="text-white font-weight-bold">A Best Place To Stay. Reserve Now!</h2>
+          </div>
+          <div class="col-12 col-md-6 text-center text-md-right" data-aos="fade-up" data-aos-delay="200">
+            <a th:href="@{/reservations}" class="btn btn-outline-white-primary py-3 text-white px-5">Reserve Now</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  <div th:replace="~{website/footer :: footer}"></div>
+
+    <script th:src="@{/js/room.js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/room.js/jquery-migrate-3.0.1.min.js}"></script>
+    <script th:src="@{/js/room.js/popper.min.js}"></script>
+    <script th:src="@{/js/room.js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/room.js/owl.carousel.min.js}"></script>
+    <script th:src="@{/js/room.js/jquery.stellar.min.js}"></script>
+    <script th:src="@{/js/room.js/jquery.fancybox.min.js}"></script>
+    
+    <script th:src="@{/js/room.js/aos.js}"></script>
+    
+    <script th:src="@{/js/room.js/bootstrap-datepicker.js}"></script>
+    <script th:src="@{/js/room.js/jquery.timepicker.min.js}"></script>
+
+    <script th:src="@{/js/room.js/main.js}"></script>
+    <script th:src="@{/js/currentDate.js}"></script>
+  </body>
+</html>

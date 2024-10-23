@@ -1,0 +1,62 @@
+
+INSERT INTO hotelmanagement.memberships VALUES (1,"MEM 1",1);
+INSERT INTO hotelmanagement.memberships VALUES (2,"MEM 2",1);
+INSERT INTO hotelmanagement.memberships VALUES (3,"VIP 1",2);
+INSERT INTO hotelmanagement.memberships VALUES (4,"VIP 2",3);
+
+insert into hotelmanagement.profiles values (1, "","","","","Danang","VN","","Van A","Male","Nguyen","nguyena","123456","","",1);
+insert into hotelmanagement.profiles values (2, "","","","","Saigon","VN","","Thi B","Female","Nguyen","nguyenb","123456","","",1);
+
+
+insert into hotelmanagement.central_reservations values (1, 2000000,"2024-06-01","COMPLETED",1);
+insert into hotelmanagement.central_reservations values (2, 2300000,"2024-06-22","COMPLETED",2);
+
+
+INSERT INTO hotelmanagement.room_types VALUES (1,"STE",0,3,3,"OCEAN SUITE",1000000,60);
+INSERT INTO hotelmanagement.room_types VALUES (2,"DLX",0,3,3,"OCEAN DELUXE",2000000,60);
+INSERT INTO hotelmanagement.room_types VALUES (3,"GVI",0,4,4,"GARDEN VILLA",3000000,40);
+INSERT INTO hotelmanagement.room_types VALUES (4,"OVI",0,4,4,"OCEAN VILLA",4000000,10);
+INSERT INTO hotelmanagement.room_types VALUES (5,"FAM",0,4,4,"FAMILY SUITE",5000000,30);
+INSERT INTO hotelmanagement.room_types VALUES (6,"FAV",0,4,4,"FAMILY VILLA",6000000,30);
+
+INSERT INTO hotelmanagement.ROOMS VALUES (1,101,"OCCUPIED",1);
+INSERT INTO hotelmanagement.ROOMS VALUES (2,102,"OCCUPIED",1);
+INSERT INTO hotelmanagement.ROOMS VALUES (3,103,"OCCUPIED",1);
+INSERT INTO hotelmanagement.ROOMS VALUES (4,104,"VACANT",2);
+INSERT INTO hotelmanagement.ROOMS VALUES (5,201,"OCCUPIED",2);
+INSERT INTO hotelmanagement.ROOMS VALUES (6,202,"VACANT",3);
+INSERT INTO hotelmanagement.ROOMS VALUES (7,301,"VACANT",3);
+INSERT INTO hotelmanagement.ROOMS VALUES (8,302,"OCCUPIED",4);
+
+
+insert into hotelmanagement.reservations values (1, 2,"2024-06-01","2024-06-03",0,"","ONL",2,"",1,"STE","","GUARANTEED",1,1,1,1);
+insert into hotelmanagement.reservations values (2, 1,"2024-06-22","2024-06-23",1,"","ONL",1,"",1,"DLX","","GUARANTEED",2,2,5,2);
+insert into hotelmanagement.reservations values (3, 2,"2024-06-24","2024-06-26",2,"","ONL",2,"",1,"STE","","GUARANTEED",2,1,2,1);
+insert into hotelmanagement.reservations values (4, 1,"2024-06-22","2024-06-28",1,"","WLK",6,"",1,"STE","","CANCELLED",1,1,3,1);
+insert into hotelmanagement.reservations values (5, 3,"2024-06-30","2024-07-01",0,"","WLK",1,"",1,"FAM","","GUARANTEED",2,1,8,4);
+
+
+insert into hotelmanagement.transaction_types values(1,1000,"Dich vu luu tru (Accommodation Charge)","REV","ROM");
+insert into hotelmanagement.transaction_types values(2,1001,"Dich vu luu tru (Accommodation extra Charge)","REV","ROM");
+insert into hotelmanagement.transaction_types values(3,2000,"DV am thuc_Food","REV","FB");
+insert into hotelmanagement.transaction_types values(4,2001,"DV am thuc_Beverage","REV","FB");
+insert into hotelmanagement.transaction_types values(5,3001,"Dich vu Giat ui (Laundry Revenue)","REV","LND");
+insert into hotelmanagement.transaction_types values(6,3002,"Phi Ben Bai (Parking Charge)","REV","GAR");
+insert into hotelmanagement.transaction_types values(7,3003,"Dich vu Van Chuyen (Shuttle Bus)","REV","TRP");
+insert into hotelmanagement.transaction_types values(8,4000,"Tien Boa","REV","OTH");
+insert into hotelmanagement.transaction_types values(9,7010,"Thanh toan tien mat (Cash)","PAY","CAS");
+insert into hotelmanagement.transaction_types values(10,7030,"Thanh toan bang the (Amex Card)","PAY","CCO");
+insert into hotelmanagement.transaction_types values(11,7031,"Thanh toan bang the (Diners Card)","PAY","CCO");
+insert into hotelmanagement.transaction_types values(12,7032,"Thanh toan bang the (Master Card)","PAY","CCO");
+insert into hotelmanagement.transaction_types values(13,7033,"Thanh toan bang the (JCB Card)","PAY","CCO");
+insert into hotelmanagement.transaction_types values(14,7034,"Thanh toan bang the (Visa Card)","PAY","CCO");
+insert into hotelmanagement.transaction_types values(15,7035,"Thanh toan bang the (UnionPay Card)","PAY","CCO");
+insert into hotelmanagement.transaction_types values(16,7036,"Thanh toan bang the (Discovery Card)","PAY","CCO");
+insert into hotelmanagement.transaction_types values(17,7038,"Thanh toan bang the (ATM Local)","PAY","CCO");
+insert into hotelmanagement.transaction_types values(18,7057,"Thanh toan bang VNPay","PAY","VNP");
+insert into hotelmanagement.transaction_types values(19,7058,"Thanh toan bang Paypal","PAY","PAL");
+insert into hotelmanagement.transaction_types values(20,7095,"Vietin - Chuyen Khoan (Bank Account VND)","PAY","BTF");
+
+insert into hotelmanagement.transactions values (1, 2000000,"2024-10-22","",1,1);
+insert into hotelmanagement.transactions values (2, 4000000,"2024-10-22","",1,2);
+insert into hotelmanagement.transactions values (3, 2000000,"2024-10-22","",1,3);

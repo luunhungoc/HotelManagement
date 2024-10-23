@@ -1,0 +1,233 @@
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Federo|Poppins" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.carousel.min.css" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.theme.default.min.css" />
+    <link
+            href="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.css"
+            rel="stylesheet" type="text/css" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+    <script src="https://www.paypal.com/sdk/js?client-id=AWea2gnSojv3kkNOXdVWGzblzmDjdD-cRt3j1nsKaQ-EN8KRaEERM1xeIeWKxslRFpzaGEz98I2OFhAM&currency=USD"></script>
+    <link th:href="@{/css/home.css}" rel="stylesheet" />
+    <link th:href="@{/css/cart_style.css}" rel="stylesheet" />
+    <link th:href="@{/css/payment_currencyExc.css}" rel="stylesheet" />
+<title>Your Information - La Siesta Danang Resort</title>
+    <link rel="icon" th:href="@{/img/favicon.jpg}">
+</head>
+
+<body>
+<!-- Fixed navbar -->
+<div th:replace="~{website/header :: header}"></div>
+<!-- End Of Navbar -->
+
+<div class="hotel-container">
+    <h1>La Siesta Danang Resort</h1>
+
+    <h3><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+            class="fa fa-star"></i>
+        <br>09 Vo Nguyen Giap Street, Son Tra District, Danang city, Vietnam
+    </h3>
+    <hr>
+    <h1>Complete your booking</h1>
+    <form th:action="@{/checkout}" th:object="${profile}" method="post">
+    <section class="bg-light my-5">
+        <div class="container">
+            <div class="row">
+                <!-- cart -->
+                <div class="col-lg-9">
+                    <div class="card border shadow-0">
+                        <div class="m-4 d-flex justify-content-between">
+                            <div class="p-4 d-flex justify-content-between" style="width: 400px;">
+                                <h5>Already have an account?</h5>
+                                    <a href="#" class="btn btn-primary shadow-0 text-nowrap w-30">Sign in</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-top pt-4 mx-4 mb-4">
+                        <!-- Thông báo khi existed email  -->
+                        <div class="alert alert-warning" role="alert" style="margin: 10px 80px;"
+                             th:if="${profileMessages != null && !profileMessages.isEmpty()}"
+                             th:text="${profileMessages}">
+                        </div>
+                                <table>
+                                    <tr>
+                                        <td>Customer First Name (*)</td>
+                                        <td>
+                                            <input type="text" th:field="*{firstName}" class="form-control" required />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Customer Last Name (*)</td>
+                                        <td>
+                                            <input type="text" th:field="*{lastName}" class="form-control" required />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Customer Address (*)</td>
+                                        <td>
+                                            <input type="text" th:field="*{address}" class="form-control" required />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email (*)</td>
+                                        <td>
+                                            <input type="text" th:field="*{loginName}" class="form-control" required />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Phone (*)</td>
+                                        <td>
+                                            <input type="text" th:field="*{phone}" class="form-control" required />
+                                        </td>
+                                    </tr>
+                                    <!-- Hidden fields to store booking details -->
+                                    <input type="hidden" id="checkInDate" name="checkInDate">
+                                    <input type="hidden" id="checkOutDate" name="checkOutDate">
+                                    <input type="hidden" id="adultCount" name="adultCount">
+                                    <input type="hidden" id="childCount" name="childCount">
+                                </table>
+                    </div>
+
+                </div>
+                <!-- cart -->
+                <!-- summary -->
+                <div class="col-lg-3">
+                    <div class="card mb-3 border shadow-0">
+                        <div class="card-body">
+                            <form>
+                                <div class="form-group">
+                                    <label class="form-label">Have coupon?</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control border" name="" placeholder="Coupon code" />
+                                        <button class="btn btn-light border">Apply</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card shadow-0 border">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <p class="mb-2">Total price:</p>
+                                <p class="mb-2 total">$329.00</p>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <p class="mb-2">Discount:</p>
+                                <p class="mb-2 text-success">0</p>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <p class="mb-2">TAX:</p>
+                                <p class="mb-2">0</p>
+                            </div>
+                            <hr />
+                            <div class="d-flex justify-content-between">
+                                <p class="mb-2 ">Total price:</p>
+                                <p class="mb-2 fw-bold total" id="initial-price">$283.00</p>
+                            </div>
+                            <div class="currency-options">
+                                <!-- Radio buttons for currency selection -->
+                                <label>
+                                    <input type="radio" name="currency" value="VND" id="currency-vnd" checked> VND
+                                </label>
+                                <label>
+                                    <input type="radio" name="currency" value="USD" id="currency-usd"> USD
+                                </label>
+                            </div>
+
+                            <div class="total-price">
+                                <p>Total you'll pay:</p>
+                                <h3><span id="total-price">VND 2.500.000</span></h3>
+                            </div>
+
+                            <p class="conversion-rate">Conversion rate: 1 USD = 25.000 VND<br>This rate includes our currency conversion fee.</p>
+
+                            <div class="mt-3">
+                                <button class="pay-button" type="submit" id="pay-button">PAY IN VND</button>
+                                <!-- Nút thanh toán PayPal sẽ được render tại đây -->
+                                <div id="paypal-button-container"></div>
+
+                                <script>
+                                    paypal.Buttons({
+                                        createOrder: function(data, actions) {
+                                            var amount = document.getElementById('total-price').value;
+                                            // Kiểm tra nếu số tiền hợp lệ
+                                            if (amount <= 0) {
+                                                alert('Số tiền phải lớn hơn 0.');
+                                                return;
+                                            }
+                                            return actions.order.create({
+                                                purchase_units: [{
+                                                    amount: {
+                                                        value: amount,
+                                                        currency_code: 'USD' // Đặt currency code là USD
+                                                    }
+                                                }]
+                                            });
+                                        },
+                                        onApprove: function(data, actions) {
+                                            return actions.order.capture().then(function(details) {
+                                                var fullResponse = {
+                                                    orderID: data.orderID,
+                                                    payerID: data.payerID,
+                                                    details: details
+                                                };
+                                                // Gửi dữ liệu đến controller để lưu vào cơ sở dữ liệu
+                                                var xhr = new XMLHttpRequest();
+                                                xhr.open('POST', '/payment-success', true);
+                                                xhr.setRequestHeader('Content-Type', 'application/json');
+                                                xhr.onreadystatechange = function() {
+                                                    if (xhr.readyState === 4 && xhr.status === 200) {
+                                                        // Chuyển hướng đến trang thành công sau khi lưu
+                                                        window.location.href = "/payment-success?response=" + encodeURIComponent(JSON.stringify(fullResponse));
+                                                    }
+                                                };
+                                                xhr.send(JSON.stringify(fullResponse));
+                                            });
+                                        },
+                                        onError: function(err) {
+                                            // Nếu có lỗi, chuyển hướng sang trang error.html
+                                            window.location.href = "/payment-error";
+                                        }
+                                    }).render('#paypal-button-container');
+                                </script>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- summary -->
+            </div>
+        </div>
+    </section>
+    </form>
+<!-- cart + summary -->
+<div th:replace="~{website/footer :: footer}"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js"></script>
+<script
+        src="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.js">
+</script>
+    <script>
+        $(document).ready(function() {
+            // Lấy giá trị total từ LocalStorage
+            var totalAmount = localStorage.getItem("totalAmount");
+            // Hiển thị total trên trang
+            $('.total').text(totalAmount);
+        });
+    </script>
+</div>
+<script type="text/javascript" th:src="@{/js/payment_currencyExc.js}" defer></script>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+
+</html>

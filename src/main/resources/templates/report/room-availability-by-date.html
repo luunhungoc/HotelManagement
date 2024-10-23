@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Room Availability by Day</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<h2>Phòng trống theo ngày từ [[${checkInDate}]] </h2>
+
+<!-- Form tìm kiếm -->
+<form class="search-form" th:action="@{/room-availability-by-date}" method="get">
+    <label for="checkInDate">Từ ngày:</label>
+    <input type="date" id="checkInDate" name="checkInDate" required>
+
+    <button type="submit">Tìm kiếm</button>
+</form>
+
+<!-- Bảng hiển thị phòng trống theo ngày -->
+<table>
+    <thead>
+    <tr>
+        <th>Loại phòng</th>
+        <th th:each="date : ${dateRange}" th:text="${date}">Ngày</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="roomType : ${availableRoomsByDate.keySet()}">
+        <td th:text="${roomType}">Loại phòng</td>
+        <td th:each="date : ${dateRange}" th:text="${availableRoomsByDate.get(roomType).get(date)}">N/A</td>
+    </tr>
+    </tbody>
+</table>
+
+<p th:if="${#lists.isEmpty(availableRoomsByDate)}">Không có phòng nào trống trong khoảng thời gian đã chọn.</p>
+</body>
+</html>

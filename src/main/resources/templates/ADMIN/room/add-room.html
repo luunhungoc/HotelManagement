@@ -1,0 +1,66 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Books</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1> Add Rooms </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <a class="btn btn-info" href="#" th:href="@{/room/room-list}"> Back to All Rooms </a>
+            <form action="#" class="form-horizontal"
+                  th:action="@{/room/save}"
+                  th:object="${form}"
+                  method="post">
+                <fieldset>
+					<span class="pull-right">
+						    <input type="submit" id="submitButton" class="btn btn-success" th:value="Save">
+						    <input type="reset" id="resetButton" class="btn btn-danger" th:value="Reset"/>
+					</span>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Room ID</th>
+                            <th>Room Number</th>
+                            <th>Room Status</th>
+                            <th>Room Type Id</th>
+                            <th>Room Type Code</th>
+                            <th>Room Type Name</th>
+                            <th>Public Rate per Night</th>
+                            <th>Max Adult</th>
+                            <th>Max Children</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="room, itemStat : *{rooms}">
+
+                            <td><input th:placeholder="Number + ' ' + ${itemStat.count}" th:field="*{rooms[__${itemStat.index}__].id}" required/></td>
+                            <td><input th:placeholder="Number + ' ' + ${itemStat.count}" th:field="*{rooms[__${itemStat.index}__].number}" /></td>
+                            <td><input th:placeholder="Number + ' ' + ${itemStat.count}" th:field="*{rooms[__${itemStat.index}__].roomStatus}"/></td>
+                            <td><input th:placeholder="Number + ' ' + ${itemStat.count}" th:field="*{rooms[__${itemStat.index}__].roomType.id}"/></td>
+                            <td><input th:placeholder="Number + ' ' + ${itemStat.count}" th:field="*{rooms[__${itemStat.index}__].roomType.code}" /></td>
+                            <td><input th:placeholder="Number + ' ' + ${itemStat.count}" th:field="*{rooms[__${itemStat.index}__].roomType.typeName}" /></td>
+                            <td><input th:placeholder="Number + ' ' + ${itemStat.count}" th:field="*{rooms[__${itemStat.index}__].roomType.price}" /></td>
+                            <td><input th:placeholder="Number + ' ' + ${itemStat.count}" th:field="*{rooms[__${itemStat.index}__].roomType.maxAdult}" /></td>
+                            <td><input th:placeholder="Number + ' ' + ${itemStat.count}" th:field="*{rooms[__${itemStat.index}__].roomType.maxChild}" /></td>
+
+<!--                            <td><input type="text" th:name="|roomList[${itemStat.index}].roomType.code|" th:value="${room.roomType.code}"/></td>-->
+<!--                            <td><input type="text" th:name="|roomList[${itemStat.index}].roomType.typeName|" th:value="${room.roomType.typeName}"/></td>-->
+<!--                            <td><input type="text" th:name="|roomList[${itemStat.index}].roomType.price|" th:value="${#numbers.formatDecimal(room.roomType.price, 0, 'COMMA', 0, 'POINT')} +' VND'"/></td>-->
+<!--                            <td><input type="number" th:name="|roomList[${itemStat.index}].roomType.maxAdult|" th:value="${room.roomType.maxAdult}"/></td>-->
+<!--                            <td><input type="number" th:name="|roomList[${itemStat.index}].roomType.maxChild|" th:value="${room.roomType.maxChild}"/></td>-->
+                        </tr>
+                        </tbody>
+                    </table>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

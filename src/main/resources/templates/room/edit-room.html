@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Room</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <a class="btn btn-info" href="#" th:href="@{/room/room-list}"> Back to All Rooms </a>
+    <form class="form-horizontal"
+          th:action="@{/room/save}"
+          th:object="${form}"
+          method="post">
+        <fieldset>
+<!--            	<span class="pull-right">-->
+<!--						    <input type="submit" id="submitButton" class="btn btn-success" th:value="Save">-->
+<!--						    <input type="reset" id="resetButton" class="btn btn-danger" th:value="Reset"/>-->
+<!--					</span>-->
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>Room ID</th>
+                <th>Room Number</th>
+                <th>Room Status</th>
+                <th>Room Type</th>
+                <th>Public Rate per Night</th>
+                <th>Max Adult</th>
+                <th>Max Children</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="room, itemStat : ${form.rooms}">
+                <td><input class="form-control" readonly th:name="|rooms[${itemStat.index}].id|" th:value="${room.id}"/></td>
+                <td><input class="form-control" th:placeholder="${room.number}" th:name="|rooms[${itemStat.index}].number|" th:value="${room.number}"/></td>
+                <td><input class="form-control" th:placeholder="${room.roomStatus}" th:name="|rooms[${itemStat.index}].roomStatus|" th:value="${room.roomStatus}"/></td>
+                <td>       <select class="form-control" th:name="|rooms[${itemStat.index}].roomType.name|">
+
+                    <!-- Duyệt qua danh sách các room type để hiển thị trong dropdown -->
+                    <option th:each="roomType : ${roomTypeList}"
+                            th:selected="${room.roomType.name.equals(roomType.name)}"
+                            th:text="|${roomType.code} - ${roomType.name}|">
+                    </option>
+
+                </select></td>
+            </tr>
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-success">Save</button>
+            <input type="reset" id="resetButton" class="btn btn-danger" th:value="Reset"/>
+            </fieldset>
+    </form>
+
+</body>
+</html>

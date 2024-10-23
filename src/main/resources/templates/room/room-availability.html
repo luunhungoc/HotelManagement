@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tìm kiếm phòng trống</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Tìm kiếm phòng trống</h1>
+
+    <!-- Form để người dùng nhập ngày check-in và check-out -->
+    <form action="/searchAvailability" method="get" class="form-inline mb-4">
+        <label class="mr-2">Check-in Date:</label>
+        <input type="date" name="checkInDate" class="form-control mr-2" th:value="${#temporals.format(currentDate, 'yyyy-MM-dd')}">
+
+        <label class="mr-2">Check-out Date:</label>
+        <input type="date" name="checkOutDate" class="form-control mr-2" th:value="${#temporals.format(currentDatePlus, 'yyyy-MM-dd')}">
+
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <!-- Hiển thị kết quả tìm kiếm -->
+    <h2>Kết quả tìm kiếm</h2>
+    <p th:if="${availableRooms.isEmpty()}">Không có phòng trống nào trong khoảng thời gian này.</p>
+
+    <table class="table table-bordered" th:if="${!availableRooms.isEmpty()}">
+        <thead>
+        <tr>
+            <th>Loại phòng</th>
+            <th>Số lượng phòng trống (tối thiểu)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="roomType, quantity : ${availableRooms}">
+            <td th:text="${roomType}"></td>
+            <td th:text="${quantity}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

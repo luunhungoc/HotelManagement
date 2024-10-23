@@ -1,0 +1,135 @@
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Federo|Poppins" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.carousel.min.css" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.theme.default.min.css" />
+    <link
+            href="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.css"
+            rel="stylesheet" type="text/css" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+    <link th:href="@{/css/home.css}" rel="stylesheet" />
+    <link th:href="@{/css/profile.css}" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<title>La Siesta Danang Resort</title>
+    <link rel="icon" th:href="@{img/favicon.jpg}">
+</head>
+
+<body>
+<!-- Fixed navbar -->
+<div th:replace="~{website/header :: header}"></div>
+<!-- End Of Navbar -->
+<div class="ui sidebar vertical left menu overlay visible" style="overflow: visible !important;">
+    <div class="item logo">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReipfTXjAiZCTprsieG7sYq7I9A1mLK9803A&s" /><img src="https://image.flaticon.com/icons/svg/866/866218.svg" style="display: none" />
+    </div>
+    <div class="ui accordion">
+
+        <a class="title item">My Account  <i class="dropdown icon"></i>
+        </a>
+        <div class="content">
+            <a class="item" href="#"> Edit Profile
+            </a>
+            <a class="item" href="#">Payment History
+            </a>
+            <a class="item" href="#">Order History
+            </a>
+        </div>
+        <div class="title item">
+            <i class="dropdown icon"></i> Settings
+        </div>
+        <div class="content">
+            <a class="item" href="#">Payment Setting
+            </a>
+
+            <a class="item" href="#">Reset Password
+            </a>
+            <a class="item" href="#">Mailbox
+            </a>
+
+        </div>
+    </div>
+
+</div>
+<div id = "profile-wrapper">
+    <div id = "content"><br>
+        <h1>Edit Profile</h1>
+        <div id = "RightColumn">
+            <form id ="PPicture" action="">
+                <fieldset>
+                    <legend>Profile Picture</legend>
+                    <div>
+                        <img src="https://hatgiongphuongnam.com/asset/upload/image/hat-giong-hoa-cuc-trang-1.1_1.jpg?v=20190410" alt="" width="270px" height="270px" />
+                    </div>
+                    <br>
+                    <button class="btn btn--green">
+                        <span class="btn__icon fa fa-pencil"></span>
+                        <span class="btn__label">Edit Profile</span>
+                    </button>
+                </fieldset>
+            </form>
+
+
+        </div>
+        <form id="profile" action = "" >
+            <fieldset th:each="profileList : ${profileList}">
+                <legend>Profile Information</legend>
+                <br>
+                <label for="username">User Name:</label>
+                <input type="text" name="username" id="username" required  th:value="${profile.username}">
+                <label for="myOFName">First Name:</label>
+                <input type="text" name="myOFName" id="myOFName" required value ="Ngoc">
+                <label for="myOLName">Last Name:</label>
+                <input type="text" name="myOLName" id="myOLName" required value ="Luu">
+                <label for="myGender">Gender:</label>
+                <input type="text" name="myGender" id="myGender"  value ="Female">
+                <label for="myBirthday">Birthday:</label>
+                <input type="date" name="myBirthday" id="myBirthday"  value ="25/09/2024">
+                <label for="myAddress">Address:</label>
+                <input type="text" name="myAddress" id="myAddress" required value ="92 Quang Trung street">
+                <label for="myCity">*City:</label>
+                <input type="text" name="myCity" id="myCity"  value ="Danang">
+                <label for="myCountry">Country:</label>
+                <input type="text" name="myCountry" id="myCountry" size = "12"  value ="Vietnam">
+                <label for="myPhone">Phone Number:</label>
+                <input type="tel" name="myPhone" id="myPhone" size="12"  value ="219-656-0141">
+                <label for="myEmail">*E-Mail:</label>
+                <input type="email" name="myEmail" id="myEmail" size="30" required value ="ngoc.luunhu@gmail.com">
+
+                <label for="myBio">Profile Notes:</label>
+                <textarea name="myBio" id="myBio" rows="2" cols="32" placeholder= "Allergy for milk, love fruit..."></textarea>
+            </fieldset>
+        </form>
+        <br>
+    </div>
+    <div id = "bottom">
+        <input type="submit" value="Save Changes"/>
+    </div>
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js"></script>
+<script
+        src="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.js">
+</script>
+
+
+
+
+
+
+<script type="text/javascript" th:src="@{/js/profile.js}" defer></script>
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Federo|Poppins" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.carousel.min.css" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.theme.default.min.css" />
+    <link
+            href="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.css"
+            rel="stylesheet" type="text/css" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+
+    <link th:href="@{/css/home.css}" rel="stylesheet" />
+
+<title>La Siesta Danang Resort</title>
+    <link rel="icon" th:href="@{img/favicon.jpg}">
+</head>
+
+<body>
+<!-- Fixed navbar -->
+<div th:replace="~{website/header :: header}"></div>
+<!-- End Of Navbar -->
+
+
+<div class="intro">
+    <div class="layer">
+        <div class="photo-area"></div>
+        <div class="text-box">
+            <h3>Welcome to</h3>
+            <h1>La Siesta Resort Danang</h1>
+        </div>
+    </div>
+    <button class="button-text " onclick="document.getElementById('reserve-now').scrollIntoView({ behavior: 'smooth' });"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>Reserve Now</button>
+</div>
+
+
+
+<section class="summary">
+    <h1>Modern comfort, traditional Vietnamese</h1>
+
+
+    <div class="container">
+
+        <!-- 1st Column-->
+        <div class="row">
+            <div class="col-md-3 col-sm-12">
+                <img>
+                <h2>Family friendly</h2>
+                <p>Our goal is to make your stay suitable for all members of your lovely family during in Bali.</p>
+            </div>
+
+
+            <div class="col-md-3 col-sm-12">
+                <img>
+                <h2>best deals</h2>
+                <p>To provide everything you need with all budget you have prepared !</p>
+            </div>
+
+            <div class="col-md-3 col-sm-12">
+                <img>
+                <h2>quality services</h2>
+                <p>We aim for your satisfaction. Lets make the best of your stay during in Bali. </p>
+            </div>
+
+
+            <div class="col-md-3 col-sm-12">
+                <img>
+                <h2>fast respond</h2>
+                <p>We will be only one call away whenever you need it. </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--  End Section Two  -->
+
+<!--  Parallax  -->
+<section class="parallax">
+    <div class="layer">
+        <p>Discover Our Luxurious Accommodations</p>
+    </div>
+</section>
+<!--  End Parallax  -->
+
+
+<!--  Section Properties  -->
+<section class="properties">
+    <h1>Accommodation</h1>
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-6 col-sm-12 column" th:each="roomType: ${roomTypeList}">
+                <div class="ui fluid card">
+                    <div class="blurring dimmable image">
+                        <div class="ui dimmer">
+                            <div class="content">
+                                <div class="center">
+                                    <div class="ui inverted button one">view details</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="image">
+                            <img src="https://10web-site.ai/130/wp-content/uploads/sites/142/2024/09/tenweb_media_2QknnKld.webp">
+                        </div>
+                        <!-- Hiển thị hình ảnh phòng từ roomType -->
+<!--                        <div class="image">-->
+<!--                            <img th:src="${roomType.imageUrl}" alt="Room Image">-->
+<!--                        </div>-->
+                    </div>
+                    <div class="content">
+                        <a class="header" th:text="${roomType.name}">Room Name</a>
+                    </div>
+                </div>
+            </div>
+            <!-- End Col  1  -->
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- Other Services-->
+<section class="other-services">
+    <h1>DINING AND PLAY</h1>
+    <div class="other-container">
+        <div class="row">
+            <div class="col">
+                <img src="https://cozystay.loftocean.com/mountain-hotel/wp-content/uploads/sites/7/2023/04/jonathan-borba-fIGQshb_Bh0-unsplash-550x825.jpg" alt="Spa Products">
+                <div class="content">
+                    <h2>Experience exquisite cuisine at The Restaurant</h2>
+                    <p>The experienced chefs creates international specialties with unique flavors. Relax with gourmet cuisine and signature cocktails or homemade tonics, all enhanced by beautiful music and gorgeous views over the city. </p>
+                    <a class="btn" href="#">Request Information</a>
+                </div>
+            </div>
+            <div class="col">
+                <img src="https://images.pexels.com/photos/6620855/pexels-photo-6620855.jpeg" alt="Spa Treatment">
+                <div class="content">
+                    <h2>Discover Our Spa Treatments</h2>
+                    <p>At our Hotel, we offer a variety of spa treatments to help you relax and rejuvenate. From massages to facials to body wraps, we have everything you need to feel your best. Our experienced staff will work with you to create a custom treatment plan that addresses your unique needs and concerns.</p>
+
+                    <a class="btn" href="#">Request Information</a>
+                </div>
+            </div>
+            <div class="col">
+                <img src="https://images.pexels.com/photos/8723246/pexels-photo-8723246.jpeg" alt="Yoga Class">
+                <div class="content">
+                    <h2>Join Our Yoga Classes</h2>
+                    <p>Yoga is a great way to improve your flexibility, strength, and overall wellbeing. At our Hotel, we offer a range of yoga classes for all levels, from beginners to advanced. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>
+                    <p>Opening Hours at Yoga Studio: 10:00 am - 9:00 pm</p>
+
+                    <a class="btn" href="#">Request Information</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--End of Other Services-->
+
+<!--  Parallax  -->
+<!-- <section class="parallax-two" id="reserve-now">
+    <div class="layer">
+        <div class="text-box-two">
+            now,it's time to choose
+            <div class="ui form">
+
+                <div class="ui form">
+                    <div class="two fields">
+                        <div class="field">
+                            <label>Arrival Date</label>
+                            <div class="ui calendar" id="rangestart">
+                                <div class="ui input right icon">
+                                    <i class="calendar icon"></i>
+                                    <input type="text" placeholder="Check-in Date">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Departure Date</label>
+                            <div class="ui calendar" id="rangeend">
+                                <div class="ui input right icon">
+                                    <i class="calendar icon"></i>
+                                    <input type="text" placeholder="Check-out Date">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui form">
+                    <div class="two fields">
+                        <div class="field">
+                            <label>Adult</label>
+                            <div class="ui selection dropdown">
+                                <input type="hidden" name="gender">
+                                <i class="dropdown icon"></i>
+                                <div class="default text">Adult</div>
+                                <div class="menu">
+                                    <div class="item" data-value="1">1</div>
+                                    <div class="item" data-value="0">2</div>
+                                    <div class="item" data-value="0">3</div>
+                                    <div class="item" data-value="0">4</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Child</label>
+                            <div class="ui selection dropdown">
+                                <input type="hidden" name="gender">
+                                <i class="dropdown icon"></i>
+                                <div class="default text">Child</div>
+                                <div class="menu">
+                                    <div class="item" data-value="1">0</div>
+                                    <div class="item" data-value="0">1</div>
+                                    <div class="item" data-value="0">2</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <button class="fluid ui right labeled icon button">
+                        <i class="send outline icon"></i>Reserve Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> -->
+<!--  End Parallax  -->
+<div th:replace="~{website/footer :: footer}"></div>
+<script type="text/javascript" th:src="@{/js/home.js}" defer></script>
+
+<script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.stellar.min.js"></script>
+  <script src="js/jquery.fancybox.min.js"></script>
+  <script src="js/aos.js"></script>
+  <script src="js/bootstrap-datepicker.js"></script>
+  <script src="js/jquery.timepicker.min.js"></script>
+  <script type="text/javascript" th:src="@{/js/room.js/main.js}" defer></script>
+
+
+
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js"></script>
+<script
+        src="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.js">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+
+</html>

@@ -1,0 +1,184 @@
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Federo|Poppins" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.carousel.min.css" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.theme.default.min.css" />
+    <link
+            href="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.css"
+            rel="stylesheet" type="text/css" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+    <link th:href="@{/css/home.css}" rel="stylesheet" />
+    <link th:href="@{/css/cart.css}" rel="stylesheet" />
+    <title>La Siesta Danang Resort</title>
+    <link rel="icon" th:href="@{img/favicon.jpg}">
+</head>
+
+<body>
+<!-- Fixed navbar -->
+<div th:replace="~{website/header :: header}"></div>
+<!-- End Of Navbar -->
+
+<div class="hotel-container">
+    <h1>La Siesta Danang Resort</h1>
+
+    <h3><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+            class="fa fa-star"></i>
+        <br>09 Vo Nguyen Giap Street, Son Tra District, Danang city, Vietnam
+    </h3>
+    <hr>
+    <!-- Check if the cartList is empty -->
+    <p th:if="${#lists.isEmpty(cartList)}">Your cart is empty.</p>
+
+    <!-- Display the table if cartList is not empty -->
+    <div th:if="${!#lists.isEmpty(cartList)}" style="margin-top: 60px;">
+
+        <!-- cart + summary -->
+        <section class="bg-light my-5">
+            <div class="container">
+                <div class="row">
+                    <!-- cart -->
+                    <div class="col-lg-9">
+                        <div class="card border shadow-0">
+                            <div class="m-4">
+
+                                <div class="row gy-3 mb-4" th:each="item : ${cartList}" class="cart-item">
+                                    <div class="col-lg-5">
+                                        <div class="me-lg-5">
+                                            <div class="d-flex">
+                                                <img src="https://mdbootstrap.com/img/bootstrap-ecommerce/items/11.webp" class="border rounded me-3" style="width: 96px; height: 96px;" />
+                                                <div class="">
+                                                    <a th:text="${item.roomType.name}" class="nav-link">Winter jacket for men and lady</a>
+                                                    <p class="text-muted">Yellow, Jeans</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap">
+                                        <div class="quantity">
+                                            <select style="width: 100px;" class="form-select me-4">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                            </select>
+                                        </div>
+                                        <div class="">
+                                            <span class="h6 price" th:text="${#numbers.formatDecimal(item.price, 0, 'POINT', 0, 'COMMA')}" >$1156.00</span> <br />
+                                            <small class="price text-muted text-nowrap" th:text="${#numbers.formatDecimal(item.price, 0, 'POINT', 0, 'COMMA')}"> $460.00 / per item </small>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg col-sm-6 d-flex justify-content-sm-center justify-content-md-start justify-content-lg-center justify-content-xl-end mb-2">
+                                        <div class="float-md-end">
+                                            <a th:href="@{/cart/delete/{id}(id=${item.id})}" class="btn btn-light border text-danger icon-hover-danger"> Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="border-top pt-4 mx-4 mb-4">
+                                <p><i class="fas fa-truck text-muted fa-lg"></i> Free Delivery within 1-2 weeks</p>
+                                <p class="text-muted">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                                    aliquip
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- cart -->
+                    <!-- summary -->
+                    <div class="col-lg-3">
+                        <div class="card mb-3 border shadow-0">
+                            <div class="card-body">
+                                <form>
+                                    <div class="form-group">
+                                        <label class="form-label">Have coupon?</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control border" name="" placeholder="Coupon code" />
+                                            <button class="btn btn-light border">Apply</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="card shadow-0 border">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2">Total price:</p>
+                                    <p class="mb-2">$329.00</p>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2">Discount:</p>
+                                    <p class="mb-2 text-success">-$60.00</p>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2">TAX:</p>
+                                    <p class="mb-2">$14.00</p>
+                                </div>
+                                <hr />
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2">Total price:</p>
+                                    <p class="mb-2 fw-bold">$283.00</p>
+                                </div>
+
+                                <div class="mt-3">
+                                    <a href="#" class="btn btn-success w-100 shadow-0 mb-2"> Make Purchase </a>
+                                    <a href="#" class="btn btn-light w-100 border mt-2"> Back to shop </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- summary -->
+                </div>
+            </div>
+        </section>
+        <!-- cart + summary -->
+    </div>
+</div>
+<!-- cart + summary -->
+<div th:replace="~{website/footer :: footer}"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js"></script>
+<script
+        src="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.js">
+</script>
+
+<script>
+    $(document).ready(function() {
+        function calculateTotal() {
+            // Initialize total as 0
+            var total = 0;
+
+            // Iterate over each cart item
+            $('.cart-item').each(function() {
+                // Get the quantity and price of the current item
+                var quantity = parseInt($(this).find('.quantity').text());
+                var price = parseFloat($(this).find('.price').text());
+
+                // Add the product of the quantity and price to the total
+                total += price * quantity;
+            });
+
+            // Display the total with thousands separator
+            $('.total').text('Total: ' + total.toLocaleString('de-DE', { minimumFractionDigits: 0 }));
+        }
+
+        // Call calculateTotal function when the page loads
+        calculateTotal();
+    });
+</script>
+
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+
+</html>

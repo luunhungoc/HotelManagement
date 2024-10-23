@@ -1,0 +1,55 @@
+
+
+/*Utility Classes*/
+.search-container {
+  margin: auto;
+  max-width: 900px;
+  overflow: auto;
+  padding: 0 20px;
+}
+
+.search-container .text-primary {
+  color: #f7c08a;
+}
+
+.search-container .lead {
+  font-size: 20px;
+}
+
+.search-container .btn {
+  display: inline-block;
+  font-size: 18px;
+  color: #fff;
+  background: #333;
+  padding: 13px 20px;
+  border: none;
+  cursor: pointer;
+}
+.search-container .btn:hover {
+  background: #f7c08a;
+  color: #333;
+}
+
+.search-container .btn-light {
+  background: #f4f4f4;
+  color: #333;
+}
+
+.search-container .bg-dark {
+  background: #333;
+  color: #fff;
+}
+
+.search-container .bg-light {
+  background: #f4f4f4;
+  color: #333;
+}
+
+.search-container .bg-primary {
+  background: #f7c08a;
+  color: #333;
+}
+
+.search-container .clr {
+  clear: both;
+}

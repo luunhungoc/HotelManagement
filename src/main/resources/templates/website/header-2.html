@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>La Siesta Danang Resort - Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <link rel="stylesheet" type="text/css" th:href="@{//fonts.googleapis.com/css?family=|Roboto+Sans:400,700|Playfair+Display:400,700}">
+
+    <link rel="stylesheet" th:href="@{/css/room.css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/room.css/animate.css}">
+    <link rel="stylesheet" th:href="@{/css/room.css/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/css/room.css/aos.css}">
+    <link rel="stylesheet" th:href="@{/css/room.css/bootstrap-datepicker.css}">
+    <link rel="stylesheet" th:href="@{/css/room.css/jquery.timepicker.css}">
+    <link rel="stylesheet" th:href="@{/css/room.css/fancybox.min.css}">
+
+    <!-- Theme Style -->
+    <link rel="stylesheet" th:href="@{/css/room.css/style.css}">
+    <link rel="icon" th:href="@{img/favicon.jpg}">
+    <link rel="stylesheet" th:href="@{/css/room.fonts/ionicons/css/ionicons.min.css}">
+    <link rel="stylesheet" th:href="@{/css/room.fonts/fontawesome/css/font-awesome.min.css}">
+  </head>
+  <body>
+
+    <header th:fragment="header" class="site-header js-site-header">
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <div class="col-6 col-lg-4 site-logo" ><a th:href="@{/}">La Siesta Danang Resort</a></div>
+          <div class="col-6 col-lg-8">
+<!--            <div class="site-menu-toggle js-site-menu-toggle"  data-aos="fade">-->
+<!--              <span></span>-->
+<!--              <span></span>-->
+<!--              <span></span>-->
+<!--            </div>-->
+            <!-- END menu-toggle -->
+
+            <div class="site-navbar js-site-navbar">
+              <nav role="navigation">
+                <div class="container">
+                  <div class="row full-height align-items-center">
+                    <div class="col-md-6 mx-auto">
+                      <ul class="list-unstyled menu">
+                        <li><a th:href="@{/}">Home</a></li>
+                        <li class="active"><a th:href="@{/rooms}">Rooms</a></li>
+                        <li><a href="#">Dining</a></li>
+                        <li><a href="#">Activities</a></li>
+                        <li><a th:href="@{/reservations}">Contact</a></li>
+                        <li><a th:href="@{/login}">Register</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- END head -->
+
+
+    
+    <script th:src="@{/js/room.js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/room.js/jquery-migrate-3.0.1.min.js}"></script>
+
+    <script th:src="@{/js/room.js/popper.min.js}"></script>
+    <script th:src="@{/js/room.js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/room.js/owl.carousel.min.js}"></script>
+    <script th:src="@{/js/room.js/jquery.stellar.min.js}"></script>
+    <script th:src="@{/js/room.js/jquery.fancybox.min.js}"></script>
+    <script th:src="@{/js/room.js/aos.js}"></script>
+    
+    <script th:src="@{/js/room.js/bootstrap-datepicker.js}"></script>
+    <script th:src="@{/js/room.js/jquery.timepicker.min.js}"></script>
+
+    <script th:src="@{/js/room.js/main.js}"></script>
+  </body>
+</html>

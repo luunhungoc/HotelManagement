@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success Page</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Payment Successful</h1>
+
+    <table>
+        <tr>
+            <th>Thông tin</th>
+            <th>Chi tiết</th>
+        </tr>
+        <tr>
+            <td>Order ID</td>
+            <td id="order-id"></td>
+        </tr>
+        <tr>
+            <td>Payer ID</td>
+            <td id="payer-id"></td>
+        </tr>
+        <tr>
+            <td>Tên người thanh toán</td>
+            <td id="payer-name"></td>
+        </tr>
+        <tr>
+            <td>Địa chỉ</td>
+            <td id="payer-address"></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td id="payer-email"></td>
+        </tr>
+        <tr>
+            <td>Số tiền đã thanh toán</td>
+            <td id="payment-amount"></td>
+        </tr>
+        <tr>
+            <td>Status thanh toán</td>
+            <td id="payment-status"></td>
+        </tr>
+    </table>
+
+    <script>
+        // Lấy thông tin response từ URL
+        var responseParam = new URLSearchParams(window.location.search).get('response');
+        var response = JSON.parse(decodeURIComponent(responseParam));
+
+        // Hiển thị thông tin trong bảng
+        document.getElementById('order-id').innerText = response.orderID;
+        document.getElementById('payer-id').innerText = response.payerID;
+        document.getElementById('payer-name').innerText = response.details.payer.name.given_name;
+        document.getElementById('payer-address').innerText = response.details.payer.address.country_code; // Thay đổi để lấy thông tin địa chỉ cần thiết
+        document.getElementById('payer-email').innerText = response.details.payer.email_address;
+        document.getElementById('payment-amount').innerText = response.details.purchase_units[0].amount.value + " " + response.details.purchase_units[0].amount.currency_code;
+        document.getElementById('payment-status').innerText = response.details.status;
+    </script>
+
+</body>
+</html>

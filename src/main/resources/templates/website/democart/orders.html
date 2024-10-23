@@ -1,0 +1,54 @@
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:c="http://www.w3.org/1999/XSL/Transform">
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Federo|Poppins" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.carousel.min.css" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.theme.default.min.css" />
+    <link
+            href="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.css"
+            rel="stylesheet" type="text/css" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+    <link th:href="@{/css/home.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/cart_style.css}" />
+    <link rel="icon" th:href="@{img/favicon.png}">
+    <title>La Siesta Danang Resort</title>
+</head>
+<body>
+<p th:if="${#lists.isEmpty(centralReservations)}">Your reservation is empty.</p>
+
+<!-- Display the table if cartList is not empty -->
+<div th:if="${!#lists.isEmpty(centralReservations)}">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Room Type Name</th>
+            <th scope="col">Unit Price</th>
+            <th scope="col">Quantity</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Loop through each item in cartList -->
+        <tr th:each="item : ${centralReservations}">
+            <th scope="row" th:text="${item.id}">Id</th>
+            <td th:text="${item.bookingDate}">Booking Date</td>
+            <td th:text="${item.profile.firstName}">First Name</td>
+            <td th:text="${item.profile.lastName}">Last Name</td>
+            <td>
+                <!-- Button to remove item from the cart -->
+                <button class="btn btn-danger"
+                        th:onclick="#">Remove from cart</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- Button to proceed to checkout -->
+    <button class="btn btn-primary" th:onclick="|location.href='/checkOut'|">Check Out</button>
+</div>
+</body>
+</html>

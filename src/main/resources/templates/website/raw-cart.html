@@ -1,0 +1,276 @@
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Federo|Poppins" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.carousel.min.css" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.theme.default.min.css" />
+    <link
+            href="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.css"
+            rel="stylesheet" type="text/css" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+    <link th:href="@{/css/home.css}" rel="stylesheet" />
+    <link th:href="@{/css/cart.css}" rel="stylesheet" />
+<title>La Siesta Danang Resort</title>
+    <link rel="icon" th:href="@{img/favicon.jpg}">
+</head>
+
+<body>
+<!-- Fixed navbar -->
+<div th:replace="~{website/header :: header}"></div>
+<!-- End Of Navbar -->
+
+<div class="hotel-container">
+    <h1>La Siesta Danang Resort</h1>
+
+    <h3><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+            class="fa fa-star"></i>
+        <br>09 Vo Nguyen Giap Street, Son Tra District, Danang city, Vietnam
+    </h3>
+    <hr>
+<!-- Check if the cartList is empty -->
+<p th:if="${#lists.isEmpty(cartList)}">Your cart is empty.</p>
+
+<!-- Display the table if cartList is not empty -->
+<div th:if="${!#lists.isEmpty(cartList)}" style="margin-top: 60px;">
+    <table class="table">
+        <tr>
+            <th>Id</th>
+            <th>Room Type Name</th>
+            <th>Unit Price</th>
+            <th>Quantity</th>
+            <th>Amount</th>
+            <th>Action</th>
+        </tr>
+        <tr th:each="item : ${cartList}" class="cart-item">
+            <td th:text="${item.roomType.name}"></td>
+            <td th:text="${item.quantity}" class="quantity"></td>
+            <td th:text="${#numbers.formatDecimal(item.price, 0, 'POINT', 0, 'COMMA')}" class="price"></td>
+            <td>
+                <a th:href="@{/cart/delete/{id}(id=${item.id})}" class="btn btn-danger">Delete</a>
+                <!-- Delete from Cart button -->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="total"></div>
+    <a th:href="@{/cart/other-service}" class="btn btn-danger">Continue</a>
+<!--        <tr th:each="item : ${cartList}" class="cart-item">-->
+<!--            <th scope="row" th:text="${item.roomType.id}">Id</th>-->
+<!--            <td th:text="${item.roomType.name}">Room Type Name</td>-->
+<!--            <td th:text="${item.checkInDate}">Check In</td>-->
+<!--            <td th:text="${item.checkOutDate}">Check Out</td>-->
+<!--&lt;!&ndash;            <td th:text="${#numbers.formatDecimal(item.roomType.price, 0, 'POINT', 0, 'COMMA')}" class="price">Unit Price</td>&ndash;&gt;-->
+<!--            <td th:text="${item.roomType.price}" class="price">Unit Price</td>-->
+<!--            <td>-->
+<!--                &lt;!&ndash; Input để chỉnh sửa số lượng cho từng sản phẩm &ndash;&gt;-->
+<!--                <input type="number" name="quantity" min="1" th:value="${item.quantity}" class="quantity" required>-->
+
+<!--                &lt;!&ndash; Hidden input để lưu RoomTypeId &ndash;&gt;-->
+<!--                <input type="hidden" name="roomTypeIds" th:value="${item.roomType.id}"/>-->
+<!--            </td>-->
+<!--            <td  class="amount" th:text="${#numbers.formatDecimal(item.price, 0, 'POINT', 0, 'COMMA')}">Amount</td>-->
+<!--            <td>-->
+<!--                &lt;!&ndash; Button để xóa sản phẩm khỏi giỏ hàng &ndash;&gt;-->
+<!--                <a th:href="@{/cart/delete/{id}(id=${item.id})}" class="btn btn-danger">Delete</a>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        &lt;!&ndash; Hàng hiển thị Total Amount &ndash;&gt;-->
+<!--        <tr>-->
+<!--            <td colspan="4" class="text-right"><strong>Total Amount:</strong></td>-->
+<!--            <td><div class="total"></div></td>-->
+<!--            <td></td>-->
+<!--        </tr>-->
+    </table>
+    <!-- Button to proceed to checkout -->
+    <form th:action="@{/checkout}" th:object="${profile}" method="post">
+        <table>
+            <tr>
+                <td>Customer First Name (*)</td>
+                <td>
+                    <input type="text" th:field="*{firstName}" class="form-control" required />
+                </td>
+            </tr>
+            <tr>
+                <td>Customer Last Name (*)</td>
+                <td>
+                    <input type="text" th:field="*{lastName}" class="form-control" required />
+                </td>
+            </tr>
+            <tr>
+                <td>Customer Address (*)</td>
+                <td>
+                    <input type="text" th:field="*{address}" class="form-control" required />
+                </td>
+            </tr>
+            <tr>
+                <td>Email (*)</td>
+                <td>
+                    <input type="text" th:field="*{loginName}" class="form-control" required />
+                </td>
+            </tr>
+            <!-- Hidden fields to store booking details -->
+            <input type="hidden" id="checkInDate" name="checkInDate">
+            <input type="hidden" id="checkOutDate" name="checkOutDate">
+            <input type="hidden" id="adultCount" name="adultCount">
+            <input type="hidden" id="childCount" name="childCount">
+        </table>
+<!--        &lt;!&ndash; Input để nhập số tiền &ndash;&gt;-->
+<!--        <label for="amount">2. Paypal Nhập số tiền cần thanh toán (USD):</label>-->
+<!--        <input class="form-control" type="number" id="amount" placeholder="Nhập số tiền" style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 10px;" required>-->
+
+<!--        &lt;!&ndash; Nút thanh toán PayPal sẽ được render tại đây &ndash;&gt;-->
+<!--        <div id="paypal-button-container"></div>-->
+
+<!--        <script>-->
+<!--            paypal.Buttons({-->
+<!--                createOrder: function(data, actions) {-->
+<!--                    var amount = document.getElementById('amount').value;-->
+<!--                    // Kiểm tra nếu số tiền hợp lệ-->
+<!--                    if (amount <= 0) {-->
+<!--                        alert('Số tiền phải lớn hơn 0.');-->
+<!--                        return;-->
+<!--                    }-->
+<!--                    return actions.order.create({-->
+<!--                        purchase_units: [{-->
+<!--                            amount: {-->
+<!--                                value: amount,-->
+<!--                                currency_code: 'USD' // Đặt currency code là VND-->
+<!--                            }-->
+<!--                        }]-->
+<!--                    });-->
+<!--                },-->
+<!--                onApprove: function(data, actions) {-->
+<!--                    return actions.order.capture().then(function(details) {-->
+<!--                        var fullResponse = {-->
+<!--                            orderID: data.orderID,-->
+<!--                            payerID: data.payerID,-->
+<!--                            details: details-->
+<!--                        };-->
+<!--                        // Gửi dữ liệu đến controller để lưu vào cơ sở dữ liệu-->
+<!--                        var xhr = new XMLHttpRequest();-->
+<!--                        xhr.open('POST', '/payment-success', true);-->
+<!--                        xhr.setRequestHeader('Content-Type', 'application/json');-->
+<!--                        xhr.onreadystatechange = function() {-->
+<!--                            if (xhr.readyState === 4 && xhr.status === 200) {-->
+<!--                                // Chuyển hướng đến trang thành công sau khi lưu-->
+<!--                                window.location.href = "/payment-success?response=" + encodeURIComponent(JSON.stringify(fullResponse));-->
+<!--                            }-->
+<!--                        };-->
+<!--                        xhr.send(JSON.stringify(fullResponse));-->
+<!--                    });-->
+<!--                },-->
+<!--                onError: function(err) {-->
+<!--                    // Nếu có lỗi, chuyển hướng sang trang error.html-->
+<!--                    window.location.href = "/payment-error";-->
+<!--                }-->
+<!--            }).render('#paypal-button-container');-->
+<!--        </script>-->
+        <button type="submit" class="btn btn-primary">Check Out</button>
+    </form>
+</div>
+</div>
+<!-- cart + summary -->
+<div th:replace="~{website/footer :: footer}"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js"></script>
+<script
+        src="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.js">
+</script>
+
+
+<!-- JavaScript tính toán lại Amount và Total Amount -->
+<!--<script>-->
+<!--    document.addEventListener("DOMContentLoaded", function() {-->
+<!--        // Lấy tất cả các input số lượng và bảng Amount-->
+<!--        const quantityInputs = document.querySelectorAll(".quantity-input");-->
+
+<!--        // Gọi hàm để tính toán tổng số tiền ban đầu-->
+<!--        updateTotalAmount();-->
+
+<!--        // Thêm sự kiện onchange cho từng ô input số lượng-->
+<!--        quantityInputs.forEach(input => {-->
+<!--            input.addEventListener("change", function() {-->
+<!--                // Lấy dòng hiện tại (row) chứa ô input đang thay đổi-->
+<!--                const row = this.closest("tr");-->
+
+<!--                // Lấy giá trị số lượng mới-->
+<!--                const newQuantity = parseFloat(this.value);-->
+
+<!--                // Kiểm tra nếu số lượng mới là số hợp lệ-->
+<!--                if (isNaN(newQuantity) || newQuantity < 1) {-->
+<!--                    this.value = 1; // Nếu không hợp lệ, đặt lại số lượng về 1-->
+<!--                    return;-->
+<!--                }-->
+
+<!--                // Lấy giá trị Unit Price từ dòng hiện tại và xử lý định dạng-->
+<!--                const unitPrice = parseFloat(row.querySelector(".unit-price").innerText.replace(/\./g, '').replace(',', '.'));-->
+
+<!--                // Tính toán lại tổng tiền-->
+<!--                const newAmount = unitPrice * newQuantity;-->
+
+<!--                // Cập nhật giá trị Amount trên UI, định dạng lại-->
+<!--                row.querySelector(".amount").innerText = newAmount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ',00'; // Định dạng như "4.000.000,00"-->
+
+<!--                // Cập nhật lại tổng số tiền của giỏ hàng-->
+<!--                updateTotalAmount();-->
+<!--            });-->
+<!--        });-->
+
+<!--        // Hàm tính toán Total Amount-->
+<!--        function updateTotalAmount() {-->
+<!--            let total = 0;-->
+
+<!--            // Lấy tất cả các dòng Amount hiện tại-->
+<!--            const amountCells = document.querySelectorAll(".amount");-->
+
+<!--            // Tính tổng tất cả các Amount-->
+<!--            amountCells.forEach(cell => {-->
+<!--                const amount = parseFloat(cell.innerText.replace(/\./g, '').replace(',', '.')); // Xử lý định dạng-->
+<!--                if (!isNaN(amount)) {-->
+<!--                    total += amount;-->
+<!--                }-->
+<!--            });-->
+
+<!--            // Cập nhật Total Amount hiển thị, định dạng lại-->
+<!--            document.getElementById("totalAmount").innerText = total.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".") ; // Định dạng như "4.000.000"-->
+<!--        }-->
+<!--    });-->
+<!--</script>-->
+<script>
+    $(document).ready(function() {
+        function calculateTotal() {
+            // Initialize total as 0
+            var total = 0;
+
+            // Iterate over each cart item
+            $('.cart-item').each(function() {
+                // Get the quantity and price of the current item
+                var quantity = parseInt($(this).find('.quantity').text());
+                var price = parseFloat($(this).find('.price').text());
+
+                // Add the product of the quantity and price to the total
+                total += price * quantity;
+            });
+
+            // Display the total with thousands separator
+            $('.total').text('Total: ' + total.toLocaleString('de-DE', { minimumFractionDigits: 0 }));
+        }
+
+        // Call calculateTotal function when the page loads
+        calculateTotal();
+    });
+</script>
+
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+
+</html>

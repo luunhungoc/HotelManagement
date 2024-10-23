@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Payment successful - La Siesta Danang Resort</title>
+    <link rel="icon" th:href="@{img/favicon.jpg}">
+</head>
+<body  class="generic-template" th:style="' -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; background-color: #d7d7d7; margin: 0; padding: 0;'">
+<!-- Header Start -->
+<div class="bg-white header d-flex justify-content-center" th:style="'background-color: white; width: 100%;'">
+    <img th:src="@{/img/logo.png}"  alt="photo"  th:style="'border: 0; max-width: 100%; padding: 0;'">
+</div>
+<!-- Header End -->
+
+<!-- Content Start -->
+<table cellpadding="0" cellspacing="0" cols="1" th:style="'width: 700px;'" align="center" bgcolor="#d7d7d7">
+       <!-- Content -->
+    <tr th:style="'background-color: #d7d7d7;'">
+        <td th:style="'color: #464646; font-family: Helvetica, Arial, sans-serif; font-size: 14px; line-height: 16px; vertical-align: top;'">
+
+            <!-- Separator -->
+            <table cellpadding="0" cellspacing="0" cols="1" th:style="'width: 100%; background-color: #d7d7d7;'" align="center">
+                <tr th:style="'background-color: #d7d7d7;'">
+                    <td height="30" th:style="'color: #464646;font-size: 14px; line-height: 16px; vertical-align: top;'"></td>
+                </tr>
+            </table>
+
+            <!-- Main Section with Price breakdown -->
+            <table cellpadding="0" cellspacing="0" cols="3" th:style="'width: 100%; border-left: 10px solid #d7d7d7; border-right: 10px solid #d7d7d7; background-color: white;'" align="center">
+                <tr height="50"><td colspan="3" th:style="'color: #464646; font-size: 14px; line-height: 16px; vertical-align: top;'"></td></tr>
+                <tr align="center">
+                    <td width="36"></td>
+                    <td th:style="'color: #F16522; font-size: 14px; line-height: 16px; vertical-align: top;'">
+                        <img th:src="@{http://dgtlmrktng.s3.amazonaws.com/go/emails/generic-email-template/tick.png}" alt="GO" width="50" th:style="'border: 0; margin: 0; max-width: 100%; padding: 0;'">
+                    </td>
+                    <td width="36"></td>
+                </tr>
+                <tr height="17"><td colspan="3"></td></tr>
+                <tr align="center">
+                    <td width="36"></td>
+                    <td th:style="'color: #F16522; font-family: Helvetica, Arial, sans-serif; font-size: 30px; font-weight: 700; line-height: 34px; margin: 0;'">
+                        <h1>Payment received</h1>
+                        <h2>Booking number: #<span th:text="${centralReservationId}">[Central Reservation ID]</span></h2>
+                    </td>
+                    <td width="36"></td>
+                </tr>
+                <tr height="30"><td colspan="3"></td></tr>
+                <tr align="left">
+                    <td width="36"></td>
+                    <td>
+                        <p th:style="'color: #464646; font-size: 14px; line-height: 22px;'">Dear Valued Customer,</p>
+                    </td>
+                    <td width="36"></td>
+                </tr>
+                <tr height="10"><td colspan="3"></td></tr>
+                <tr align="left">
+                    <td width="36"></td>
+                    <td th:style="'color: #464646; font-family: Helvetica, Arial, sans-serif; font-size: 14px; line-height: 22px;'">
+                        <p>Your reservation is confirmed.</p>
+                        <hr>
+                        <p><strong>Reservation Details:</strong><br/>
+                        <div th:each="item : ${reservations}">
+                        <a th:text="'Reservation made in the name of : '+${item.profile.firstName}+', '+${item.profile.lastName}"></a>
+                        <br>
+                        <strong><a th:text="${item.quantity}+' room(s) '+${item.roomType.name}+' from ' +  ${formattedCheckInDate} + ' to ' + ${formattedCheckOutDate}+' for '+${item.nights}+' night(s)'"></a></strong>
+                            <br>
+                            <strong><a th:text="'Adults: ' + ${item.adult} + ', Child: ' + ${item.child}"></a></strong>
+                        </div>
+                        <hr>
+                        <p><strong>Payment Details:</strong><br/>
+                            Paid Amount: VND <span th:text="${#numbers.formatDecimal(totalPrice, 0, 'POINT', 0, 'COMMA')}">[total price]</span><br/>
+                            Payment Time: <span th:text="${paymentTime}" >[payment time]</span><br/>
+                        </p>
+
+                        <hr>
+                        <h3>Practical information</h3>
+
+                        <p><strong>Rate Conditions:</strong><br/>
+                        <p>The price is per accommodation, for the selected number of people and dates, unless otherwise stated (fixed prices). However, you may be required to pay additional and/or increased taxes upon arrival at the hotel, depending on the evolution of the local regulations in force and applicable on the day of your stay. Thus, prices include VAT and other taxes applicable on the day of booking, and any change or creation of a new tax will be automatically reflected in the price stated on the date of stay and billing.
+                        Any amount given in a currency other than the local currency is indicative and not contractual.</p>
+
+                        <p><strong>Cancellation Policy:</strong><br/>
+                        <p>The price is per accommodation, for the selected number of people and dates, unless otherwise stated (fixed prices). However, you may be required to pay additional and/or increased taxes upon arrival at the hotel, depending on the evolution of the local regulations in force and applicable on the day of your stay. Thus, prices include VAT and other taxes applicable on the day of booking, and any change or creation of a new tax will be automatically reflected in the price stated on the date of stay and billing.
+                            Any amount given in a currency other than the local currency is indicative and not contractual.</p>
+
+                        <p><strong>Children Policy:</strong><br/>
+                        <p>Accommodation and buffet breakfast are free for two children under the age of 16 staying in their parents' or grandparents' room and having breakfast as a family.</p>
+
+                        <p><strong>Check in Policy:</strong><br/>
+                        <p>The room is available from 14:00.</p>
+
+                        <p><strong>Check out Policy:</strong><br/>
+                        <p>The room must be vacated by 12:00 at the latest except in case of Late Check Out.</p>
+                        <p><strong>Guarantee Policy:</strong><br/>
+                        <p>All reservations must be guaranteed with a credit card valid at the date of the start of your stay, unless otherwise specified.</p>
+
+                        <p>We advise to keep this email for future reference.</p>
+                    </td>
+                    <td width="36"></td>
+                </tr>
+                <tr height="30"><td colspan="3"></td></tr>
+                <tr align="center">
+                    <td width="36"></td>
+                    <td>
+                        <p><strong>Transaction reference: <span th:text="${transactionId}">[transaction ID]</span></strong></p>
+<!--                        <p>Order date: <span th:text="${time}"></span> <span th:text="${date}"></span></p>-->
+                    </td>
+                    <td width="36"></td>
+                </tr>
+                <tr height="50"><td colspan="3"></td></tr>
+            </table>
+
+            <!-- Separator -->
+            <table cellpadding="0" cellspacing="0" cols="1" th:style="'max-width: 600px; width: 100%; background-color: #d7d7d7;'" align="center">
+                <tr>
+                    <td height="50"></td>
+                </tr>
+            </table>
+
+        </td>
+    </tr>
+</table>
+<!-- Content End -->
+
+</body>
+
+</html>

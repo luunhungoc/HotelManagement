@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>List Room Types</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+<body>
+<div th:replace="header :: header"></div>
+
+<div style="margin-top: 80px;" class="container text-center">
+    <div sec:authorize="isAuthenticated()">
+        Welcome <b><span sec:authentication="name">Username</span></b>
+        &nbsp;
+        <i><span sec:authentication="principal.authorities">Roles</span></i>
+    </div>
+
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Logout"/>
+    </form>
+    <div class="row">
+
+        <form th:action="@{/search}" class="form-inline my-2 my-lg-0">
+            <input name="searchInput" type="text" class="form-control mr-sm-2" placeholder="Search by name or Id...">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+    <div>
+        <h1>List of RoomTypes</h1>
+    </div>
+    <div sec:authorize="hasAnyAuthority('CREATOR', 'ADMIN')">
+        <a class="btn btn-primary" th:href="@{/RoomType/add-RoomType}">Add New RoomType</a>
+    </div>
+    <div>
+        <span th:text="${RoomTypeList.number+1}">Page Number</span> of
+        <span th:text="${RoomTypeList.totalPages}">Total Pages</span>
+    </div>
+
+    <div>
+        <a class="btn btn-primary"
+           th:href="@{/RoomType(page=${RoomTypeList.number-1}, size=${RoomTypeList.size})}"
+           th:if="${RoomTypeList.hasPrevious()}">Previous</a>
+
+        <a class="btn btn-primary"
+           th:href="@{/RoomType(page=${RoomTypeList.number+1}, size=${RoomTypeList.size})}"
+           th:if="${RoomTypeList.hasNext()}">Next</a>
+    </div>
+
+    <div>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>RoomType Photo</th>
+                <th>RoomType ID</th>
+                <th>RoomType Name</th>
+                <th>RoomType Description</th>
+                <th>Unit Price</th>
+                <th sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="RoomType: ${RoomTypeList.content}">
+
+                <td><img style="width: 100px;" th:src="@{'/uploads/' + ${RoomType.photo}}"/></td>
+
+                <td th:text="${RoomType.id}">RoomType ID</td>
+                <td th:text="${RoomType.name}">RoomType Name</td>
+                <td th:text="${RoomType.description}">RoomType Description</td>
+                <td th:text="${RoomType.unitPrice}">Unit Price</td>
+                <td sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')">
+                    <a class="btn btn-secondary" th:href="@{/RoomType/edit/{id}(id=${RoomType.id})}">Edit</a>
+                    <a sec:authorize="hasAuthority('ADMIN')" class="btn btn-danger"
+                       th:href="@{/RoomType/delete/{id}(id=${RoomType.id})}"
+                       onclick="return confirm('Are you sure you want to delete this RoomType?')">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
