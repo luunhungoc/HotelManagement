@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Profile Edit - La Siesta Danang Resort</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link th:href="@{/css/admin_style.css}" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <!--     SIDE AREA -->
+    <div th:replace="~{ADMIN/admin-header :: admin-header}"></div>
+    <!--     SIDE AREA -->
+    <div class="mainArea">
+        <!-- BEGIN NAV -->
+        <div th:replace="~{ADMIN/admin-nav :: admin-nav}"></div>
+        <!-- END NAV -->
+        <!-- CONTAINER  -->
+
+        <div class="mainContent" >
+            <!-- LIST FORM -->
+            <div class="profile-container" style="width: 100%; ">
+            <div class="profile-section" style="text-align: left;">
+                <form id ="PPicture"
+                      th:action="@{/admin/upload-profile-photo/{id}(id=${profile.id})}" method="post" enctype="multipart/form-data">
+                <img  style="margin-left: 40px;" th:src="${profile.avatar}" alt="Profile Picture" class="profile-pic">
+                    <!-- Hidden file input for uploading a new avatar -->
+                    <input type="file" name="image" class="upload-img-input" style="display:none;" onchange="this.form.submit()" />
+
+                    <!-- Edit Avatar button to trigger the file input -->
+                    <button type="button"
+                            class="upload-img-btn bg-1 text-fff btnSave"
+                            style="margin-left: 80px;"
+                            onclick="document.querySelector('.upload-img-input').click()">
+                        <span class="fa-solid fa-upload"></span>
+                        <span>Edit Avatar</span>
+                    </button>
+                    <br>
+                    <br>
+                <h2 th:text="${profile.firstName +', '+profile.lastName}"></h2>
+
+                <p th:if="${profile.phone != null}">
+                    <strong>Phone: </strong><span th:text="${profile.phone}"></span>
+                </p>
+                <p th:if="${profile.loginName != null}">
+                    <strong>Email: </strong><span th:text="${profile.loginName}"></span>
+                </p>
+                <p th:if="${profile.position != null and profile.department != null}">
+                    <strong>Title: </strong><span th:text="${profile.position + '/ ' + profile.department}"></span>
+                </p>
+                <p><strong>Address: </strong><span th:text="${profile.address+', '+profile.district+', '+profile.city+', '+profile.country}"></span></p>
+                <p th:if="${profile.billingAddress != null}">
+                    <strong>Billing Address: </strong><span th:text="${profile.billingAddress}"></span>
+                </p>
+                <p th:if="${profile.billingCode != null}">
+                    <strong>Tax Code: </strong><span th:text="${profile.billingCode}"></span>
+                </p>
+                </form>
+            </div>
+            <div class="content-section">
+                <div class="tabs">
+                    <a href="#" class="active">Performance</a>
+                    <a href="#">Profile Notes</a>
+                </div>
+
+<!--                <div class="hours-section">-->
+<!--                    <div class="summary-details">-->
+<!--                        <p>Total Room Revenue: VND <strong><span th:text="${#numbers.formatDecimal(totalRoomRevenue, 0, 'POINT', 0, 'COMMA')}"></span></strong></p>-->
+<!--                        <p>Total Other Revenue: VND <strong><span th:text="${#numbers.formatDecimal(totalOtherRevenue, 0, 'POINT', 0, 'COMMA')}"></span></strong></p>-->
+<!--                        <p>Total Revenue: VND <strong><span th:text="${#numbers.formatDecimal(totalRoomRevenue+totalOtherRevenue, 0, 'POINT', 0, 'COMMA')}"></span></strong></p>-->
+<!--                    </div>-->
+
+<!--                    <table class="hours-table">-->
+<!--                        <thead>-->
+<!--                        <tr>-->
+<!--                            <th>Reservation Id</th>-->
+<!--                            <th style="width: 100px;">Check-in Date</th>-->
+<!--                            <th>Check-out Date</th>-->
+<!--                            <th>Nights</th>-->
+<!--                            <th>Room Type</th>-->
+<!--                            <th>Room Revenue</th>-->
+<!--                            <th>Other Revenue</th>-->
+<!--                            <th>Total Revenue</th>-->
+
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                        <tr th:each="reservation : ${reservations}">-->
+<!--                            <td th:text="${reservation.id}"></td>-->
+<!--                            <td th:text="${reservation.checkInDate}"></td>-->
+<!--                            <td th:text="${reservation.checkOutDate}"></td>-->
+<!--                            <td th:text="${reservation.nights}"></td>-->
+<!--                            <td th:text="${reservation.roomType.code}"></td>-->
+<!--                            <td th:text="${#numbers.formatDecimal(roomRevenues[reservation.id], 0, 'POINT', 0, 'COMMA')}"></td>-->
+<!--                            <td th:text="${#numbers.formatDecimal(otherRevenues[reservation.id], 0, 'POINT', 0, 'COMMA')}"></td>-->
+<!--                            <td th:text="${#numbers.formatDecimal(roomRevenues[reservation.id]+otherRevenues[reservation.id], 0, 'POINT', 0, 'COMMA')}"></td>-->
+<!--                        </tr>-->
+
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                </div>-->
+                <div class="content-section">
+                    <div class="tab-buttons tab-content">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" th:href="@{#tab1}">Performances</a></li>
+                            <li><a data-toggle="tab" th:href="@{#tab2}">Notes</a></li>
+                            <li><a data-toggle="tab" th:href="@{#tab3}">National/ Passport</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Folio Content -->
+                    <div class="tab-content">
+                        <div id="tab1" class="folio tab-pane fade in active">
+                            <div class="hours-section">
+                                <div class="summary-details">
+                                    <p>Total Room Revenue: VND <strong><span th:text="${#numbers.formatDecimal(totalRoomRevenue, 0, 'POINT', 0, 'COMMA')}"></span></strong></p>
+                                    <p>Total Other Revenue: VND <strong><span th:text="${#numbers.formatDecimal(totalOtherRevenue, 0, 'POINT', 0, 'COMMA')}"></span></strong></p>
+                                    <p>Total Revenue: VND <strong><span th:text="${#numbers.formatDecimal(totalRoomRevenue+totalOtherRevenue, 0, 'POINT', 0, 'COMMA')}"></span></strong></p>
+                                </div>
+
+                                <table class="hours-table">
+                                    <thead>
+                                    <tr>
+                                        <th>Reservation Id</th>
+                                        <th style="width: 100px;">Check-in Date</th>
+                                        <th>Check-out Date</th>
+                                        <th>Nights</th>
+                                        <th>Room Type</th>
+                                        <th>Room Revenue</th>
+                                        <th>Other Revenue</th>
+                                        <th>Total Revenue</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="reservation : ${reservations}">
+                                        <td th:text="${reservation.id}"></td>
+                                        <td th:text="${reservation.checkInDate}"></td>
+                                        <td th:text="${reservation.checkOutDate}"></td>
+                                        <td th:text="${reservation.nights}"></td>
+                                        <td th:text="${reservation.roomType.code}"></td>
+                                        <td th:text="${#numbers.formatDecimal(roomRevenues[reservation.id], 0, 'POINT', 0, 'COMMA')}"></td>
+                                        <td th:text="${#numbers.formatDecimal(otherRevenues[reservation.id], 0, 'POINT', 0, 'COMMA')}"></td>
+                                        <td th:text="${#numbers.formatDecimal(roomRevenues[reservation.id]+otherRevenues[reservation.id], 0, 'POINT', 0, 'COMMA')}"></td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div id="tab2" class="folio tab-pane fade">
+                        </div>
+
+                        <div id="tab3" class="folio tab-pane fade">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+
+        </div>
+        <!-- END CONTAINER  -->
+    </div>
+</div>
+
+
+<script th:src="@{/js/admin.js}"></script>
+</body>
+
+</html>

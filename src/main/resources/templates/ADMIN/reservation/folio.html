@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Folio - La Siesta Danang Resort</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" th:href="@{/img/favicon.jpg}">
+    <link rel="stylesheet" th:href="@{/css/folio.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+<div class="invoice">
+    <div class="header">
+        <div class="hotel-info">
+            <p>La Siesta Danang Resort<br>
+                09 Vo Nguyen Giap<br>
+                Son Tra District<br>
+                Danang, Vietnam<br>
+                Tax Code: 012345567<br>
+                Tel: 02363-555-5555 Fax: 02363-444-5555</p>
+        </div>
+        <div class="logo">
+            <img th:src="@{/img/logo.png}"  alt="photo"  th:style="'border: 0; max-width: 100%; padding: 0;'">
+        </div>
+    </div>
+
+    <div class="guest-info">
+        <p><span th:text="*{res.profile.firstName+', '+res.profile.lastName}"></span>
+        <div class="details">
+            <p>Page Number: 1<br>
+                Reservation Number: <span th:text="*{res.id}"></span><br>
+                Arrive Date : <span th:text="*{res.checkInDate}"></span><br>
+                Depart Date : <span th:text="*{res.checkOutDate}"></span><br>
+                No. Of Adults/ Child : <span th:text="*{res.adult+'/'+res.child}"></span><br>
+                Room Number : <span th:text="*{res.room.number}"></span><br>
+        </div>
+    </div>
+
+    <table >
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Unit</th>
+            <th>Quantity</th>
+            <th>Amount</th>
+            <th>Subtotal (VND)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="transaction, iterStat : ${transactions}">
+            <td th:text="${transaction.date}"></td>
+            <td th:text="${transaction.transactionType.name}"></td>
+            <td th:text="${transaction.transactionType.unit.displayName}"></td>
+            <td th:text="${transaction.quantity}"></td>
+            <td th:text="${#numbers.formatDecimal(transaction.amount, 0, 'POINT', 0, 'COMMA')}"></td>
+            <td th:text="${#numbers.formatDecimal(transaction.quantity * transaction.amount, 0, 'POINT', 0, 'COMMA')}"></td>
+        </tr>
+        <tr>
+            <td colspan="5" class="total">Total Charges</td>
+            <td th:text="${#numbers.formatDecimal(totalCharges, 0, 'POINT', 0, 'COMMA')}"></td>
+        </tr>
+        <tr>
+            <td colspan="5" class="total">Total Payment</td>
+            <td th:text="${#numbers.formatDecimal(totalPayment, 0, 'POINT', 0, 'COMMA')}"></td>
+        </tr>
+        <tr>
+            <td colspan="5" class="balance">Balance</td>
+            <td th:text="${#numbers.formatDecimal(guestBalance, 0, 'POINT', 0, 'COMMA')}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="footer">
+        <p>I agreed to pay all room & incidental charges.</p>
+        <div class="signature">
+            <p>X <span th:text="${res.profile.firstName+', '+res.profile.lastName}"></span></p>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

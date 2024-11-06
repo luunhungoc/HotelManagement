@@ -3,6 +3,8 @@ package demo.HotelManagement.repository;
 import demo.HotelManagement.entities.CentralReservation;
 import demo.HotelManagement.entities.Reservation;
 import demo.HotelManagement.entities.Room;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -25,5 +27,33 @@ public interface ReservationRepository extends CrudRepository<Reservation,Long> 
 
     List<Reservation> findByCentralReservation(CentralReservation centralReservation);
 
+    Page<Reservation> findAllByOrderByCheckInDateAsc(Pageable pageable);
+    Page<Reservation> findById(Long id,Pageable pageable);
+    Page<Reservation> findByProfileLastNameAndProfileFirstNameAndIdAndCheckInDateBetweenOrderByCheckInDateAsc(
+            String lastName, String firstName, Long reservationId, LocalDate arrivalFrom, LocalDate arrivalTo,Pageable pageable);
 
+    Page<Reservation> findByProfileLastNameAndProfileFirstNameAndIdOrderByCheckInDateAsc(
+            String lastName, String firstName, Long reservationId,Pageable pageable);
+
+    Page<Reservation> findByProfileLastNameAndProfileFirstNameAndCheckInDateBetweenOrderByCheckInDateAsc(
+            String lastName, String firstName, LocalDate arrivalFrom, LocalDate arrivalTo,Pageable pageable);
+
+    Page<Reservation> findByProfileLastNameAndProfileFirstNameOrderByCheckInDateAsc(
+            String lastName, String firstName,Pageable pageable);
+
+    Page<Reservation> findByIdAndCheckInDateBetweenOrderByCheckInDateAsc(
+            Long reservationId, LocalDate arrivalFrom, LocalDate arrivalTo,Pageable pageable);
+
+
+    Page<Reservation> findByCheckInDateBetweenOrderByCheckInDateAsc(LocalDate arrivalFrom, LocalDate arrivalTo, Pageable pageable);
+
+    @Query("SELECT r FROM Reservation r WHERE r.room.number = :roomNumber AND :searchDate BETWEEN r.checkInDate AND r.checkOutDate AND r.status IN ('CHECKED_IN', 'GUARANTEED')")
+    List<Reservation> findReservationsByRoomNumberAndDate(@Param("roomNumber") int roomNumber, @Param("searchDate") LocalDate searchDate);
+
+    List<Reservation> findByProfileId(Long profileId);
+
+    List<Reservation> findByRoom(Room room);
+
+    @Query("SELECT r FROM Reservation r WHERE r.status = 'CHECKED_IN' AND r.checkOutDate > :currentDate")
+    List<Reservation> findActiveReservations(@Param("currentDate") LocalDate currentDate);
 }

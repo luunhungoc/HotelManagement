@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction List - La Siesta Danang Resort</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/admin_style.css}">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <!--     SIDE AREA -->
+    <div th:replace="~{ADMIN/admin-header :: admin-header}"></div>
+    <!--     SIDE AREA -->
+    <div class="mainArea">
+        <!-- BEGIN NAV -->
+        <div th:replace="~{ADMIN/admin-nav :: admin-nav}"></div>
+        <!-- END NAV -->
+        <!-- CONTAINER  -->
+        <form th:action="@{/admin/reservation/search}" method="GET">
+        <div class="search-container">
+            <div class="reservation-form">
+                <div class="form-row">
+                    <div class="field-group">
+                        <label for="reservationId">Reservation Id</label>
+                        <input type="text" id="reservationId" name="reservationId">
+                    </div>
+                    <div class="field-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="lastName">
+                    </div>
+
+                    <div class="field-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" name="firstName">
+                    </div>
+
+                </div>
+                <div class="form-row">
+                    <div class="field-group">
+                        <label for="arrivalFrom">Arrival From</label>
+                        <input type="date" id="arrivalFrom" name="arrivalFrom">
+                    </div>
+                    <div class="field-group">
+                        <label for="arrivalTo">Arrival To</label>
+                        <input type="date" id="arrivalTo" name="arrivalTo">
+                    </div>
+                    <div class="field-group">
+                        <p><strong>Note:</strong> Both Last Name and First Name must be filled to perform a search.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Buttons on the right -->
+            <div class="right-buttons" style="padding-top: 40px;">
+                <button type="submit" class="btnSave bg-1 text-fff text-bold fr">SEARCH</button>
+                <a th:href="@{/admin/reservation/search}" class="btnSave bg-1 text-fff text-bold fr">CLEAR</a>
+            </div>
+        </div>
+        </form>
+        <div class="mainContent">
+            <!-- LIST FORM -->
+            <div class="transaction-list-container">
+                <h3 class="title">Transaction Codes List - La Siesta Danang Resort</h3>
+
+                <div class="filter-section">
+                    <div class="input-group">
+                        <label for="tmCode">Trn. Code</label>
+                        <input type="text" id="tmCode" name="tmCode">
+                    </div>
+                    <div class="input-group">
+                        <label for="group">Group</label>
+                        <select id="group" name="group">
+                            <option value="">Select Group</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="subgroup">Subgroup</label>
+                        <select id="subgroup" name="subgroup">
+                            <option value="">Select Subgroup</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="property">Property</label>
+                        <input type="text" id="property" name="property" value="DOCUMENT" disabled>
+                    </div>
+                    <button class="btn-search">Search</button>
+                </div>
+
+                <table class="transaction-table">
+                    <thead>
+                    <tr>
+                        <th>X</th>
+                        <th>Trn. Code</th>
+                        <th>Description</th>
+                        <th>Group</th>
+                        <th>Subgroup</th>
+                        <th>Generates</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>1000</td>
+                        <td>Transient Room Revenue</td>
+                        <td>ROOM</td>
+                        <td>TRAN</td>
+                        <td>X-Excl</td>
+                    </tr>
+                    <tr class="selected">
+                        <td><input type="checkbox" checked></td>
+                        <td>1008</td>
+                        <td>Room Charge</td>
+                        <td>ROOM</td>
+                        <td>GRP</td>
+                        <td>X-Excl</td>
+                    </tr>
+                    <!-- Repeat rows as necessary -->
+                    </tbody>
+                </table>
+
+                <div class="btn-section">
+                    <button class="btn">Copy</button>
+                    <button class="btn">Repeat</button>
+                    <button class="btn">New</button>
+                    <button class="btn">Delete</button>
+                    <button class="btn">Close</button>
+                </div>
+            </div>
+        </div>
+        <!-- END CONTAINER  -->
+    </div>
+</div>
+
+
+<script th:src="@{/js/admin.js}"></script>
+</body>
+
+</html>

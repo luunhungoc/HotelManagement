@@ -27,5 +27,7 @@ public class TransactionTypeService {
     public TransactionType findById(Long id) {
         return transactionTypeRepository.findById(id).orElse(null);
     }
-
+    public TransactionType findByCode(String code) {
+        return transactionTypeRepository.findByCode(code);
+    }
 }

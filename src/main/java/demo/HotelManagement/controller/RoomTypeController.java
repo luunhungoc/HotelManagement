@@ -15,7 +15,7 @@ import java.util.*;
 
 
 @Controller
-@RequestMapping("/room-type")
+@RequestMapping
 public class RoomTypeController {
     @Autowired
     private RoomTypeRepository roomTypeRepository;
@@ -71,57 +71,6 @@ public class RoomTypeController {
         model.addAttribute("checkInDate", checkInDate);
         return "report/room-availability-by-date";
     }
-
-    @GetMapping("/search")
-    public String searchRoomType(@RequestParam("searchInput") String searchInput, Model model) {
-        List<RoomType> roomTypes = roomTypeService.getRoomTypeByCodeOrName(searchInput,searchInput);
-
-        model.addAttribute("roomTypeList", roomTypes);
-        model.addAttribute("roomList", roomService.findAll());
-        return "admin/room/room-management-list";
-    }
-
-    @GetMapping("/roomType")
-    public String showRoomList(Model model) {
-        List<RoomType> roomTypeList =  new ArrayList<>((Collection<RoomType>) roomTypeRepository.findAll());
-        model.addAttribute("roomTypeList", roomTypeList);
-        return "room/room-type-list";
-    }
-
-    @GetMapping("/roomType/add")
-    public String addRoomTypeForm(Model model) {
-        model.addAttribute("roomType", new RoomType());
-        return "admin/room/add-roomType";
-    }
-
-    @PostMapping("/roomType/add")
-    public String addroomType(@ModelAttribute RoomType roomType) {
-        roomTypeRepository.save(roomType);
-        return "redirect:/";
-    }
-
-    @GetMapping("/roomType/edit/{id}")
-    public String editRoomTypeForm(@PathVariable long id, Model model) {
-        Optional<RoomType> roomType = roomTypeRepository.findById(id);
-        model.addAttribute("roomType", roomType);
-        return "admin/room/edit-roomType";
-    }
-
-    @PostMapping("/roomType/edit/{id}")
-    public String editRoomType(@PathVariable long id, @ModelAttribute RoomType roomType) {
-        roomType.setId(id);
-        roomTypeRepository.save(roomType);
-        return "redirect:/";
-    }
-
-    @GetMapping("/roomType/delete/{id}")
-    public String deleteRoomType(@PathVariable long id) {
-        Optional<RoomType> roomType = roomTypeRepository.findById(id);
-        roomTypeRepository.deleteById(id);
-        return "redirect:/";
-    }
-
-
 
 
 }

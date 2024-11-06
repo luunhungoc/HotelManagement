@@ -1,9 +1,6 @@
 package demo.HotelManagement.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import demo.HotelManagement.session.CartSession;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -29,7 +26,7 @@ public class RoomType implements Serializable {
     private String roomPhoto;
 
     @OneToMany(mappedBy = "roomType",fetch = FetchType.EAGER)
-    private List<CartSession> cartSessions;
+    private List<Cart> carts;
 
     @JsonIgnore
     @OneToMany(mappedBy = "roomType",fetch = FetchType.EAGER)
@@ -39,10 +36,12 @@ public class RoomType implements Serializable {
     @OneToMany(mappedBy = "roomType",fetch = FetchType.EAGER)
     private List<Reservation> reservationList;
 
+    @ManyToMany(mappedBy = "roomTypes")
+    private List<Discount> discounts;  //
     // Constructors, Getters, Setters
 
 
-    public RoomType(Long id, String code, String name, int maxAdult, int maxChild, int maxOccupancy, double price, double discount, int quantity,  String roomPhoto, List<CartSession> cartSessions, List<Room> roomList, List<Reservation> reservationList) {
+    public RoomType(Long id, String code, String name, int maxAdult, int maxChild, int maxOccupancy, double price, double discount, int quantity, String roomPhoto, List<Cart> carts, List<Room> roomList, List<Reservation> reservationList) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -53,7 +52,7 @@ public class RoomType implements Serializable {
         this.discount = discount;
         this.quantity = quantity;
         this.roomPhoto = roomPhoto;
-        this.cartSessions = cartSessions;
+        this.carts = carts;
         this.roomList = roomList;
         this.reservationList = reservationList;
     }
@@ -62,53 +61,20 @@ public class RoomType implements Serializable {
     public RoomType(String code, String name, int maxAdult, int maxChild, int maxOccupancy, double price, double discount, int quantity) {
     }
 
-
-    public int getMaxOccupancy() {
-        return maxOccupancy;
+    public double calculateDiscountedPrice(List<Discount> discounts) {
+        double discountedPrice = this.price;
+        for (Discount discount : discounts) {
+            discountedPrice -= discountedPrice * (discount.getPercentage() / 100);
+        }
+        return discountedPrice;
     }
 
-    public void setMaxOccupancy(int maxOccupancy) {
-        this.maxOccupancy = maxOccupancy;
+    public Long getId() {
+        return id;
     }
 
-    public String getRoomPhoto() {
-        return roomPhoto;
-    }
-
-    public void setRoomPhoto(String roomPhoto) {
-        this.roomPhoto = roomPhoto;
-    }
-
-    public List<CartSession> getCartSessions() {
-        return cartSessions;
-    }
-
-    public void setCartSessions(List<CartSession> cartSessions) {
-        this.cartSessions = cartSessions;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public List<Reservation> getReservationList() {
-        return reservationList;
-    }
-
-    public void setReservationList(List<Reservation> reservationList) {
-        this.reservationList = reservationList;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCode() {
@@ -117,6 +83,14 @@ public class RoomType implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getMaxAdult() {
@@ -135,6 +109,14 @@ public class RoomType implements Serializable {
         this.maxChild = maxChild;
     }
 
+    public int getMaxOccupancy() {
+        return maxOccupancy;
+    }
+
+    public void setMaxOccupancy(int maxOccupancy) {
+        this.maxOccupancy = maxOccupancy;
+    }
+
     public double getPrice() {
         return price;
     }
@@ -151,12 +133,28 @@ public class RoomType implements Serializable {
         this.discount = discount;
     }
 
-    public Long getId() {
-        return id;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getRoomPhoto() {
+        return roomPhoto;
+    }
+
+    public void setRoomPhoto(String roomPhoto) {
+        this.roomPhoto = roomPhoto;
+    }
+
+    public List<Cart> getCartSessions() {
+        return carts;
+    }
+
+    public void setCartSessions(List<Cart> carts) {
+        this.carts = carts;
     }
 
     public List<Room> getRoomList() {
@@ -167,5 +165,20 @@ public class RoomType implements Serializable {
         this.roomList = roomList;
     }
 
+    public List<Reservation> getReservationList() {
+        return reservationList;
+    }
+
+    public void setReservationList(List<Reservation> reservationList) {
+        this.reservationList = reservationList;
+    }
+
+    public List<Discount> getDiscounts() {
+        return discounts;
+    }
+
+    public void setDiscounts(List<Discount> discounts) {
+        this.discounts = discounts;
+    }
 }
 

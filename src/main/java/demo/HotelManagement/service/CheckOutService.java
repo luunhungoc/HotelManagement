@@ -6,15 +6,12 @@ import demo.HotelManagement.entities.*;
 import demo.HotelManagement.repository.CentralReservationRepository;
 import demo.HotelManagement.repository.ProfileRepository;
 import demo.HotelManagement.repository.ReservationRepository;
-import demo.HotelManagement.service.CartService;
-import demo.HotelManagement.session.CartSession;
+import demo.HotelManagement.entities.Cart;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -38,11 +35,11 @@ public class CheckOutService {
     public CentralReservation checkOut(Profile profile) {
 
         // Fetch the cart items
-        List<CartSession> cartItems = cartService.getCart();
+        List<Cart> cartItems = cartService.getCart();
 
         // Calculate the total price
         int total = 0;
-        for (CartSession item : cartItems) {
+        for (Cart item : cartItems) {
             total += item.getQuantity() * item.getPrice();
         }
 
@@ -59,12 +56,12 @@ public class CheckOutService {
         centralReservation = centralReservationRepository.save(centralReservation);
 
         // Assign the order to the cart items and save them
-        for (CartSession item : cartItems) {
+        for (Cart item : cartItems) {
             Reservation reservation = new Reservation();
             reservation.setRoomType(item.getRoomType());
             reservation.setQuantity(item.getQuantity());
             reservation.setMarket("ONL");
-            reservation.setRoomToCharge(item.getRoomType().getCode());
+            reservation.setRoomType(item.getRoomType());
             reservation.setCentralReservation(centralReservation);  // Liên kết với CentralReservation
             reservation.setProfile(profile);
             reservation.setCheckInDate(item.getCheckInDate());
@@ -80,11 +77,11 @@ public class CheckOutService {
     @Transactional
     public String checkOutWithPayOnline(Profile profile, String urlReturn) {
         // Fetch the cart items
-        List<CartSession> cartItems = cartService.getCart();
+        List<Cart> cartItems = cartService.getCart();
 
         // Calculate the total price
         int total = 0;
-        for (CartSession item : cartItems) {
+        for (Cart item : cartItems) {
             total += (int) (item.getQuantity() * item.getPrice() *item.getNights());
         }
         profileRepository.save(profile);
@@ -99,12 +96,12 @@ public class CheckOutService {
         centralReservation = centralReservationRepository.save(centralReservation);
 
         // Assign the order to the cart items and save them
-        for (CartSession item : cartItems) {
+        for (Cart item : cartItems) {
             Reservation reservation = new Reservation();
             reservation.setRoomType(item.getRoomType());
             reservation.setQuantity(item.getQuantity());
             reservation.setMarket("ONL");
-            reservation.setRoomToCharge(item.getRoomType().getCode());
+            reservation.setRoomType(item.getRoomType());
             reservation.setCentralReservation(centralReservation);  // Liên kết với CentralReservation
             reservation.setProfile(profile);
             reservation.setCheckInDate(item.getCheckInDate());

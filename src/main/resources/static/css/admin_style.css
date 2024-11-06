@@ -1000,76 +1000,7 @@ label {
     background: rgba(42,63,84,0.1);
 }
 
-/* FILTER */
-.btnFilter {
-    padding: 0.4em 1em;
-    border: 1px solid #ccc;
-    margin-right: 10px;
-    cursor: pointer;
-}
-.boxFilter .btnFilter {
-    padding: 0;
-    margin: 0;
-    border: none;
-}
-.btnFilter>.fa {
-    margin-right: 0.5em;
-}
-.boxFilter {
-    width: 200px;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    right: -200px;
-    background: #fff;
-    padding: 20px;
-    border-left: 1px solid #ccc;
-    z-index: 800;
-    transition: right 0.5s;
-}
-.boxFilter.is-active {
-    right: 0;
-}
-.boxFilter .groupInput {
-    padding-top: 20px;
-    margin-top: 20px;
-    border-top: 1px solid #ccc;
-}
-.boxFilter select {
-    margin-bottom: 20px;
-}
-.boxFilter select {
-    width: 100%;
-}
-.boxFilter .btnClose {
-    margin-bottom: 20px;
-    cursor: pointer;
-}
-.boxFilter .btnClose>.fa {
-    margin-right: 1em;
-}
 
-/* FILTER PRICE */
-#filterPrice {
-    width: 100%;
-    height: 5px;
-    margin: 1em 0;
-}
-.areaValue {
-    margin-top: 2em;
-}
-.rangeValue {
-    display: block;
-    width: 100%;
-    height: 2em;
-    text-align: center;
-}
-#filterPrice .rangeValue:nth-child(1) {
-    left: 0;
-}
-#filterPrice .rangeValue:nth-child(2) {
-    right: 0;
-}
 .noUi-base {
     background: #ccc;
 }
@@ -1538,3 +1469,180 @@ select {
 }
 
 /* Reservation detail */
+.transaction-form {
+    width: 1000px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.transaction-form h1 {
+    font-size: 1.2em;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.transaction-form .row {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.transaction-form label {
+    width: 150px;
+    font-weight: bold;
+}
+
+.transaction-form input[type="text"] {
+    flex: 1;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.transaction-form span {
+    flex: 1;
+    font-size: 0.9em;
+    color: #333;
+}
+
+.transaction-form .buttons {
+    text-align: right;
+}
+
+.transaction-form button {
+    padding: 8px 15px;
+    margin-left: 10px;
+}
+
+/* Transaction DETAIL edit*/
+
+/* ADMIN USER EDIT */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-container {
+    display: flex;
+    width: 90%;
+    margin: 50px auto;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-section {
+    width: 25%;
+    text-align: center;
+    padding-right: 20px;
+    border-right: 1px solid #ddd;
+}
+
+.profile-pic {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 10px;
+}
+
+.profile-container .content-section {
+    width: 75%;
+    padding-left: 20px;
+}
+
+.profile-container .tabs {
+    display: flex;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.profile-container .tabs a {
+    margin-right: 15px;
+    color: #555;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.profile-container .tabs a.active {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 5px;
+}
+
+.profile-container .hours-section {
+    padding-top: 10px;
+}
+
+.profile-container .summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-container .summary-header h3 {
+    font-size: 18px;
+    margin: 0;
+}
+
+.profile-container .summary-header .status {
+    background-color: #00bfff;
+    color: white;
+    padding: 3px 6px;
+    border-radius: 3px;
+}
+
+.profile-container .add-hours-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.profile-container .summary-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.profile-container .summary-details p {
+    font-size: 14px;
+}
+
+.profile-container .hours-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.profile-container .hours-table th, .hours-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.profile-container .hours-table th {
+    background-color: #4b8077;
+    font-weight: bold;
+}
+
+.profile-container .hours-table td {
+    background-color: #fff;
+}
+
+.profile-container .hours-table tbody tr:hover {
+    background-color: #e6f7ff;
+}
+
+.profile-container .edit-icon {
+    cursor: pointer;
+    margin-left: 5px;
+    color: #007bff;
+}
+
+/* ADMIN USER EDIT */

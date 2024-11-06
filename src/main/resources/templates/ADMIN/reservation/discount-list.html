@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discount Management List - La Siesta Danang Resort</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/admin_style.css}">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+</head>
+<style>
+    .select {
+        position: relative;
+        margin: 15px;
+        &:before, &:after {
+            animation: select__loading 2s infinite;
+            border: 2px #66b32d solid;
+            border-radius: 21px;
+            content: "";
+            display: none;
+            opacity: 0;
+            position: absolute;
+            right: 7px;
+            top: 7px;
+            transform: scale(0.1);
+            width: 21px;
+            height: 21px;
+            z-index: 5;
+        }
+        &:after {
+            animation-delay: 1s;
+          border-color: #66b32d;
+        }
+        &.is-loading:after {
+            display: block;
+        }
+    }
+
+    .form-control--select {
+      cursor: pointer;
+      min-width: 160px;
+      padding-top: 6px;
+      position: relative;
+        &:after {
+            content: "";
+            border: #000 solid;
+            border-width: 0 2px 2px 0;
+            height: 8px;
+            margin-top: -6px;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: rotate(45deg);
+            width: 8px;
+        }
+
+        select[disabled] ~ & {
+            background: darken(#fff, 6.5%);
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        &.of-ellipsis {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    .select__source {
+      display: none;
+    }
+
+    .select__panel {
+      background: #fff;
+      border: 1px darken(#fff, 13.5%) solid;
+      border-radius: 0 0 3px 3px;
+      box-shadow: 0 5px 15px -5px rgba(#000, .2);
+      display: none;
+      opacity: 0;
+      margin-top: 5px;
+      padding: 5px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      color: #000;
+      transform: translate3d(0, 10px, 0);
+      z-index: 12;
+
+        &:before {
+            background: #66b32d;
+            content: "";
+            height: 2px;
+            position: absolute;
+            left: -1px;
+            right: -1px;
+            top: -1px;
+            z-index: 13;
+        }
+
+        &:after {
+            border: 5px transparent solid;
+            border-bottom-color: #66b32d;
+            content: "";
+            margin-left: -5px;
+            position: absolute;
+            left: 50%;
+            top: -11px;
+            z-index: 13;
+        }
+        &.is-visible {
+            animation: select__fadein 0.15s;
+            display: block;
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+            z-index: 310;
+        }
+
+    }
+
+
+
+
+    .select__list {
+      list-style: none;
+      margin-top: 0;
+      margin-bottom: 0;
+      padding-left: 0;
+      min-height: 20px;
+      max-height: 186px;
+      overflow: hidden;
+      overflow-y: auto;
+    }
+
+    .select__list-item {
+      cursor: pointer;
+      display: block;
+      line-height: 20px;
+      margin-bottom: 1px;
+      padding: 5px 10px;
+
+        &.is-selected {
+            background: darken(#fff, 6.5%);
+            cursor: pointer;
+            position: relative;
+        }
+        &.is-primed {
+            background: darken(#fff, 13.5%);
+            color: #000;
+            &:before {
+                color: #000;
+            }
+        }
+    }
+
+    .select__nolist {
+      color: #404040;
+      font-style: italic;
+      line-height: 30px;
+      margin: 0;
+      padding: 0 10px;
+    }
+
+    @keyframes select__loading {
+      0% {
+        opacity: 0;
+        transform: scale(0.1);
+      }
+
+      80% {
+        opacity: 1;
+        transform: scale(0.7);
+      }
+
+      100% {
+        opacity: 0;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes select__fadein {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 10px, 0);
+        display: none;
+      }
+
+      1% {
+        opacity: 0;
+        transform: translate3d(0, 10px, 0);
+        display: block;
+      }
+
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+        display: block;
+      }
+    }
+</style>
+<body>
+<div class="container">
+    <!--     SIDE AREA -->
+    <div th:replace="~{ADMIN/admin-header :: admin-header}"></div>
+    <!--     SIDE AREA -->
+    <div class="mainArea">
+        <!-- BEGIN NAV -->
+        <div th:replace="~{ADMIN/admin-nav :: admin-nav}"></div>
+        <!-- END NAV -->
+        <!-- CONTAINER  -->
+        <div class="add-room-container">
+            <h2 class="text-1 fl">Add New Promotion </h2>
+            <form id="discountForm" th:action="@{/admin/discount/add}" th:object="${discount}" method="post">
+                <div class="add-room-form">
+                    <div class="form-row">
+                        <div class="field-group">
+                            <label for="code">Discount Code:</label>
+                            <input type="text" id="code" th:field="*{code}" required>
+                        </div>
+
+                        <div class="field-group">
+                            <label for="percentage">Discount Percentage:</label>
+                            <input type="number" id="percentage" th:field="*{percentage}" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="field-group" style="width: 200px;">
+                            <label for="checkInDate">Start Date:</label>
+                            <input type="date" id="checkInDate" th:field="*{startDate}" required>
+                        </div>
+
+                        <div class="field-group" style="width: 200px;">
+                            <label for="checkOutDate">End Date:</label>
+                            <input type="date" id="checkOutDate" th:field="*{endDate}" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="field-group" >
+                            <div class="select">
+                                <label for="roomTypes" style="width: 500px;">Applicable Room Types (Multiple Choices):</label>
+                                <select multiple="multiple" id="roomTypes" th:field="*{roomTypes}"
+                                        data-list-label="true"
+                                        placeholder="Please select">
+                                    <option th:each="roomType : ${roomTypes}" th:value="${roomType.id}"
+                                            th:text="${roomType.code}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="add-room-buttons btnSave bg-1 text-fff text-bold fr">SAVE</button>
+            </form>
+        </div>
+
+
+        <div class="room-type-mainContent" >
+            <!-- LIST FORM -->
+            <div class="room-type" style="width: 100%;">
+                <form th:action="@{/admin/discount/search}" method="GET" name="listForm" class="form scrollX">
+                    <div class="formHeader row">
+                        <h2 class="text-1 fl">Discount Management List</h2>
+                        <br>
+                        <br>
+                        <div class="search">
+                            <input type="text" class="search-bar" name="searchInput"
+                                   placeholder="Search by code or status">
+                            <button type="submit" class="btn-search">🔍</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="table">
+                    <table>
+                        <thead class="row bg-1">
+                        <tr>
+                            <th>Code</th>
+                            <th>Percentage</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Applicable Room Type</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="discountsList">
+                        <tr th:each="dis : ${discounts}">
+                            <td th:text="${dis.code}"></td>
+                            <td th:text="${dis.percentage}"></td>
+                            <td th:text="${dis.startDate}"></td>
+                            <td th:text="${dis.endDate}"></td>
+                            <td><span th:each="roomType : ${dis.roomTypes}" th:value="${roomType.id}"
+                                      th:text="${roomType.code+'; '}"></span></td>
+                            <td th:text="${dis.status}"></td>
+                            <td>
+                                <button class="deleteDiscountBtn btnRemove fa-solid fa-trash bg-1 text-fff"
+                                        th:data-id="${dis.id}"></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- LIST FORM -->
+    </div>
+    <!-- END CONTAINER  -->
+</div>
+
+
+<script th:src="@{/js/admin.js}"></script>
+<script th:src="@{/js/currentDate.js}"></script>
+<script>
+    // Handle deleting a discount
+       $(document).on('click', '.deleteDiscountBtn', function() {
+           var discountId = $(this).data('id');  // Get the discount ID
+
+           $.ajax({
+               url: '/admin/discount/' + discountId,
+               type: 'DELETE',
+               success: function() {
+                   location.reload();  // Reload the page after successful deletion
+               },
+               error: function(xhr, status, error) {
+                   alert('Error occurred while deleting discount: ' + xhr.responseText);
+               }
+           });
+       });
+</script>
+<script>
+    (function($, window, document, undefined) {
+
+    "use strict";
+
+    var pluginName = "select",
+        defaults = {
+            multiple: false,
+            search: false,
+            listLabel: false,
+            useCtrl: false
+        };
+
+    function Plugin(element, options) {
+        this.element = element;
+        this.settings = $.extend({}, defaults, options);
+        this._defaults = defaults;
+        this._name = pluginName;
+        this.elements = {};
+
+        this.init();
+    }
+
+    $.extend(Plugin.prototype, {
+
+        init: function() {
+            var $element = $(this.element);
+
+            // get settings multiple
+            if (($element.attr('multiple') !== undefined) && (this.settings.multiple !== true)) {
+                this.settings.multiple = true;
+            }
+            // list label inside placeholder
+            if(this.settings.multiple && $element.data('list-label') !== undefined) {
+                this.settings.listLabel = true;
+            }
+            // dropdown search
+            if ($element.data('dropdown-search') !== undefined) {
+                this.settings.search = true;
+            }
+            // use ctrl to select multiple choices
+            if ($element.data('useCtrl') !== undefined && $element.data('useCtrl') === true) {
+                this.settings.useCtrl = true;
+            }
+            // hide element right from the start
+            $element.hide();
+            // $element.addClass('visually-hidden');
+
+            // get initial placeholder
+            var initial = this.getPlaceholder($element);
+
+            // find selected choices
+            var $selected = $(this.element).find(':selected');
+
+            // multiple check
+            if (this.settings.multiple) {
+                // if 1 or more choices
+                if ($selected.length > 0) {
+                    initial = '';
+                    // check settings for listlabel
+                    if (this.settings.listLabel) {
+                        // for each choice update placeholder with choice text
+                        $.each($selected, function(index) {
+                            var sel = $(this).text();
+                            if (index < $selected.length - 1) {
+                                initial += sel + ', ';
+                            } else {
+                                initial += sel;
+                            }
+                        });
+                    } else {
+                        // if a single item is selected set placeholder that choice's text
+                        // set total selected items as placeholder
+                        if ($selected.length == 1) {
+                            initial = $selected.text();
+                        } else {
+                            initial = $selected.length + ' selected';
+                        }
+                    }
+                }
+            } else {
+                // is single selected then update placeholder
+                if ($selected.eq(0).val()) {
+                    initial = $selected.text();
+                }
+            }
+
+            // create wrapper & other components (placeholder, label)
+            this.elements.$wrap = $element.parent(); //$('<div class="select" />');
+            this.elements.$label = $('<div/>').addClass('form-control form-control--select').html(initial);
+            this.elements.$panel = $('<div/>').addClass('select__panel');
+            this.elements.$list = $('<ul/>').addClass('select__list');
+
+            this.elements.itemClass = 'select__list-item';
+
+            this.elements.$search = $('<input/>').attr({
+                'type': 'text',
+                'placeholder': 'Type here to search'
+            }).addClass('form-control select__search');
+
+            this.elements.$nolist = $('<li/>').addClass('select__nolist select__list-item').text('No results found');
+
+            this.elements.$panel.append(this.elements.$list);
+            this.elements.$wrap.append(this.elements.$label);
+            this.elements.$wrap.append(this.elements.$panel);
+
+            if (this.settings.multiple && this.settings.listLabel) {
+                this.elements.$label.addClass('of-ellipsis');
+            }
+
+            this.bind();
+        },
+
+        bind: function() {
+            var that = this;
+            var id_array = [];
+
+            // open the panel and append the list items if clicked on the form-control label
+            this.elements.$label.on('click', function() {
+
+                if (that.elements.$panel.hasClass('is-visible')) {
+                    that.elements.$panel.removeClass('is-visible');
+                    return;
+                }
+
+                if ($(that.element).is(':disabled')) return;
+
+                var options = $(that.element).find('option'), html = '';
+                // reset the array contents
+                id_array = [];
+
+                $.each(options, function() {
+                    if ($(this).attr('value') === undefined) {
+                        return;
+                    }
+                    var sel = $(this).is(':selected');
+
+                    html += '<li class="' + that.elements.itemClass + '' + (sel ? ' is-selected' : '') + '" data-id="' + $(this).attr('value') + '">' + $(this).text() + '</li>';
+
+                    if (sel) {
+                        var sel_id = parseInt($(this).val());
+                        id_array.push(sel_id);
+                    }
+                });
+
+                if (that.settings.search) {
+                    that.elements.$label.addClass('hidden');
+                    that.elements.$wrap.find('.select__panel').before(that.elements.$search);
+                    that.elements.$search.val('').trigger('focus');
+                }
+
+                that.elements.$list.html(html);
+                that.elements.$panel.addClass('is-visible');
+            });
+
+            // Close the panel if 'click anywhere'
+
+            $(document).on('click', function(e) {
+                if (!$(e.target).is(that.elements.$label)) {
+                    if (!$(e.target).is(that.elements.$search)) {
+
+                        // multiple check require event
+                        if (that.multipleCheckOption(e)) {
+                            that.elements.$panel.removeClass('is-visible');
+                        }
+
+                        if (that.settings.search) {
+                            that.elements.$search.remove();
+                            that.elements.$label.removeClass('hidden');
+                        }
+                    }
+                }
+            });
+
+            // Select an item via a mouse click
+
+            this.elements.$panel.on('click', 'li', function(e) {
+                var id = $(this).data('id'),
+                    title = $(this).text();
+
+                // muliple check
+                if (that.multipleCheckOption(e)) { // single
+
+                    that.select(id, title);
+                    id_array = [];
+
+                } else { // multiple
+
+                    if (!$(this).hasClass("is-selected")) {
+
+                        $(this).addClass('is-selected');
+                        id_array.push(id);
+                        that.select(id_array, title);
+
+                    } else {
+
+                        $(this).removeClass('is-selected');
+
+                        var pos = $.inArray(id, id_array);
+                        if (pos > -1) {
+                            id_array.splice(pos, 1);
+                        }
+
+                        that.select(id_array, title);
+
+                    }
+                }
+            });
+
+            // Basic search in dropdown
+
+            this.elements.$wrap.on('keyup', '.select__search', function(e) {
+                if (that.settings.search) {
+                    var code = e.keyCode || e.which;
+                    if (code == '9') return;
+
+                    var $input = that.elements.$search,
+                        inputContent = $input.val().toLowerCase();
+                    var options = that.elements.$panel.find('li');
+
+                    if (inputContent.length >= 2) {
+                        var searchEmpty = 0;
+
+                        $.each(options, function() {
+                            var optionValue = $(this).text().toLowerCase();
+                            if (optionValue === undefined) {
+                                return;
+                            }
+                            if (!optionValue.includes(inputContent)) {
+                                $(this).hide();
+                                searchEmpty += 1;
+                                if (searchEmpty == options.length) {
+                                    that.elements.$list.append(that.elements.$nolist);
+                                    that.elements.$nolist.show();
+                                }
+                            } else {
+                                $(this).show();
+                            }
+                        });
+                    } else {
+                        if (inputContent.length === 0) {
+                            that.elements.$nolist.hide();
+                            $.each(options, function() {
+                                $(this).show();
+                            });
+                        }
+                    }
+                }
+            });
+
+            // Change event for selected item
+
+            $(this.element).on('change', function() {
+
+                var text = that.getPlaceholder($(this));
+                var $selected = $(this).find(':selected');
+
+                if (that.settings.multiple) {
+                    if ($selected.length > 0) {
+                        text = '';
+                        if (that.settings.listLabel) {
+                            $.each($selected, function(index) {
+                                var sel = $(this).text();
+                                if (index < $selected.length - 1) {
+                                    text += sel + ', ';
+                                } else {
+                                    text += sel;
+                                }
+                            });
+                        } else {
+                            if ($selected.length == 1) {
+                                text = $selected.text();
+                            } else {
+                                text = $selected.length + ' selected';
+                            }
+                        }
+                    }
+                } else {
+                    if ($selected.eq(0).val()) {
+                        text = $selected.text();
+                    }
+                }
+
+                if (that.settings.search) {
+                    that.elements.$search.remove();
+                    that.elements.$label.removeClass('hidden');
+                }
+                that.elements.$label.text(text);
+            });
+
+        },
+
+        select: function(id) {
+            $(this.element).val(id).trigger('change');
+        },
+        getPlaceholder: function(el) {
+            var text = "";
+            // for single display first item
+            if (!this.settings.multiple) {
+                text = el.find('option').first().text();
+            } else { // for multiple get placeholder
+                text = el.attr('placeholder');
+            }
+            return text;
+        },
+        multipleCheckOption: function(event) {
+            var testAction;
+            var item = $('.' + this.elements.itemClass)
+            if (this.settings.useCtrl) {
+                testAction = event.ctrlKey;
+            } else {
+                testAction = $(event.target).is(item);
+            }
+            return (testAction && !this.settings.multiple) || (!testAction && this.settings.multiple) || (!testAction && !this.settings.multiple);
+        }
+
+    });
+
+    $.fn[pluginName] = function(options) {
+        return this.each(function() {
+            $.data(this, "plugin_" + pluginName, new Plugin(this, options));
+        });
+    };
+
+})(jQuery, window, document);
+
+$(function() {
+	$('select').select();
+})
+</script>
+</body>
+
+</html>

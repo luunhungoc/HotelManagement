@@ -1,11 +1,15 @@
 package demo.HotelManagement.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
 
 
+@Setter
+@Getter
 @Entity
 @Table(name="transactions")
 public class Transaction {
@@ -15,6 +19,7 @@ public class Transaction {
 
     private LocalDate date;
     private double amount;
+    private int quantity;
 
     @OneToMany(mappedBy = "transaction",fetch = FetchType.EAGER)
     private List<PaymentHistory> paymentHistoryList;
@@ -43,51 +48,4 @@ public class Transaction {
         this.note = note;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public Reservation getReservation() {
-        return reservation;
-    }
-
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
-    }
-
-    public TransactionType getTransactionType() {
-        return transactionType;
-    }
-
-    public void setTransactionType(TransactionType transactionType) {
-        this.transactionType = transactionType;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
 }

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Assignment List - La Siesta Danang Resort</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/admin_style.css}">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <!--     SIDE AREA -->
+    <div th:replace="~{ADMIN/admin-header :: admin-header}"></div>
+    <!--     SIDE AREA -->
+    <div class="mainArea">
+        <!-- BEGIN NAV -->
+        <div th:replace="~{ADMIN/admin-nav :: admin-nav}"></div>
+        <!-- END NAV -->
+        <!-- CONTAINER  -->
+        <form th:action="@{/admin/room-assignment/search}" method="get">
+            <div class="search-container" style="display: block;">
+                <label for="searchDate" style="width: 200px;">Enter Date:</label>
+                <input style="width: 300px;" type="date" id="searchDate" name="searchDate"
+                       th:value="${#dates.format(searchDate, 'yyyy-MM-dd')}"
+                       min="">
+                <button type="submit">Search</button>
+            </div>
+        </form>
+        <div class="mainContent">
+
+        <div class="table">
+            <h2 class="text-1 fl">Room List</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Room</th>
+                <th>Room Type</th>
+                <th>Room Status</th>
+                <th>Reservation Id</th>
+                <th>Res Status</th>
+                <th>Guest Name</th>
+                <th>Check In Date</th>
+                <th>Check Out Date</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="room : ${rooms}" >
+                <td th:text="${room.number}">Room Number</td>
+                <td th:text="${room.roomType.code}">Room Type</td>
+                <td th:text="${room.roomStatus}" style="${room.roomStatus == 'OCCUPIED'} ? 'background-color: yellow;' : ''">Room Status</td>
+                <span th:if="${#lists.isEmpty(room.reservationList)}">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </span>
+                <div th:if="${!#lists.isEmpty(room.reservationList)}" th:each="reservation : ${room.reservationList}">
+                    <td th:text="${reservation.id}" ></td>
+                    <td th:text="${reservation.status}" ></td>
+                    <td th:text="${(reservation.profile.firstName != null ? reservation.profile.firstName : '')
+                + ', ' +
+               (reservation.profile.lastName != null ? reservation.profile.lastName : 'N/A')}"></td>
+                    <td th:text="${reservation.checkInDate}"></td>
+                    <td th:text="${reservation.checkOutDate}"></td>
+                    <td><a th:href="@{/admin/reservation/edit/{id}(id=${reservation.id})}"
+                           class="btnEdit fa-regular fa-pen-to-square bg-1 text-fff"></a></td>
+                </div>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+        </div>
+            <!-- END CONTAINER  -->
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var dateInput = document.getElementById("searchDate");
+        var today = new Date().toISOString().split('T')[0]; // Lấy ngày hiện tại theo định dạng yyyy-MM-dd
+        dateInput.setAttribute("min", today); // Đặt thuộc tính min là ngày hiện tại
+
+        if (!dateInput.value) {
+            dateInput.value = today; // Đặt giá trị mặc định là ngày hiện tại nếu rỗng
+        }
+    });
+</script>
+
+<script th:src="@{/js/admin.js}"></script>
+</body>
+
+</html>
+

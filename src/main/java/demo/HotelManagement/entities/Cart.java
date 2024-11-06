@@ -1,15 +1,12 @@
-package demo.HotelManagement.session;
-import demo.HotelManagement.entities.Room;
-import demo.HotelManagement.entities.RoomType;
+package demo.HotelManagement.entities;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table(name = "carts")
-public class CartSession {
+public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,7 +29,20 @@ public class CartSession {
     private int adults;
     private int children;
     private int nights;
-    public CartSession() {
+
+    @ManyToOne
+    @JoinColumn(name="profile_id", nullable = true)
+    private Profile profile;
+
+    public Cart() {
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     public int getNights() {

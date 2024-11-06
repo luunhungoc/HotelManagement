@@ -1,11 +1,13 @@
 package demo.HotelManagement.service;
 
 import demo.HotelManagement.entities.AvailableRoomInfo;
+import demo.HotelManagement.entities.Discount;
 import demo.HotelManagement.entities.Room;
 import demo.HotelManagement.entities.RoomType;
 import demo.HotelManagement.repository.ReservationRepository;
 import demo.HotelManagement.repository.RoomTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,7 +23,7 @@ public class RoomTypeService {
     private ReservationRepository reservationRepository;
 
     public List<RoomType> findAll() {
-        return (List<RoomType>) roomTypeRepository.findAll();
+        return (List<RoomType>) roomTypeRepository.findAll(Sort.by("name"));
     }
 
     public void saveAll(List<RoomType> roomTypes) {
@@ -40,6 +42,13 @@ public class RoomTypeService {
 
     public List<RoomType> getRoomTypeByCodeOrName(String code, String name) {
         return roomTypeRepository.findByCodeContainingOrNameContaining(code,name);
+    }
+
+    public void updateImageUrl(Long roomTypeId, String imageUrl) {
+        RoomType roomType = roomTypeRepository.findById(roomTypeId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid room type ID"));
+        roomType.setRoomPhoto(imageUrl);
+        roomTypeRepository.save(roomType);
     }
 
     /**

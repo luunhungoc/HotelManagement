@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Register successful - La Siesta Danang Resort</title>
+    <link rel="icon" th:href="@{img/favicon.jpg}">
+</head>
+<body>
+<p>This confirmation email has been generated automatically, so please do not reply to this address.</p>
+<table align="center" cellpadding="0" cellspacing="0" width="400">
+    <tbody>
+    <tr>
+        <td style="padding:15px 15px;background:#f4f3f8;">
+            <table style="width:100%;background-color: white;background-image: linear-gradient(to bottom, #FFFFFF ,#FFFFFF);">
+                <tbody>
+                <tr>
+                    <td colspan="2" style="padding:100px;padding-top:0px;">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding:0px 15px;background:#f4f3f8;">
+            <table bgcolor="#fff" style="width:100%">
+                <tbody>
+                <tr>
+                    <td style="padding:10px"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"
+                        style="padding:10px 10px 5px 15px; text-align: center; font-size:23px;color:#14517d; font-family: Segoe UI;">
+                        Registration Success - La Siesta Danang Resort<span
+                            style="color:#a8a6b9;font-size:14px;padding:10px 0px;"></span></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align:center;font-size:18px;padding:5px 15px;font-weight:bold"></td>
+
+
+                </tr>
+                <tr>
+                    <td style="width:60%;font-size:12px;color:#14517d;padding:10px 15px;"><span
+                            style="font-weight:bold;color:#14517d;font-family: Segoe UI;font-size:16px;">Hi, <b
+                            th:text="${loginName}"></b></span>
+                    </td>
+                    <td style="text-align:right;font-size:14px;padding:10px 15px;color:#3b3b3b; "></td>
+                </tr>
+                <tr>
+                    <td colspan="2"
+                        style="width:60%;font-size:12px;color:#14517d;padding:10px 15px;border-bottom:1px solid #dddce4;"><span
+                            style="font-weight:bold;color:#14517d;font-family: Segoe UI;font-size:16px; text-align: justify;">Congratulation ! Your account has been actived.</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding:15px;background:#f4f3f8;">
+            <table style="width:100%">
+                <tbody>
+                <tr>
+                    <td colspan="2"
+                        style="font-family: Segoe UI;font-size:15px;color:#14517d;text-align:left;padding:15px 0px">
+                        <span>Regards,</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"
+                        style="font-family: Segoe UI;font-size:15px;color:#14517d;text-align:left;padding:15px 0px">
+                        <span>La Siesta Danang Resort</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td style="background-color:#194e7d;padding:5px;"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

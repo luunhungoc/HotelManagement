@@ -1,13 +1,9 @@
 package demo.HotelManagement.controller;
 
-import demo.HotelManagement.entities.CentralReservation;
 import demo.HotelManagement.entities.Profile;
-import demo.HotelManagement.entities.Reservation;
 import demo.HotelManagement.repository.*;
 import demo.HotelManagement.service.CartService;
-import demo.HotelManagement.session.CartSession;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import demo.HotelManagement.entities.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -36,17 +32,8 @@ public class CartController {
     CartService cartService;
 
     @GetMapping
-    public String getCart(Model model, CartSession cart) {
-        List<CartSession> cartList = cartService.getCart();
-        // display check in, check out date with format "dd MMM yyyy"
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
-        for (CartSession item : cartList) {
-            String formattedCheckInDate =item.getCheckInDate().format(formatter);
-            String formattedCheckOutDate =item.getCheckOutDate().format(formatter);
-            // Bạn có thể thêm checkInDate vào model hoặc xử lý nó theo cách bạn cần
-            model.addAttribute("formattedCheckInDate", formattedCheckInDate);
-            model.addAttribute("formattedCheckOutDate", formattedCheckOutDate);
-        }
+    public String getCart(Model model, Cart cart) {
+        List<Cart> cartList = cartService.getCart();
 
         model.addAttribute("profile",new Profile());
         model.addAttribute("cartList", cartList);
@@ -80,11 +67,12 @@ public class CartController {
         return "redirect:/cart";
     }
 
-    @PostMapping("/update/{reservationId}")
-    public String updateCart(@PathVariable Long reservationId, @RequestParam Integer quantity) {
-        cartService.updateCart(reservationId, quantity);
-        return "redirect:/cart";
-    }
+//    @PostMapping("/update/{reservationId}")
+//    public String updateCart(@PathVariable Long reservationId, @RequestParam Integer quantity) {
+//        cartService.updateCart(reservationId, quantity);
+//        return "redirect:/cart";
+//    }
+
     @GetMapping("/delete/{id}")
     public String deleteCart(@PathVariable Long id) {
         cartService.deleteCart(id);

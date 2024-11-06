@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{https://fonts.googleapis.com/css?family=Federo|Poppins}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}" />
+    <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.carousel.min.css}" />
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.theme.default.min.css}" />
+    <link th:href="@{https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.css}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css}" />
+    <link th:href="@{/css/login.css}" rel="stylesheet" />
+
+    <link rel="icon" th:href="@{img/favicon.jpg}">
+    <title>La Siesta Danang Resort</title>
+</head>
+<body>
+<div class="container right-panel-active">
+    <!-- Sign Up -->
+    <div class="container__form container--signup">
+        <form method="post" th:action="@{/registration/save}" th:object="${profile}" class="form" id="form1">
+            <h2 class="form__title">Registration</h2>
+            <input type="text" placeholder="Email" th:field="*{loginName}" class="input" required />
+            <input type="text" placeholder="First Name" th:field="*{firstName}" class="input" required />
+            <input type="text" placeholder="Last Name" th:field="*{lastName}" class="input" required />
+            <input type="text" placeholder="Phone" th:field="*{phone}" class="input" required />
+            <input type="password" placeholder="Password" th:field="*{loginPassword}" class="input" required />
+            <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
+            <button type="submit" class="btn">Register</button>
+        </form>
+    </div>
+    <!-- Sign In -->
+    <div class="container__form container--signin">
+        <form action="#" class="form" id="form2">
+            <h2 class="form__title">Sign In</h2>
+            <input type="email" placeholder="Email" class="input" required />
+            <input type="password" placeholder="Password" class="input" required />
+            <a href="#" class="link">Forgot your password?</a>
+            <button type="submit" class="btn">Sign In</button>
+        </form>
+    </div>
+    <!-- Overlay -->
+    <div class="container__overlay">
+        <div class="overlay">
+            <div class="overlay__panel overlay--left">
+                <h2>Already have an account ?</h2>
+                <button class="btn" id="signIn">Sign In</button>
+            </div>
+            <div class="overlay__panel overlay--right">
+                <h2>Don't have account yet ?</h2>
+                <button class="btn" id="signUp">Register</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const signInBtn = document.getElementById("signIn");
+  const signUpBtn = document.getElementById("signUp");
+  const fistForm = document.getElementById("form1");
+  const secondForm = document.getElementById("form2");
+   const errorDiv = document.getElementById("error-message");
+  const container = document.querySelector(".container");
+
+  signInBtn.addEventListener("click", () => {
+    container.classList.remove("right-panel-active");
+  });
+
+  signUpBtn.addEventListener("click", () => {
+    container.classList.add("right-panel-active");
+  });
+
+  fistForm.addEventListener("submit", (e) => {
+     const email = fistForm.querySelector('input[th\\:field="*{loginName}"]').value;
+     const firstName = fistForm.querySelector('input[th\\:field="*{firstName}"]').value;
+     const lastName = fistForm.querySelector('input[th\\:field="*{lastName}"]').value;
+     const password = fistForm.querySelector('input[th\\:field="*{loginPassword}"]').value;
+
+     let valid = true;
+     let errorMessage = "";
+
+     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Định dạng email đơn giản
+     if (!emailPattern.test(email)) {
+         valid = false;
+         errorMessage += "Email không hợp lệ.\n";
+     }
+
+     if (password.length < 6) {
+         valid = false;
+         errorMessage += "Mật khẩu phải có ít nhất 6 ký tự.\n";
+     }
+
+     if (!firstName || !lastName) {
+         valid = false;
+         errorMessage += "Họ và tên không được để trống.\n";
+     }
+
+     if (!valid) {
+         e.preventDefault(); // Ngăn chặn gửi form
+         errorDiv.innerText = errorMessage; // Gán thông báo lỗi vào phần tử
+         errorDiv.classList.remove("d-none"); // Hiển thị thông báo lỗi
+     } else {
+         // Ẩn thông báo lỗi nếu form hợp lệ
+         errorDiv.classList.add("d-none");
+     }
+ });
+  secondForm.addEventListener("submit", (e) => e.preventDefault());
+</script>
+</body>
+
+
+</html>

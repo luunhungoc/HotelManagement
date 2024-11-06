@@ -90,14 +90,13 @@
   }
 
   .navbar.navbar-default{
-	background: white;
+	background: #f4f4f4;
 	border:0;
 	font-family:Poppins;
 	text-transform:uppercase;
 	color:black;
 	font-size:16px;
 	height:20px;
-
 	box-shadow:none;
   }
 
@@ -876,3 +875,286 @@
   }
   /* end room detail slider */
 
+
+
+.hero-section {
+    background-image: url('https://366e203a.rocketcdn.me/wp-content/uploads/2021/05/Soneva-Fushi.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    color: #ffffff;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Overlay tối màu giống mẫu */
+    z-index: 1;
+}
+
+.hero-section .text-content, .booking-form {
+    position: relative;
+    z-index: 2;
+    margin-left: 90px;
+}
+
+.hero-section .text-content {
+    width: 60%;
+}
+
+.hero-section .subheading {
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #e0e0e0;
+    margin-bottom: 10px;
+}
+
+.hero-section h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.hero-section .booking-form {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 30px;
+    width: 450px;
+    border-radius: 8px;
+    color: #ffffff;
+    margin-right: 100px;
+    border: 1px solid rgba(208, 203, 181, 0.5);
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+}
+
+.hero-section .form-subheading {
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    color: #d0cbb5;
+    font-weight: 400;
+}
+
+.hero-section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.hero-section .form-group {
+    margin-bottom: 15px;
+}
+
+.hero-section .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.hero-section .form-group input[type="date"],
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    font-size: 16px;
+    color: #333;
+    font-family: 'Roboto', sans-serif;
+}
+
+.hero-section .check-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #d0cbb5;
+    border: 1px solid #d0cbb5;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.hero-section .check-btn:hover {
+    background-color: #b8ad91;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ROOM DETAILS */
+      /* Global Styles */
+
+
+      .detail-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 20px;
+      }
+
+      /* Title Styling */
+      .detail-container .title {
+          font-family: 'Playfair Display', serif;
+          font-size: 48px;
+          text-align: center;
+          color: #b19d66;
+          margin-bottom: 10px;
+          letter-spacing: 2px;
+      }
+
+      /* Image Gallery Styling */
+      .detail-container .image-gallery {
+          position: relative;
+          text-align: center;
+      }
+
+      .detail-container .main-image {
+          width: 100%;
+          max-height: 450px;
+          object-fit: cover;
+      }
+
+      .detail-container .arrow {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 24px;
+          color: #fff;
+          padding: 10px;
+          background-color: rgba(0, 0, 0, 0.5);
+          cursor: pointer;
+          user-select: none;
+      }
+
+      .detail-container .arrow.left {
+          left: 10px;
+      }
+
+      .detail-container .arrow.right {
+          right: 10px;
+      }
+
+      /* Content Section */
+      .detail-container .content {
+          display: flex;
+          gap: 20px;
+          margin-top: 20px;
+      }
+
+      /* Room Details and Features */
+      .detail-container .details {
+          flex: 2;
+          background: #fff;
+          padding: 20px;
+          border-top: 3px solid #b19d66;
+      }
+
+      .detail-container .details h2 {
+          font-family: 'Playfair Display', serif;
+          font-size: 28px;
+          color: #b19d66;
+          margin-bottom: 10px;
+      }
+
+      .detail-container .details p {
+          line-height: 1.6;
+          margin-bottom: 20px;
+          color: #666;
+      }
+
+      /* Feature List Styling */
+      .detail-container .features {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 10px;
+      }
+
+      .detail-container .features li {
+          display: flex;
+          align-items: center;
+          font-size: 16px;
+          color: #064635;
+      }
+
+      .detail-container .features li i {
+          margin-right: 10px;
+          font-size: 20px;
+          color: #064635;
+      }
+
+      /* Booking Info Section */
+      .detail-container .booking-info {
+          flex: 1;
+          background-color: #008997;
+          color: #fff;
+          padding: 20px;
+          border-radius: 4px;
+      }
+
+      .detail-container .booking-info ul {
+          list-style: none;
+          padding: 0;
+          margin-bottom: 20px;
+      }
+
+      .detail-container .booking-info ul li {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+          font-size: 16px;
+      }
+
+      .detail-container .booking-info ul li i {
+          margin-right: 10px;
+          font-size: 18px;
+          color: #fff;
+      }
+
+      .detail-container .book-now {
+          display: block;
+          width: 100%;
+          padding: 10px;
+          text-align: center;
+          background-color: #b19d66;
+          color: #fff;
+          font-weight: bold;
+          font-size: 16px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          margin-top: 10px;
+      }
+
+      .detail-container .book-now:hover {
+          background-color: #9c8b4d;
+      }
+
+      .detail-container .contact-info p {
+          display: flex;
+          align-items: center;
+          font-size: 14px;
+          margin: 5px 0;
+      }
+
+      .detail-container .contact-info p i {
+          margin-right: 10px;
+          font-size: 16px;
+          color: #b19d66;
+      }
+/* ROOM DETAILS */

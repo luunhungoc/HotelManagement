@@ -1,0 +1,154 @@
+/* General styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f9fc;
+    margin: 0;
+    padding: 20px;
+}
+
+.registration-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.registration-container .header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #005f9e;
+}
+
+.registration-container .header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.registration-container .header h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #0070C0;
+    margin: 0;
+}
+
+.registration-container .header p {
+    font-size: 14px;
+    color: #555;
+    margin-top: 5px;
+}
+
+/* Form section */
+.registration-container .info, .guest-info, .room-description, .notice, .payment-info, .special-instructions, .signature {
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: #f1f5f9;
+    border-radius: 8px;
+    border: 1px solid #dfe3e8;
+}
+
+.registration-container .info .row, .guest-info .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.registration-container .info label, .guest-info label, .room-description h3, .payment-info h3, .notice h3, .special-instructions h3 {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.registration-container input[type="text"], input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.registration-container .full {
+    display: flex;
+    gap: 10px;
+}
+
+/* Room description */
+.registration-container .room-description h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.registration-container .room-description p {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #555;
+}
+
+/* Notice section */
+.registration-container .notice h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #0070C0;
+}
+
+.registration-container .notice ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.registration-container .notice ul li {
+    font-size: 12px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+/* Payment and Signature sections */
+.registration-container  .payment-info h3, .special-instructions h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.registration-container  .payment-info p, .signature p {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #333;
+}
+
+.registration-container  .signature p {
+    font-size: 14px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.registration-container .signature {
+    text-align: right;
+}
+
+/* General input styling */
+.registration-container input[type="checkbox"], input[type="radio"] {
+    margin-right: 10px;
+}
+
+/* Custom buttons and interactions */
+.registration-container button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #0070C0;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.registration-container button:hover {
+    background-color: #005f9e;
+}

@@ -3,16 +3,15 @@ package demo.HotelManagement.service;
 import demo.HotelManagement.entities.RoomType;
 import demo.HotelManagement.repository.CartRepository;
 import demo.HotelManagement.repository.RoomTypeRepository;
-import demo.HotelManagement.session.CartSession;
+import demo.HotelManagement.entities.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class CartService {
@@ -28,7 +27,7 @@ public class CartService {
         RoomType roomType = roomTypeRepository.findById(roomTypeId).orElseThrow(() -> new RuntimeException("Room Type not found"));
 
         // Create a new order item
-        CartSession cart = new CartSession();
+        Cart cart = new Cart();
         cart.setRoomType(roomType);
         cart.setQuantity(1);
         cart.setPrice(roomType.getPrice());
@@ -42,20 +41,38 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-    public void updateCart(Long reservationId, Integer quantity) {
-        // Fetch the order item
-        CartSession cart = cartRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Order item not found"));
 
-        // Update the quantity
-        cart.setQuantity(quantity);
+//    public void updateQuantity(Long id) {
+//
+//        Optional<Cart> cart = cartRepository.findById(id);
+//        int updateQuantity;
+//
+//        if (sy.equalsIgnoreCase("de")) {
+//
+//            if (updateQuantity <= 0) {
+//                cartRepository.deleteById(id);
+//            } else {
+//                cart.setQuantity(updateQuantity);
+//                cartRepository.save(cart);
+//            }
+//
+//        } else {
+//            updateQuantity = cart.getQuantity() + 1;
+//            cart.setQuantity(updateQuantity);
+//            cartRepository.save(cart);
+//        }
+//
+//    }
 
-        // Save the order item
-        cartRepository.save(cart);
-    }
 
-    public List<CartSession> getCart() {
+//    public List<Cart> getCartsByUser(Integer userId) {
+//        List<Cart> cartList = cartRepository.findByUserId(userId);
+//        return cartList;
+//    }
+
+    public List<Cart> getCart() {
         // Fetch the current order
-        List<CartSession> cartList = (List<CartSession>) cartRepository.findAll();
+        List<Cart> cartList = (List<Cart>) cartRepository.findAll();
         // Return the order items
         return cartList;
     }

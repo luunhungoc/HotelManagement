@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface TransactionTypeRepository extends CrudRepository<TransactionType,Long> {
-
+    TransactionType findByCode(String code);
 }

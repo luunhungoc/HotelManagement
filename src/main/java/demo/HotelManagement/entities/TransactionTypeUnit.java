@@ -5,7 +5,8 @@ public enum TransactionTypeUnit {
     night("night"),
     pcs("pcs"),
     pack("pack"),
-    way("way");
+    way("way"),
+    empty("");
 
     private final String displayName;
 

@@ -6,7 +6,7 @@ import demo.HotelManagement.entities.*;
 import demo.HotelManagement.repository.CentralReservationRepository;
 import demo.HotelManagement.repository.PaymentHistoryRepository;
 import demo.HotelManagement.repository.ReservationRepository;
-import demo.HotelManagement.session.CartSession;
+import demo.HotelManagement.entities.Cart;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -58,7 +57,7 @@ public class PaymentController {
 
                 // Bước 3: Lấy thông tin profile từ session
                 Profile profile = (Profile) session.getAttribute("profile");
-                List<CartSession> cartList = (List<CartSession>) session.getAttribute("cartList");
+                List<Cart> cartList = (List<Cart>) session.getAttribute("cartList");
 
                 // Bước 4: Tạo một CentralReservation mới
                 CentralReservation centralReservation = new CentralReservation();
@@ -68,12 +67,12 @@ public class PaymentController {
                 centralReservationRepository.save(centralReservation);
 
                 // Bước 5: Tạo và lưu các Reservation
-                for (CartSession item : cartList) {
+                for (Cart item : cartList) {
                     Reservation reservation = new Reservation();
                     reservation.setRoomType(item.getRoomType());
                     reservation.setQuantity(item.getQuantity());
                     reservation.setMarket("ONL");
-                    reservation.setRoomToCharge(item.getRoomType().getCode());
+                    reservation.setRoomType(item.getRoomType());
                     reservation.setCentralReservation(centralReservation);  // Liên kết với CentralReservation
                     reservation.setProfile(profile);
                     reservation.setCheckInDate(item.getCheckInDate());

@@ -63,7 +63,8 @@
                                                 <div class="">
                                                     <strong><a th:text="${item.roomType.name}" class="nav-link"></a></strong>
                                                     <br>
-                                                    <strong><div th:text=" ${formattedCheckInDate} + ' - ' + ${formattedCheckOutDate}"></div></strong>
+                                                    <strong><span th:text="${#temporals.format(item.checkInDate, 'dd MMM yyyy')}"></span>
+                                                        <span th:text="${' - '+#temporals.format(item.checkOutDate, 'dd MMM yyyy')}"></span></strong>
                                                     <div th:text="'Number of night: '+${item.nights}"></div>
                                                     <div th:text="'Adults: ' + ${item.adults} + ', Child: ' + ${item.children}"></div>
                                                 </div>

@@ -14,6 +14,7 @@ public class Room {
     private Long id;
     @Column(nullable = true)
     private int number;
+
     @ManyToOne
     @JoinColumn(name = "room_type_id", nullable = true)
     private RoomType roomType;

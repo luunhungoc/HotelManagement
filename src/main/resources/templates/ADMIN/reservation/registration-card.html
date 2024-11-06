@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Card - La Siesta Danang Resort</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/registration-card.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+<div class="registration-container">
+    <div class="header">
+        <h1>Hotel Registration Form</h1>
+        <h2>LA SIESTA DANANG RESORT</h2>
+        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+            class="fa fa-star"></i>
+        <p>09 Vo Nguyen Giap, Danang, Vietnam</p>
+    </div>
+    <div class="info">
+        <p>Please provide information given.</p>
+        <div class="row">
+            <div class="column">
+                <label for="checkInDate">Arrival Date:</label>
+                <input type="date" id="checkInDate" th:value="*{res.checkInDate}" readonly>
+            </div>
+            <div class="column">
+                <label>Check-in:</label>
+                <input type="text" value="2:00 PM" readonly>
+            </div>
+            <div class="column">
+                <label for="resId">Reservation No.:</label>
+                <input type="text" id="resId" th:value="*{res.id}" readonly>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <label for="checkOutDate">Departure Date:</label>
+                <input type="date" id="checkOutDate" th:value="*{res.checkOutDate}" readonly>
+                <span th:value="${res.nights}+' nights'"></span>
+            </div>
+            <div class="column">
+                <label>Check-out:</label>
+                <input type="text" value="12:00 AM" readonly>
+            </div>
+            <div class="column">
+                <label>Room No:</label>
+                <input type="number" id="roomNumber" th:value="*{res.room.number}" readonly>
+            </div>
+        </div>
+        <div class="row">
+            <div class="full">
+                <label>Name:</label>
+                <input type="text"
+                       th:value="*{res.profile.firstName}" readonly>
+                <input type="text"
+                       th:value="*{res.profile.lastName}" readonly>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <label>Address:</label>
+                <input type="text"
+                       th:value="*{res.profile.address}" readonly>
+            </div>
+            <div class="column">
+                <label>Country:</label>
+                <input type="text" th:value="*{res.profile.country}" readonly>
+            </div>
+            <div class="column">
+                <label>National Id/ Passport No.:</label>
+                <input type="text"  readonly>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <label>Nationality:</label>
+                <input type="text">
+            </div>
+            <div class="column">
+                <label>E-mail:</label>
+                <input type="text" th:value="*{res.profile.loginName}" readonly>
+            </div>
+            <div class="column">
+                <label>Telephone or Phone Number:</label>
+                <input type="text" th:value="*{res.profile.phone}" readonly>
+            </div>
+        </div>
+    </div>
+    <div class="guest-info">
+        <div class="row">
+            <div class="column">
+                <label>No of Guest(s) Staying:</label>
+                <input type="text" th:value="${res.adult}+' adult(s)'" readonly>
+                <input type="text" th:value="${res.child}+' children'"  readonly>
+            </div>
+            <div class="column">
+                <label>No of Day(s) Staying:</label>
+                <input type="text" th:value="${res.nights}+' nights'">
+                <input type="text" th:value="${res.nights}+' days'">
+            </div>
+        </div>
+    </div>
+    <div class="room-description">
+        <h3>Room Description:</h3>
+        <p>Type: <span th:text="${res.roomType.name}"></span></p>
+        <p>Bed: TWO DOUBLE BEDS</p>
+        <p>Floor: 2ND FLOOR</p>
+        <p>View: POOL VIEW</p>
+    </div>
+    <div class="notice">
+        <h3>Notice to our Guest(s)</h3>
+        <ul>
+            <li>In your room closet, a personal electronic safety deposit box is installed. The hotel is not liable
+                for any LOST items left inside or outside of the hotel room or premises.</li>
+            <li>Every LOST KEY will be charged a replacement price of THREE HUNDRED PESOS (PHP 300.00).</li>
+            <li>The hotel has a curfew for guest visitors or non-registered guests to enter the in-house guest's
+                room until 10:00 PM.</li>
+            <li>The MAXIMUM NUMBER OF OCCUPANTS ALLOWED IN THE GUEST ROOMS IS LIMITED TO TWO (02) ADULTS AND TWO
+                (02) CHILDREN.</li>
+            <li>Damage to rooms, fixtures, furnishings, and equipment will be charged at 120% of full and new
+                replacement value.</li>
+        </ul>
+    </div>
+    <div class="payment-info">
+        <h3>Billing and Payment Arrangement</h3>
+        <p>[ ] Cash Payment</p>
+        <p>[X] Credit Card</p>
+    </div>
+    <div class="special-instructions">
+        <h3>Special Instructions and Remarks:</h3>
+        <p></p>
+    </div>
+    <div class="signature">
+        <p>Guest(s) Signature: </p>
+        <p></p>
+    </div>
+</div>
+
+</body>
+
+</html>

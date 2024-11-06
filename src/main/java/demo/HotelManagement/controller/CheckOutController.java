@@ -4,6 +4,7 @@ import demo.HotelManagement.entities.*;
 import demo.HotelManagement.repository.*;
 import demo.HotelManagement.service.CartService;
 import demo.HotelManagement.service.CheckOutService;
+import demo.HotelManagement.service.EmailService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -43,6 +47,9 @@ public class CheckOutController {
 
     @Autowired
     CheckOutService checkOutService;
+
+    @Autowired
+    EmailService emailService;
 
     @PostMapping(value = "/checkout")
     public String checkOut(@ModelAttribute Profile profile,
@@ -69,7 +76,7 @@ public class CheckOutController {
     }
 
     @GetMapping("/vnpay-payment")
-    public String GetMapping(HttpServletRequest request, Model model) {
+    public String GetMapping(HttpServletRequest request, Model model) throws IOException {
         int paymentStatus = checkOutService.orderReturn(request);
         String centralReservationId = request.getParameter("vnp_OrderInfo");
         String paymentTime = request.getParameter("vnp_PayDate");
@@ -91,12 +98,7 @@ public class CheckOutController {
             // Cập nhật trạng thái cho các Reservation liên quan
             List<Reservation> reservations = reservationRepository.findByCentralReservation(centralReservation);
             for (Reservation reservation : reservations) {
-                String formattedCheckInDate =reservation.getCheckInDate().format(formatter);
-                String formattedCheckOutDate =reservation.getCheckOutDate().format(formatter);
-                // Bạn có thể thêm checkInDate vào model hoặc xử lý nó theo cách bạn cần
-                model.addAttribute("formattedCheckInDate", formattedCheckInDate);
-                model.addAttribute("formattedCheckOutDate", formattedCheckOutDate);
-
+                reservation.setNights((int) ChronoUnit.DAYS.between(reservation.getCheckInDate(), reservation.getCheckOutDate()));
                 reservation.setStatus(ReservationStatus.GUARANTEED);
                 reservationRepository.save(reservation); // Lưu thay đổi trạng thái cho Reservation
             }
@@ -143,6 +145,12 @@ public class CheckOutController {
             // Clear the cart
             cartService.clearCart();
 
+            Map<String, Object> templateModel = new HashMap<>();
+            templateModel.put("loginName", centralReservation.getProfile().getLoginName());
+            templateModel.put("reservations", reservations);
+            templateModel.put("centralReservation", centralReservation);
+            templateModel.put("totalPrice", actualAmount);
+            emailService.sendHtmlEmail(centralReservation.getProfile().getLoginName(), "Confirmation of your reservation: La Siesta Danang Resort", "payment/VNPAY_successfulEmail.html", templateModel);
             return "payment/VNPAY_successful";
         }
         // Nếu thanh toán thất bại, chuyển đến trang thất bại

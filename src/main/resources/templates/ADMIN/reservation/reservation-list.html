@@ -17,107 +17,55 @@
 <body>
 <div class="container">
     <!--     SIDE AREA -->
-    <div class="sideArea">
-        <div class="avatar">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCNOdyoIXDDBztO_GC8MFLmG_p6lZ2lTDh1ZnxSDawl1TZY_Zw"
-                 alt="">
-            <div class="avatarName">Welcome,<br>John Doe</div>
-        </div>
-        <ul class="sideMenu">
-            <li><a href="javascript:void(0)" class="has-submenu"><span class="fa fa-table"></span>MANAGE ROOM <span
-                    class="fa fa-angle-down"></span></a>
-                <ul class="submenu">
-                    <li><a href="#"><span class="fa fa-list"></span>Room Type</a></li>
-                    <li><a href="#"><span class="fa fa-tags"></span>Room</a></li>
-                </ul>
-            </li>
-            <li><a href="javascript:void(0)" class="has-submenu"><span class="fa fa-table"></span>RESERVATIONS <span
-                    class="fa fa-angle-down"></span> </a>
-                <ul class="submenu">
-                    <li><a href="#"><span class="fa fa-list"></span>New Reservation</a></li>
-                    <li><a href="#"><span class="fa fa-tags"></span>Confirmation</a></li>
-
-                </ul>
-            </li>
-            <li><a href="javascript:void(0)" class="has-submenu"><span class="fa fa-table"></span>FRONT DESKS <span
-                    class="fa fa-angle-down"></span> </a>
-                <ul class="submenu">
-                    <li><a href="#"><span class="fa fa-list"></span>Arrivals</a></li>
-                    <li><a href="#"><span class="fa fa-tags"></span>Inhouse Guest</a></li>
-
-                    <li><a href="#"><span class="fa fa-tags"></span>Registration Card</a></li>
-                </ul>
-            </li>
-            <li><a href="#"><span class="fa fa-money"></span>MANAGE INVOICE</a></li>
-            <li><a href="#"><span class="fa fa-money"></span>MANAGE REPORT</a></li>
-            <li><a href="#"><span class="fa fa-user-o"></span>MANAGE PROFILE</a></li>
-            <li><a href="#"><span class="fa fa-envelope-o"></span>CONTACT</a></li>
-        </ul>
-    </div>
+    <div th:replace="~{ADMIN/admin-header :: admin-header}"></div>
     <!--     SIDE AREA -->
     <div class="mainArea">
         <!-- BEGIN NAV -->
-        <nav class="navTop row">
-            <div class="menuIcon fl"><span class="fa fa-bars"></span></div>
-            <div class="account fr">
-                <div class="name has-submenu">John Doe<span class="fa fa-angle-down"></span></div>
-                <ul class="accountLinks submenu">
-                    <li><a href="">View website</a></li>
-                    <li><a href="">Log out<span class="fa fa-sign-out fr"></span></a></li>
-                </ul>
-            </div>
-        </nav>
+        <div th:replace="~{ADMIN/admin-nav :: admin-nav}"></div>
         <!-- END NAV -->
         <!-- CONTAINER  -->
-
+        <form th:action="@{/admin/reservation/search}" method="GET">
         <div class="search-container">
             <div class="reservation-form">
                 <div class="form-row">
                     <div class="field-group">
-                        <label for="lastName">Last Name</label>
-                        <input type="text" id="lastName">
+                        <label for="reservationId">Reservation Id</label>
+                        <input type="text" id="reservationId" name="reservationId">
                     </div>
+                    <div class="field-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="lastName">
+                    </div>
+
                     <div class="field-group">
                         <label for="firstName">First Name</label>
-                        <input type="text" id="firstName">
+                        <input type="text" id="firstName" name="firstName">
                     </div>
-                    <div class="field-group">
-                        <label for="crsNo">CRS No/ TA Rec Loc</label>
-                        <input type="text" id="crsNo">
-                    </div>
-                    <div class="field-group">
-                        <label for="confCode">Confirmation No.</label>
-                        <input type="text" id="confCode">
-                    </div>
+
                 </div>
                 <div class="form-row">
                     <div class="field-group">
                         <label for="arrivalFrom">Arrival From</label>
-                        <input type="date" id="arrivalFrom">
+                        <input type="date" id="arrivalFrom" name="arrivalFrom">
                     </div>
-
                     <div class="field-group">
                         <label for="arrivalTo">Arrival To</label>
-                        <input type="date" id="arrivalTo">
+                        <input type="date" id="arrivalTo" name="arrivalTo">
                     </div>
                     <div class="field-group">
-                        <label for="company">Company</label>
-                        <input type="text" id="company">
-                    </div>
-                    <div class="field-group">
-                        <label for="source">Source</label>
-                        <input type="text" id="source">
+                        <p><strong>Note:</strong> Both Last Name and First Name must be filled to perform a search.</p>
                     </div>
                 </div>
+
             </div>
 
             <!-- Buttons on the right -->
             <div class="right-buttons" style="padding-top: 40px;">
-
                 <button type="submit" class="btnSave bg-1 text-fff text-bold fr">SEARCH</button>
-                <button type="submit" class="btnSave bg-1 text-fff text-bold fr">CLEAR</button>
+                <a th:href="@{/admin/reservation/search}" class="btnSave bg-1 text-fff text-bold fr">CLEAR</a>
             </div>
         </div>
+        </form>
         <div class="mainContent">
             <!-- LIST FORM -->
 
@@ -125,15 +73,16 @@
                 <div class="formHeader row">
                     <h2 class="text-1 fl">Reservation List</h2>
                     <div class="fr">
-                        <button type="submit" class="btnSave bg-1 text-fff text-bold fr">SAVE</button><a href=""
-                                                                                                         class="btnAdd fa fa-plus bg-1 text-fff"></a>
+                        <button type="submit" class="btnSave bg-1 text-fff text-bold fr">SAVE</button>
+                        <a th:href="@{/admin/reservation/add}"
+                           class="btnAdd fa fa-plus bg-1 text-fff"></a>
                     </div>
                 </div>
                 <div class="table">
                     <table>
                         <thead class="row bg-1">
                         <tr>
-                            <th style="text-align: center;">Name</th>
+                            <th style="width: 120px;text-align: center;">Name</th>
                             <th style="width: 90px;text-align: center;">Arrival</th>
                             <th style="width: 90px;text-align: center;">Departure</th>
                             <th style="width: 100px;">Status</th>
@@ -148,7 +97,32 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="res : ${reservations}">
+<!--                        <tr th:if="${reservation != null}">-->
+<!--                            <td th:text="${reservation.profile.firstName + ', ' + reservation.profile.lastName}"></td>-->
+<!--                            <td th:text="${reservation.checkInDate}"></td>-->
+<!--                            <td th:text="${reservation.checkOutDate}"></td>-->
+<!--                            <td th:text="${reservation.status}"></td>-->
+<!--                            <td th:if="${reservation.room != null and reservation.room.id != null}" th:text="${reservation.room.number}"></td>-->
+<!--                            <td th:if="${reservation.room == null or reservation.room.id == null}"></td>-->
+<!--                            <td th:text="${reservation.roomType.code}"></td>-->
+<!--                            <td th:text="${reservation.adult + '/' + reservation.child}"></td>-->
+<!--                            <td th:text="${reservation.quantity}"></td>-->
+<!--                            <td th:text="${#numbers.formatDecimal(reservation.roomType.price, 0, 'POINT', 0, 'COMMA')}"></td>-->
+<!--                            <td th:text="${reservation.id}"></td>-->
+<!--                            <td th:text="${reservation.profile.billingName}"></td>-->
+<!--                            <td style="text-align: center;">-->
+<!--                                <a th:href="@{/admin/reservation/edit/{id}(id=${reservation.id})}"-->
+<!--                                   class="btnEdit fa-regular fa-pen-to-square bg-1 text-fff"></a>-->
+<!--                                <a href="" class="btnEdit fa-regular fa-clone bg-1 text-fff"-->
+<!--                                   onclick='return confirm("Do you really want to duplicate it ?")'></a>-->
+<!--                                <a href="" class="btnRemove fa-solid fa-trash bg-1 text-fff"-->
+<!--                                   onclick='return confirm("Do you really want to delete this booking ?")'></a>-->
+<!--                            </td>-->
+
+<!--                            &lt;!&ndash; Add more fields as needed &ndash;&gt;-->
+<!--                        </tr>-->
+
+                        <tr th:if="${reservations != null}" th:each="res : ${reservations}" >
                             <td th:text="${res.profile.firstName + ', ' + res.profile.lastName}"></td>
                             <td th:text="${res.checkInDate}"></td>
                             <td th:text="${res.checkOutDate}"></td>
@@ -158,17 +132,17 @@
                             <td th:text="${res.roomType.code}"></td>
                             <td th:text="${res.adult + '/' + res.child}"></td>
                             <td th:text="${res.quantity}"></td>
-                            <td th:text="${res.roomType.price}"></td>
+                            <td th:text="${#numbers.formatDecimal(res.roomType.price, 0, 'POINT', 0, 'COMMA')}"></td>
                             <td th:text="${res.id}"></td>
                             <td th:text="${res.profile.billingName}"></td>
                             <td style="text-align: center;">
+                                <a th:href="@{/admin/reservation/edit/{id}(id=${res.id})}"
+                                   class="btnEdit fa-regular fa-pen-to-square bg-1 text-fff"></a>
                                 <a href="" class="btnEdit fa-regular fa-clone bg-1 text-fff"
                                    onclick='return confirm("Do you really want to duplicate it ?")'></a>
-                                <a href="" class="btnEdit fa-solid fa-trash bg-1 text-fff"
+                                <a href="" class="btnRemove fa-solid fa-trash bg-1 text-fff"
                                    onclick='return confirm("Do you really want to delete this booking ?")'></a>
-                                <a href=""
-                                   class="btnRemove fa fa-remove bg-1 text-fff"
-                                   onclick='return confirm("Do you really want to cancel this booking ?")'></a></td>
+                            </td>
                         </tr>
                         <!-- Add more rows as needed -->
                         </tbody>
@@ -178,15 +152,24 @@
             </form>
 
 
-            <div id="pagination">
+            <div id="pagination" th:if="${totalPages > 1}">
                 <ul class="pagination list-inline text-center">
-                    <li class="is-active"><a href="?page=1">1</a></li>
-                    <li><a href="?page=2">2</a></li>
-                    <li><a href="?page=3">3</a></li>
-                    <li><a href="?page=4">4</a></li>
-                    <li><a href="?page=5">5</a></li>
+                    <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                        th:class="${i == currentPage} ? 'is-active'">
+                        <!-- Conditionally choose the URL and add search parameters if isSearching is true -->
+                        <a th:href="@{${isSearching}
+                ? '/admin/reservation/search?page=' + ${i}
+                  + '&firstName=' +${firstName ?: ''}
+                  + '&lastName=' + ${lastName ?: ''}
+                  + '&reservationId=' + ${reservationId?: ''}
+                  + '&arrivalFrom=' + ${arrivalFrom?: ''}
+                  + '&arrivalTo=' + ${arrivalTo?: ''}
+                : '/admin/reservation?page=' + ${i}}"
+                           th:text="${i + 1}">1</a>
+                    </li>
                 </ul>
             </div>
+
         </div>
         <!-- END CONTAINER  -->
     </div>

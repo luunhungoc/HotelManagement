@@ -11,10 +11,7 @@ function elm(x){
     }
 }
 
-// ACCOUNT CLICK
-window.onclick = function(){
-    elm(".accountLinks")[0].style.display = 'none';
-};
+
 
 // SUB MENU
 if(elm(".has-submenu")){

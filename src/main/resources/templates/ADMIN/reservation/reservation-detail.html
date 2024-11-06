@@ -17,56 +17,11 @@
 <body>
 <div class="container" style="width: 100%;">
     <!--     SIDE AREA -->
-    <div class="sideArea">
-        <div class="avatar">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCNOdyoIXDDBztO_GC8MFLmG_p6lZ2lTDh1ZnxSDawl1TZY_Zw"
-                 alt="">
-            <div class="avatarName">Welcome,<br>John Doe</div>
-        </div>
-        <ul class="sideMenu">
-            <li><a href="javascript:void(0)" class="has-submenu"><span class="fa fa-table"></span>MANAGE ROOM <span
-                    class="fa fa-angle-down"></span> </a>
-                <ul class="submenu">
-                    <li><a href="#"><span class="fa fa-list"></span>Room Type</a></li>
-                    <li><a href="#"><span class="fa fa-tags"></span>Room</a></li>
-                </ul>
-            </li>
-            <li><a href="javascript:void(0)" class="has-submenu"><span class="fa fa-table"></span>RESERVATIONS <span
-                    class="fa fa-angle-down"></span> </a>
-                <ul class="submenu">
-                    <li><a href="#"><span class="fa fa-list"></span>New Reservation</a></li>
-                    <li><a href="#"><span class="fa fa-tags"></span>Confirmation</a></li>
-
-                </ul>
-            </li>
-            <li><a href="javascript:void(0)" class="has-submenu"><span class="fa fa-table"></span>FRONT DESKS <span
-                    class="fa fa-angle-down"></span> </a>
-                <ul class="submenu">
-                    <li><a href="#"><span class="fa fa-list"></span>Arrivals</a></li>
-                    <li><a href="#"><span class="fa fa-tags"></span>Inhouse Guest</a></li>
-
-                    <li><a href="#"><span class="fa fa-tags"></span>Registration Card</a></li>
-                </ul>
-            </li>
-            <li><a href="#"><span class="fa fa-money"></span>MANAGE INVOICE</a></li>
-            <li><a href="#"><span class="fa fa-money"></span>MANAGE REPORT</a></li>
-            <li><a href="#"><span class="fa fa-user-o"></span>MANAGE PROFILE</a></li>
-            <li><a href="#"><span class="fa fa-envelope-o"></span>CONTACT</a></li>
-        </ul>
-    </div>
+    <div th:replace="~{ADMIN/admin-header :: admin-header}"></div>
     <!--     SIDE AREA -->
     <div class="mainArea">
         <!-- BEGIN NAV -->
-        <nav class="navTop row">
-            <div class="menuIcon fl"><span class="fa fa-bars"></span></div>
-            <div class="account fr">
-                <div class="name has-submenu">John Doe<span class="fa fa-angle-down"></span></div>
-                <ul class="accountLinks submenu">
-                    <li><a href="">View website</a></li>
-                    <li><a href="">Log out<span class="fa fa-sign-out fr"></span></a></li>
-                </ul>
-            </div>
-        </nav>
+        <div th:replace="~{ADMIN/admin-nav :: admin-nav}"></div>
         <!-- END NAV -->
         <!-- CONTAINER  -->
 
@@ -76,23 +31,25 @@
                 <!-- Top Section: Reservation Form -->
                 <div class="top-section">
                     <form th:action="@{/admin/reservation/edit/{id}(id=${res.id})}" th:object="${res}" method="post">
-                        <h2>Reservation #<span th:text="${res.id}"></span> <span th:text="${res.status}"></span></h2>
+                        <h2>Reservation #<span  th:text="${res.id}"></span> <span th:text="${res.status}"></span></h2>
+                        <input type="text" id="reservationId" th:field="*{id}" hidden>
 
                         <!-- Row 1: Name, Phone, Title -->
                         <div class="row">
                             <div class="field-group">
-                                <label for="fname">Guest First Name</label>
+                                <label for="fname">First Name</label>
                                 <input type="text" id="fname"
                                        th:field="*{profile.firstName}">
+                                <a href="#" class="btnEdit fa-regular fa-pen-to-square bg-1 text-fff"></a>
                             </div>
                             <div class="field-group">
-                                <label for="lname">Guest Last Name</label>
+                                <label for="lname">Last Name</label>
                                 <input type="text" id="lname"
                                        th:field="*{profile.lastName}">
                             </div>
                             <div class="field-group">
                                 <label for="phone">Phone</label>
-                                <input type="text" id="phone"  th:field="*{profile.phone}">
+                                <input type="text" id="phone" th:field="*{profile.phone}">
                             </div>
                         </div>
 
@@ -104,7 +61,7 @@
                             </div>
                             <div class="field-group">
                                 <label for="adult">Adults</label>
-                                <input type="text" id="adult"  th:field="*{adult}">
+                                <input type="text" id="adult" th:field="*{adult}">
                             </div>
                             <div class="field-group">
                                 <label for="company">Company</label>
@@ -128,38 +85,40 @@
                             </div>
                             <div class="field-group">
                                 <label for="memberLevel">Member Level</label>
-                                <input type="text" id="memberLevel" >
+                                <input type="text" id="memberLevel" th:field="*{profile.membership.level}">
                             </div>
                         </div>
 
                         <!-- Row 4: Arrival, Res Type, CRS Number -->
                         <div class="row">
                             <div class="field-group">
-                                <label for="arrival">Arrival</label>
-                                <input type="date" id="arrival" th:field="*{checkInDate}">
+                                <label for="checkInDate">Arrival</label>
+                                <input type="date" id="checkInDate" th:field="*{checkInDate}">
                             </div>
                             <div class="field-group">
                                 <label for="resType">Res. Type</label>
-                                <input type="text" id="resType" th:field="*{status}">
+                                <input type="text" id="resType" th:field="*{status}" readonly>
 
 
                             </div>
                             <div class="field-group">
                                 <label for="CRSId">CRS Number</label>
-                                <input type="text" id="CRSId" th:field="*{centralReservation.id}" >
+                                <input type="text" id="CRSId" th:field="*{centralReservation.id}" readonly>
                             </div>
                         </div>
 
                         <!-- Row 5: Departure, Room Type, TA Rec Log -->
                         <div class="row">
                             <div class="field-group">
-                                <label for="departure">Departure</label>
-                                <input type="date" id="departure" th:field="*{checkOutDate}" >
+                                <label for="checkOutDate">Departure</label>
+                                <input type="date" id="checkOutDate" th:field="*{checkOutDate}">
+                                <span th:text="${res.nights}+'nights'"></span>
                             </div>
 
                             <div class="field-group">
+
                                 <label for="market">Source</label>
-                                <input type="text" id="market" th:field="*{market}" >
+                                <input type="text" id="market" th:field="*{market}">
                             </div>
                             <div class="field-group">
                                 <label for="partyId">PartyId</label>
@@ -174,21 +133,24 @@
                                 <input type="number" id="numRooms" th:field="*{quantity}">
                             </div>
                             <div class="field-group">
-                                <label for="payment">Payment</label>
-                                <input type="text" id="payment" value="American">
+                                <label for="cardType">Card Type </label>
+                                <input type="text" id="cardType" value="American">
                             </div>
                             <div class="field-group">
-                                <label for="discount">Discount %</label>
-                                <input type="text" id="discount" value="0.00">
+                                <label for="discountId">Discount Code:</label>
+                                <select id="discountId" th:field="*{discount.id}">
+                                    <option th:each="discount : ${discounts}" th:value="${discount.id}"
+                                            th:text="${discount.code + ' - ' + discount.percentage + ' %'}"></option>
+                                </select>
                             </div>
                         </div>
 
                         <!-- Row 7: Credit Card No, Specials -->
                         <div class="row">
                             <div class="field-group">
-                                <label for="roomType">Room Type</label>
-                                <select id="roomType" th:field="*{roomType.id}">
-                                    <option th:each="roomType : ${roomTypeList}" th:value="${roomType.id}"
+                                <label for="roomTypeCurrent">Room Type</label>
+                                <select id="roomTypeCurrent" th:field="*{roomTypeCurrent}">
+                                    <option th:each="roomType : ${roomTypeList}" th:value="${roomType.code}"
                                             th:text="${roomType.name}"></option>
                                 </select>
                             </div>
@@ -197,16 +159,16 @@
                                 <input type="text" id="creditCardNo" value="3734xxx7889">
                             </div>
                             <div class="field-group">
-                                <label for="specials">Specials</label>
-                                <input type="text" id="specials" value="HF">
+                                <label for="price">Rate/night</label>
+                                <input type="text" id="price" th:field="*{roomType.price}" readonly>
                             </div>
                         </div>
 
                         <!-- Row 8: Room to Charge, Exp Date, Comments -->
                         <div class="row">
                             <div class="field-group">
-                                <label for="rtc">RoomToCharge</label>
-                                <select id="rtc" th:field="*{roomType.id}">
+                                <label for="roomType">RoomToCharge</label>
+                                <select id="roomType" th:field="*{roomType.id}">
                                     <option th:each="roomType : ${roomTypeList}" th:value="${roomType.id}"
                                             th:text="${roomType.name}"></option>
                                 </select>
@@ -216,51 +178,79 @@
                                 <input type="text" id="expDate" value="02/11">
                             </div>
                             <div class="field-group">
-                                <label for="otherFields">Other fields</label>
-                                <input type="text" id="otherFields">
+                                <label for="specials">Specials</label>
+                                <input type="text" id="specials" value="HF">
                             </div>
                         </div>
 
                         <!-- Row 9: Rate, Payment, Comments -->
                         <div class="row">
                             <div class="field-group">
-                                <label for="rate">Rate/night</label>
-                                <input type="text" id="rate" th:field="*{roomType.price}" readonly>
+                                <label for="roomNumber">Room number</label>
+                                <select id="roomNumber" th:field="*{room.id}" placeholder="Please select">
+                                    <option th:each="room : ${roomList}" th:value="${room.id}"
+                                            th:text="${room.number+' ('+room.roomType.name}+')'"></option>
+                                </select>
+                                <a th:href="@{/admin/room-assignment}"
+                                   class="btnEdit fa-regular fa-pen-to-square bg-1 text-fff"></a>
                             </div>
                             <div class="field-group">
                                 <label for="guestBalance">Guest Balance</label>
-                                <input type="text" id="guestBalance" value="0.00">
+                                <input type="text" id="guestBalance" th:value="${#numbers.formatDecimal(guestBalance, 0, 'POINT', 0, 'COMMA')}" readonly>
                             </div>
                             <div class="field-group">
                                 <label for="comments">Comments</label>
                                 <textarea id="comments" rows="2" placeholder="RM PAID BY GUEST ACCOUNT"></textarea>
                             </div>
                         </div>
+                        <!-- Hiển thị thông báo nếu có -->
+                        <div th:if="${message}" class="alert alert-warning" role="alert" th:text="${message}"
+                             style="color: red;margin: 10px 80px;"></div>
 
                         <!-- Row 10: Actions -->
                         <div class="actions">
                             <button type="submit">Save</button>
-                            <button type="submit">Check in</button>
-                            <button type="submit">Check out</button>
-                            <button type="submit">Cancel Booking</button>
-                            <button type="button">Clone Booking</button>
-                            <button type="submit">Registration Card</button>
-                            <button type="submit">Confirmation Card</button>
                         </div>
                     </form>
+                    <div class="actions">
+                        <form th:action="@{'/admin/reservation/edit/' + ${id} + '/check-in'}" method="post">
+                            <button type="submit"
+                                    onclick='return confirm("Do you really want to check-in this reservation ?")'>
+                                Check-in
+                            </button>
+                        </form>
+                        <form th:action="@{'/admin/reservation/edit/' + ${id} + '/check-out'}" method="post">
+                            <button type="submit"
+                                    onclick='return confirm("Do you really want to check-out this reservation ?")'>
+                                Check-out
+                            </button>
+                        </form>
+                        <form th:action="@{'/admin/reservation/edit/' + ${id} + '/cancel'}" method="post">
+                            <button type="submit"
+                                    onclick='return confirm("Do you really want to cancel this reservation ?")'>
+                                Cancel Booking
+                            </button>
+                        </form>
+                        <button type="button">Clone Booking</button>
+                        <form th:action="@{/admin/registration-card/{id}(id=${res.id})}" target="_blank" method="get">
+
+                            <button type="submit"
+                                    onclick='return confirm("Do you really want to print this registration card ?")'>
+                                Registration Card
+                            </button>
+                        </form>
+                        <form th:action="@{/admin/folio/{id}(id=${res.id})}" target="_blank" method="get">
+                            <button type="submit"
+                                    onclick='return confirm("Do you really want to print this folio ?")'>
+                                Folio
+                            </button>
+                        </form>
+                    </div>
+
                 </div>
-
                 <!-- Bottom Section: Reservation Tabs and Folio -->
-                <div class="bottom-section">
+                <div class="bottom-section" th:if="${res.status == checkedInStatus}">
                     <div class="reservation-tabs">
-                        <!--                        <div class="tab-buttons tab-content">-->
-                        <!--                            <ul class="nav nav-tabs">-->
-                        <!--                                <li class="active"><a data-toggle="tab" th:href="@{#folio1}">Folio 1 - Guest</a></li>-->
-                        <!--                                <li><a data-toggle="tab" th:href="@{#folio2}">Folio 2 - Company</a></li>-->
-                        <!--                                <li><a data-toggle="tab" th:href="@{#folio3}">Folio 3 - Correction</a></li>-->
-                        <!--                            </ul>-->
-                        <!--                        </div>-->
-
                         <!-- Folio Content -->
                         <div class="tab-content">
                             <div id="folio1" class="folio tab-pane fade in active">
@@ -268,117 +258,97 @@
                                     <thead>
                                     <tr>
                                         <th>Transaction Date</th>
-                                        <th>Code</th>
-                                        <th>Description</th>
-                                        <th>Quantity</th>
+                                        <th style="width: 90px;">Code</th>
+                                        <th style="width: 390px;">Description</th>
+                                        <th style="width: 90px;">Unit</th>
+                                        <th style="width: 90px;">Quantity</th>
                                         <th>Amount</th>
-                                        <th>Unit</th>
-                                        <th>Subtotal</th>
+                                        <th style="width: 110px;">Subtotal</th>
                                         <th>Notes</th>
+                                        <th>Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="transaction : ${transactionList}">
-                                        <td th:text="${transaction.date}"></td>
-                                        <td th:text="${transaction.transactionType.code}"></td>
-                                        <td th:text="${transaction.transactionType.name}"></td>
-                                        <!--                                        <td th:text="${transaction.quantity}"></td>-->
-                                        <td>1</td>
-                                        <td th:text="${transaction.amount}"></td>
-<!--                                        <td th:text="${transaction.transactionType.unit}"></td>-->
-                                        <td>
-                                            <select id="transactionUnits" name="transactionUnit" >
-                                                <option th:each="unit : ${transactionUnits}"
-                                                        th:value="${unit}"
-                                                        th:text="${unit.displayName}"></option>
-                                            </select>
 
+                                    <!-- Existing room types from database (rendered dynamically using Thymeleaf) -->
+                                    <tr th:each="transaction, iterStat : ${transactionList}">
+
+                                        <td>
+                                            <span th:text="${transaction.date}"></span>
+<!--                                            <input type="text" class="edit-date"  th:value="${#dates.format(searchDate, 'yyyy-MM-dd')}" style="display:none;"/>-->
                                         </td>
-                                        <!--                                        <td th:text="${transaction.subtotal}"></td>-->
-                                        <td></td>
-                                        <td th:text="${transaction.note}"></td>
+                                        <td >
+                                            <a
+                                               th:href="@{/admin/transaction/edit/{id}(id=${transaction.id})}">
+                                            <span th:text="${transaction.transactionType.code}"></span></a>
+                                            <input type="text" class="edit-code" th:value="${transaction.transactionType.code}" style="display:none;"/>
+                                        </td>
+                                        <td>
+                                            <span th:text="${transaction.transactionType.name}"></span>
+                                            <input type="text" class="edit-name" th:value="${transaction.transactionType.name}"
+                                                   style="display:none;"/>
+                                        </td>
+                                        <td>
+                                            <span  th:text="${transaction.transactionType.unit.displayName}"></span>
+                                        </td>
+                                        <td>
+                                            <span th:text="${transaction.quantity}"></span>
+                                            <input type="text" class="edit-quantity" th:value="${transaction.quantity}"
+                                                   style="display:none;"/>
+                                        </td>
+                                        <td>
+                                            <span th:text="${#numbers.formatDecimal(transaction.amount, 0, 'POINT', 0, 'COMMA')}"></span>
+                                            <input type="text" class="edit-amount" th:value="${transaction.amount}"
+                                                   style="display:none;"/>
+                                        </td>
+
+                                        <td th:text="${#numbers.formatDecimal(transaction.amount* transaction.quantity, 0, 'POINT', 0, 'COMMA')}"></td>
+                                        <td><span th:text="${transaction.note}"></span>
+                                            <input type="text" class="note" th:value="${transaction.note}"
+                                                   style="display:none;"/></td>
+                                        <td>
+                                            <!-- Hidden input to store the transaction-id -->
+                                            <input type="hidden" class="transaction-id" th:value="${transaction.id}"/>
+
+                                            <a class="delete-btn  fa-solid fa-trash bg-1 text-fff btnSave" type="button"></a>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Empty row for adding a new transaction -->
+                                    <!-- Row for adding a new transaction -->
+                                    <tr>
+                                        <td><input type="date" id="newDate" class="form-control"
+                                                   th:value="${#dates.format(newDate, 'yyyy-MM-dd')}"
+                                                   min="" readonly/></td>
+                                        <td>
+                                            <select id="newCode" class="form-control">
+                                                <option th:each="type : ${transactionTypes}"
+                                                        th:value="${type.code}"
+                                                        th:text="${type.code + ' (' + type.name + ')'}">
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="newName" class="form-control" placeholder="Description" readonly/>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="newTransactionUnit" class="form-control" readonly/>
+                                        </td>
+                                        <td><input type="number" id="newQuantity" class="form-control" placeholder="Quantity" onchange="updateSubtotalNew()" value="1" min="1"/></td>
+                                        <td><input type="number" id="newAmount" class="form-control" placeholder="Amount" onchange="updateSubtotalNew()" value="0" step="0.01"/></td>
+
+                                        <td><span id="newSubtotal" class="subtotal" data-subtotal="0">0.00</span></td>
+                                        <td>
+                                            <input type="text" id="newNote" class="form-control" placeholder="Notes"/>
+                                        </td>
+                                        <td>
+                                            <button id="addTransactionBtn" class="fa-solid fa-plus bg-1 text-fff btnSave"></button>
+                                            <button id="delete-btn" class="btnRemove fa-solid fa-trash bg-1 text-fff"></button>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
-
-                                <!-- Bottom Buttons -->
-                                <div class="folio-buttons actions">
-                                    <button class="btn btn-blue">Post</button>
-                                    <button class="btn btn-blue">Folio</button>
-                                </div>
                             </div>
-
-                            <!--                            <div id="folio2" class="folio tab-pane fade">-->
-                            <!--                                <table>-->
-                            <!--                                    <thead>-->
-                            <!--                                    <tr>-->
-                            <!--                                        <th>T Date</th>-->
-                            <!--                                        <th>Pax No</th>-->
-                            <!--                                        <th>Department</th>-->
-                            <!--                                        <th>Revenue</th>-->
-                            <!--                                        <th>Currency Total</th>-->
-                            <!--                                        <th>Currency</th>-->
-                            <!--                                        <th>Total</th>-->
-                            <!--                                        <th>Notes</th>-->
-                            <!--                                    </tr>-->
-                            <!--                                    </thead>-->
-                            <!--                                    <tbody>-->
-                            <!--                                    <tr th:each="transaction : ${folio2Transactions}">-->
-                            <!--                                        <td th:text="${transaction.tDate}"></td>-->
-                            <!--                                        <td th:text="${transaction.paxNo}"></td>-->
-                            <!--                                        <td th:text="${transaction.department}"></td>-->
-                            <!--                                        <td th:text="${transaction.revenue}"></td>-->
-                            <!--                                        <td th:text="${transaction.currencyTotal}"></td>-->
-                            <!--                                        <td th:text="${transaction.currency}"></td>-->
-                            <!--                                        <td th:text="${transaction.total}"></td>-->
-                            <!--                                        <td th:text="${transaction.notes}"></td>-->
-                            <!--                                    </tr>-->
-                            <!--                                    </tbody>-->
-                            <!--                                </table>-->
-
-                            <!--                                &lt;!&ndash; Bottom Buttons &ndash;&gt;-->
-                            <!--                                <div class="folio-buttons">-->
-                            <!--                                    <button class="btn btn-blue">Posting</button>-->
-                            <!--                                    <button class="btn btn-red">Get Payment</button>-->
-                            <!--                                    <button class="btn btn-orange">Create Invoice</button>-->
-                            <!--                                </div>-->
-                            <!--                            </div>-->
-
-                            <!--                            <div id="folio3" class="folio tab-pane fade">-->
-                            <!--                                <table>-->
-                            <!--                                    <thead>-->
-                            <!--                                    <tr>-->
-                            <!--                                        <th>T Date</th>-->
-                            <!--                                        <th>Pax No</th>-->
-                            <!--                                        <th>Department</th>-->
-                            <!--                                        <th>Revenue</th>-->
-                            <!--                                        <th>Currency Total</th>-->
-                            <!--                                        <th>Currency</th>-->
-                            <!--                                        <th>Total</th>-->
-                            <!--                                        <th>Notes</th>-->
-                            <!--                                    </tr>-->
-                            <!--                                    </thead>-->
-                            <!--                                    <tbody>-->
-                            <!--                                    <tr th:each="transaction : ${folio3Transactions}">-->
-                            <!--                                        <td th:text="${transaction.tDate}"></td>-->
-                            <!--                                        <td th:text="${transaction.paxNo}"></td>-->
-                            <!--                                        <td th:text="${transaction.department}"></td>-->
-                            <!--                                        <td th:text="${transaction.revenue}"></td>-->
-                            <!--                                        <td th:text="${transaction.currencyTotal}"></td>-->
-                            <!--                                        <td th:text="${transaction.currency}"></td>-->
-                            <!--                                        <td th:text="${transaction.total}"></td>-->
-                            <!--                                        <td th:text="${transaction.notes}"></td>-->
-                            <!--                                    </tr>-->
-                            <!--                                    </tbody>-->
-                            <!--                                </table>-->
-
-                            <!--                                &lt;!&ndash; Bottom Buttons &ndash;&gt;-->
-                            <!--                                <div class="folio-buttons">-->
-                            <!--                                    <button class="btn btn-blue">Posting</button>-->
-                            <!--                                    <button class="btn btn-red">Get Payment</button>-->
-                            <!--                                    <button class="btn btn-orange">Create Invoice</button>-->
-                            <!--                                </div>-->
-                            <!--                            </div>-->
                         </div>
                     </div>
 
@@ -390,8 +360,147 @@
     </div>
 </div>
 
-
+<script th:src="@{/js/currentDate.js}"></script>
 <script th:src="@{/js/admin.js}"></script>
+<script>
+    $(document).ready(function() {
+        $('#discountCode').on('blur', function() {
+         var reservationId = $('#reservationId').val();
+            var discountId = $(this).val();
+            var roomTypeId = $('#roomType').val();
+
+            if (discountId && roomTypeId) {
+                $.ajax({
+                    url: '/admin/reservation/apply-discount',
+                    method: 'GET',
+                    data: { discountId: discountId, roomTypeId: roomTypeId,reservationId:reservationId },
+                    success: function(response) {
+                        $('#price').val(response.newPrice); // Update room price
+                    },
+                    error: function() {
+                        alert('Failed to apply discount. Please check the code.');
+                    }
+                });
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+    $('#newCode').on('change', function() {
+        const code = $(this).val();
+        if (code) {
+            $.ajax({
+                url: '/transaction/type/' + code,
+                method: 'GET',
+                success: function(transactionType) {
+                    console.log(transactionType); // Kiểm tra dữ liệu trả về
+                    $('#newName').val(transactionType.name);
+                     // Kiểm tra nếu transactionType.unit là "empty"
+                    if (transactionType.unit === "empty") {
+                        $('#newTransactionUnit').val(''); // Hiển thị giá trị trống
+                    } else {
+                        $('#newTransactionUnit').val(transactionType.unit); // Gán giá trị của unit
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching transaction type:', error);
+                    $('#newName').val(''); // Xóa nếu có lỗi
+                     $('#newTransactionUnit').val('');
+                }
+            });
+        } else {
+            $('#newName').val('');
+              $('#newTransactionUnit').val('');
+        }
+    });
+
+    $('#addTransactionBtn').on('click', function() {
+    const newTransaction = {
+        date: $('#newDate').val(),
+        transactionType: { code: $('#newCode').val() }, // Gửi mã giao dịch
+        quantity: $('#newQuantity').val(),
+        amount: $('#newAmount').val(),
+        notes: $('#newNote').val() // Thêm ghi chú nếu cần
+    };
+
+    // Lấy reservationId từ input ẩn
+    const reservationId = $('#reservationId').val();
+
+    $.ajax({
+        url: '/transactions?reservationId=' + reservationId,
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(newTransaction),
+        success: function(savedTransaction) {
+            // Xử lý khi giao dịch được lưu thành công
+                location.reload();
+            console.log('Transaction saved:', savedTransaction);
+
+        },
+        error: function(xhr, status, error) {
+            // Xử lý lỗi nếu có
+            console.error('Error saving transaction:', error);
+        }
+    });
+});
+
+});
+
+</script>
+<script>
+    $(document).ready(function() {
+    // Xử lý sự kiện click cho nút xóa
+    $('.delete-btn').on('click', function() {
+        const transactionId = $(this).closest('td').find('.transaction-id').val(); // Lấy transaction id từ input ẩn
+
+        if (confirm('Are you sure you want to delete this transaction?')) {
+            $.ajax({
+                url: '/transactions/' + transactionId,
+                method: 'DELETE',
+                success: function() {
+                    // Xóa dòng giao dịch khỏi giao diện
+                    $(this).closest('tr').remove();
+                    alert('Transaction deleted successfully.');
+                }.bind(this), // bind 'this' để có thể sử dụng trong success
+                error: function(xhr, status, error) {
+                    console.error('Error deleting transaction:', error);
+                    alert('Failed to delete transaction.');
+                }
+            });
+        }
+    });
+});
+
+</script>
+
+<script>
+    function updateSubtotalNew() {
+    const quantity = parseFloat(document.getElementById('newQuantity').value) || 0;
+    const amount = parseFloat(document.getElementById('newAmount').value) || 0;
+    const subtotal = quantity * amount;
+
+    document.getElementById('newSubtotal').textContent = subtotal.toFixed(2); // Cập nhật giá trị subtotal
+    document.getElementById('newSubtotal').setAttribute('data-subtotal', subtotal); // Cập nhật data attribute nếu cần
+}
+
+// Gọi hàm tính subtotal khi trang được tải để khởi tạo giá trị
+document.addEventListener('DOMContentLoaded', updateSubtotalNew);
+
+
+
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    var dateInput = document.getElementById("newDate");
+    var today = new Date().toISOString().split('T')[0]; // Lấy ngày hiện tại theo định dạng yyyy-MM-dd
+    dateInput.setAttribute("min", today); // Đặt thuộc tính min là ngày hiện tại
+
+    if (!dateInput.value) {
+        dateInput.value = today; // Đặt giá trị mặc định là ngày hiện tại nếu rỗng
+    }
+});
+</script>
 </body>
 
 </html>

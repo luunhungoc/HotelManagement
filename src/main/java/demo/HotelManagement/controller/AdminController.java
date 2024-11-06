@@ -1,26 +1,44 @@
 package demo.HotelManagement.controller;
 
 import demo.HotelManagement.entities.*;
+import demo.HotelManagement.repository.MembershipRepository;
 import demo.HotelManagement.service.*;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+
+import static org.thymeleaf.util.StringUtils.isEmpty;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-
     @Autowired
     private RoomService roomService;
 
     @Autowired
     private RoomTypeService roomTypeService;
+
+    @Autowired
+    private DiscountService discountService;
 
     @Autowired
     private ProfileService profileService;
@@ -34,67 +52,80 @@ public class AdminController {
     @Autowired
     private TransactionTypeService transactionTypeService;
 
-    @GetMapping("/reservation")
-    public String showReservation(Model model) {
-        model.addAttribute("reservations", reservationService.findAll());
-        return "admin/reservation/reservation-list"; // Thymeleaf template
-    }
+    @Autowired
+    private MembershipRepository membershipRepository;
 
-    @GetMapping("/reservation/edit/{id}")
-    public String showReservationDetail(@PathVariable Long id, Model model) {
+    @GetMapping("/registration-card/{id}")
+    public String showRegistrationCard(@PathVariable Long id, Model model) {
         Reservation reservation = reservationService.findById(id);
-        List<Transaction> transactions = transactionService.getTransactionsByReservationId(id);
 
         model.addAttribute("res", reservation);
         model.addAttribute("roomList", roomService.findAll());
         model.addAttribute("roomTypeList", roomTypeService.findAll());
-        model.addAttribute("transactionList", transactions);
-        model.addAttribute("transactionTypes", transactionTypeService.findAll());
-        model.addAttribute("transactionUnits", TransactionTypeUnit.values());
-        return "admin/reservation/reservation-detail";
+        return "admin/reservation/registration-card";
     }
 
-    @PostMapping("/reservation/edit/{id}")
-    public String editReservationDetail(@PathVariable Long id, @ModelAttribute Reservation res,
-                                        RedirectAttributes redirectAttributes) {
-        Reservation existingRes = reservationService.findById(id);
+    @GetMapping("/folio/{id}")
+    public String showFolio(@PathVariable Long id, Model model) {
+        Reservation reservation = reservationService.findById(id);
+        List<Transaction> transactions = transactionService.getTransactionsByReservationId(id);
+        // Tính toán subtotal cho từng transaction và lưu vào danh sách subtotals
+        List<Double> subtotals = new ArrayList<>();
+        double totalCharges = 0.0;
+        double totalPayment = 0.0;
+        for (Transaction transaction : transactions) {
+            double subtotal = transaction.getQuantity() * transaction.getAmount();
+            subtotals.add(subtotal);
 
-        // Cập nhật thông tin của Profile
-        Profile existingProfile = existingRes.getProfile(); // Lấy Profile từ Reservation hiện có
-        Profile updatedProfile = res.getProfile(); // Lấy Profile mới từ dữ liệu người dùng
+            // Cộng dồn vào totalCharges nếu subtotal > 0, ngược lại cộng vào totalPayment
+            if (subtotal > 0) {
+                totalCharges += subtotal;
+            } else if (subtotal < 0) {
+                totalPayment += subtotal;
+            }
+        }
 
-        existingProfile.setFirstName(updatedProfile.getFirstName());
-        existingProfile.setLastName(updatedProfile.getLastName());
-        existingProfile.setPhone(updatedProfile.getPhone());
-        existingProfile.setLoginName(updatedProfile.getLoginName());
-        existingProfile.setBillingName(updatedProfile.getBillingName());
-        existingProfile.setMembership(updatedProfile.getMembership());
-        // Cập nhật các trường khác nếu có
+        // Tổng số dư khách hàng (có thể tính tổng subtotal)
+        double guestBalance = totalCharges + totalPayment;
 
-        profileService.save(existingProfile); // Lưu Profile đã cập nhật
-
-        // Cập nhật thông tin của Reservation
-        existingRes.setProfile(existingProfile); // Gắn lại profile đã cập nhật
-        existingRes.setCheckInDate(res.getCheckInDate());
-        existingRes.setCheckOutDate(res.getCheckOutDate());
-        existingRes.setMarket(res.getMarket());
-        existingRes.setAdult(res.getAdult());
-        existingRes.setChild(res.getChild());
-        // Cập nhật các trường khác nếu có
-
-        reservationService.save(existingRes); // Lưu Reservation đã cập nhật
-        redirectAttributes.addFlashAttribute("success", "Reservation and Profile updated successfully!");
-        return "redirect:/admin/reservation"; // Điều hướng sau khi lưu thành công
+        model.addAttribute("guestBalance", guestBalance);
+        model.addAttribute("totalCharges", totalCharges);
+        model.addAttribute("totalPayment", totalPayment);
+        model.addAttribute("transactions", transactions);
+        model.addAttribute("res", reservation);
+        model.addAttribute("roomList", roomService.findAll());
+        model.addAttribute("roomTypeList", roomTypeService.findAll());
+        return "admin/reservation/folio";
     }
 
+    @GetMapping("/room-assignment")
+    public String showRoomAssignment(Model model) {
+        List<Room> rooms = roomService.findRoomsByDate(LocalDate.now());
+        model.addAttribute("rooms", rooms);
+        return "admin/room/room-assignment";
+    }
+
+    @GetMapping("/room-assignment/search")
+    public String showRoomAssignmentSearch(@RequestParam("searchDate") LocalDate searchDate, Model model) {
+
+        List<Room> rooms = roomService.findRoomsByDate(searchDate);
+        model.addAttribute("rooms", rooms);
+        return "admin/room/room-assignment";
+    }
 
     // Hiển thị trang quản lý phòng
-    @GetMapping("/room/room-management")
+    @GetMapping("/room/room-type-management")
     public String showRoomManagement(Model model) {
         model.addAttribute("roomList", roomService.findAll());
         model.addAttribute("roomTypeList", roomTypeService.findAll());
-        return "admin/room/room-management-list"; // Thymeleaf template
+        return "admin/room/room-type-list"; // Thymeleaf template
     }
+
+    public double getDiscountedPriceForRoomType(RoomType roomType) {
+        List<Discount> applicableDiscounts = discountService.getApplicableDiscounts();
+        return roomType.calculateDiscountedPrice(applicableDiscounts);
+    }
+
     @PostMapping("/room/add")
     @ResponseBody
     public ResponseEntity<?> addRoom(@RequestParam int number, @RequestParam Long roomTypeId) {
@@ -166,7 +197,7 @@ public class AdminController {
 
     @PostMapping("/room/edit-room-type")
     @ResponseBody
-    public ResponseEntity<String> editRoomType(@RequestParam Long roomTypeId,
+    public ResponseEntity<String> editRoomType(@RequestParam("roomTypeId") Long roomTypeId,
                                                @RequestParam String code, @RequestParam String name,
                                                @RequestParam int maxAdult, @RequestParam int maxChild,
                                                @RequestParam int maxOccupancy,
@@ -190,6 +221,16 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Room type not found");
     }
 
+    @GetMapping("/room/search-room-type")
+    public String searchRoomType(@RequestParam("searchInput") String searchInput, Model model) {
+        List<RoomType> roomTypes = roomTypeService.getRoomTypeByCodeOrName(searchInput,searchInput);
+
+        model.addAttribute("roomTypeList", roomTypes);
+        model.addAttribute("roomList", roomService.findAll());
+        return "admin/room/room-type-list";
+    }
+
+
     @GetMapping(value = "/room/search")
     public String searchRoom(@RequestParam("searchRoomInput") String searchRoomInput, Model model) {
         List<Room> rooms;
@@ -206,6 +247,128 @@ public class AdminController {
         model.addAttribute("roomList", rooms);
         model.addAttribute("roomTypeList", roomTypeService.findAll());
         return "admin/room/room-management-list";
+    }
+
+    @PostMapping("/room/upload-room-type-photo")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> uploadImage(
+            @RequestParam("image") MultipartFile file,
+            @RequestParam("id") Long roomTypeId) throws IOException {
+
+        Map<String, Object> response = new HashMap<>();
+
+        if (file.isEmpty()) {
+            response.put("success", false);
+            response.put("message", "No file selected");
+            return ResponseEntity.badRequest().body(response);
+        }
+        // Lấy đường dẫn đến thư mục static/img
+        File saveFile = new ClassPathResource("static/img").getFile();
+        System.out.println(saveFile);
+
+        // Tạo thư mục room-type nếu chưa tồn tại
+        File roomTypeDir = new File(saveFile, "room-type");
+        if (!roomTypeDir.exists()) {
+            roomTypeDir.mkdirs();
+        }
+
+        // Tạo đường dẫn cho file
+        Path path = Paths.get(roomTypeDir.getAbsolutePath(), file.getOriginalFilename());
+        System.out.println(path);
+
+        try {
+            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+            response.put("success", false);
+            response.put("message", "File upload failed: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+
+        // Cập nhật đường dẫn của roomPhoto trong database
+        String roomPhoto = "/img/room-type/" + file.getOriginalFilename();
+        roomTypeService.updateImageUrl(roomTypeId, roomPhoto);
+
+        response.put("success", true);
+        response.put("roomPhoto", roomPhoto);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/user")
+    public String showUserList(@RequestParam(defaultValue = "0") int page,
+                                  @RequestParam(defaultValue = "7") int size,
+                                  Model model)  {
+        Page<Profile> profiles = profileService.getProfiles(page, size);
+
+        model.addAttribute("profiles", profiles.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", profiles.getTotalPages());
+
+        return "admin/profile/profile-list"; // Thymeleaf template
+    }
+
+    @GetMapping("/user/{id}")
+    public String showEditProfile(@PathVariable Long id, Model model) {
+        Profile profile = profileService.findById(id);
+        if (profile.getAvatar() == null || profile.getAvatar().isEmpty()) {
+            profile.setAvatar("/img/profile/avatar-default.jpg");
+        }
+        List<Reservation> reservations = reservationService.findByProfileId(id);
+        Map<Long, Long> roomRevenues = new HashMap<>();
+        Map<Long, Long> otherRevenues = new HashMap<>();
+        Long totalRoomRevenue = 0L;
+        Long totalOtherRevenue = 0L;
+        for (Reservation res : reservations) {
+            Long roomRevenue= transactionService.getTotalRoomRevenueByReservationId(res.getId());
+            Long otherRevenue= transactionService.getTotalOtherRevenueByReservationId(res.getId());
+            roomRevenues.put(res.getId(), roomRevenue != null ? roomRevenue : 0L);
+            otherRevenues.put(res.getId(), otherRevenue != null ? otherRevenue : 0L);
+            // Tính tổng doanh thu
+            totalRoomRevenue += roomRevenues.get(res.getId());
+            totalOtherRevenue += otherRevenues.get(res.getId());
+        }
+
+        model.addAttribute("totalRoomRevenue", totalRoomRevenue);
+        model.addAttribute("totalOtherRevenue", totalOtherRevenue);
+        model.addAttribute("roomRevenues", roomRevenues);
+        model.addAttribute("otherRevenues", otherRevenues);
+        model.addAttribute("profile", profile);
+        model.addAttribute("reservations", reservations);
+        return "admin/profile/profile-edit";
+    }
+
+    @PostMapping("/upload-profile-photo/{id}")
+    public String uploadProfilePhoto(@RequestParam("image") MultipartFile file,
+                                     @PathVariable Long id,
+                                     RedirectAttributes redirectAttributes) throws IOException {
+
+        try { if (file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("message", "Please select a file to upload.");
+            return "redirect:/admin/user/" + id;
+        }
+
+            File saveFile = new ClassPathResource("static/img").getFile();
+            File profileDir = new File(saveFile, "profile");
+            if (!profileDir.exists()) {
+                profileDir.mkdirs(); // Tạo thư mục nếu chưa tồn tại
+            }
+
+            Path path = Paths.get(profileDir.getAbsolutePath(), file.getOriginalFilename());
+
+            // Lưu file vào thư mục
+            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+            // Cập nhật đường dẫn avatar trong database
+            String profileUrl = "/img/profile/" + file.getOriginalFilename();
+            profileService.updateImageUrl(id, profileUrl);
+
+            redirectAttributes.addFlashAttribute("message", "Profile picture uploaded successfully.");
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("message", "Failed to upload profile picture.");
+        }
+        return "redirect:/admin/user/" + id;
     }
 
 }

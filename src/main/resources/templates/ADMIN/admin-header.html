@@ -1,1 +1,80 @@
 
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation List - La Siesta Danang Resort</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/admin_style.css}">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+<div th:fragment="admin-header">
+    <div class="sideArea">
+        <div class="avatar">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCNOdyoIXDDBztO_GC8MFLmG_p6lZ2lTDh1ZnxSDawl1TZY_Zw"
+                 alt="">
+            <div class="avatarName">Welcome,<br>John Doe</div>
+        </div>
+        <ul class="sideMenu">
+
+            <li><a href="javascript:void(0)" class="has-submenu"><span class="fa fa-table"></span>RESERVATIONS <span
+                    class="fa fa-angle-down"></span> </a>
+                <ul class="submenu">
+                    <li><a th:href="@{/admin/reservation}"><span class="fa fa-list"></span>Reservation List</a></li>
+                    <li><a th:href="@{/admin/reservation/add}"><span class="fa fa-list"></span>New Reservation</a></li>
+                </ul>
+            </li>
+            <li><a href="javascript:void(0)" class="has-submenu"><span class="fa fa-table"></span>FRONT DESKS <span
+                    class="fa fa-angle-down"></span> </a>
+                <ul class="submenu">
+                    <li><a th:href="@{/admin/room-assignment}"><span class="fa fa-list"></span>Room Assignment</a></li>
+                    <li><a href="#"><span class="fa fa-tags"></span>In-house Guest</a></li>
+                    <li><a href="#"><span class="fa fa-tags"></span>Arrival Guest</a></li>
+                </ul>
+            </li>
+            <li><a href="javascript:void(0)" class="has-submenu"><span class="fa fa-table"></span>MANAGE ROOM <span
+                    class="fa fa-angle-down"></span></a>
+                <ul class="submenu">
+                    <li><a href="#"><span class="fa fa-list"></span>Room</a></li>
+                    <li><a th:href="@{/admin/room/room-type-management}"><span class="fa fa-tags"></span>Room Type</a></li>
+
+                </ul>
+            </li>
+            <li><a href="javascript:void(0)" class="has-submenu"><span class="fa fa-table"></span>PROMOTIONS <span
+                    class="fa fa-angle-down"></span></a>
+                <ul class="submenu">
+                    <li><a th:href="@{/admin/discount/list}"><span class="fa fa-list"></span>Promotion List</a></li>
+                    <li><a th:href="@{/admin/room/room-type-management}"><span class="fa fa-tags"></span>New Promotion</a></li>
+                </ul>
+            </li>
+            <li><a href="javascript:void(0)" class="has-submenu"><span class="fa fa-table"></span>TRANSACTIONS <span
+                    class="fa fa-angle-down"></span></a>
+                <ul class="submenu">
+                    <li><a href="#"><span class="fa fa-list"></span>Transaction List</a></li>
+                    <li><a href="#"><span class="fa fa-tags"></span>New Transaction</a></li>
+                </ul>
+            </li>
+            <li><a href="javascript:void(0)" class="has-submenu"><span class="fa fa-user"></span>PROFILES <span
+                    class="fa fa-angle-down"></span> </a>
+                <ul class="submenu">
+                    <li><a th:href="@{/admin/reservation}"><span class="fa fa-list"></span>New Profile</a></li>
+                    <li><a th:href="@{/admin/user}"><span class="fa fa-list"></span>Profile List</a></li>
+                </ul>
+            </li>
+            <li><a href="#"><span class="fa fa-money"></span>MANAGE REPORT</a></li>
+
+
+        </ul>
+    </div>
+</div>
+
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

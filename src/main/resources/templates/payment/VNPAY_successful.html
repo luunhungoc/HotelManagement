@@ -44,6 +44,7 @@
                     <td th:style="'color: #F16522; font-family: Helvetica, Arial, sans-serif; font-size: 30px; font-weight: 700; line-height: 34px; margin: 0;'">
                         <h1>Payment received</h1>
                         <h2>Booking number: #<span th:text="${centralReservationId}">[Central Reservation ID]</span></h2>
+
                     </td>
                     <td width="36"></td>
                 </tr>
@@ -65,8 +66,10 @@
                         <div th:each="item : ${reservations}">
                         <a th:text="'Reservation made in the name of : '+${item.profile.firstName}+', '+${item.profile.lastName}"></a>
                         <br>
-                        <strong><a th:text="${item.quantity}+' room(s) '+${item.roomType.name}+' from ' +  ${formattedCheckInDate} + ' to ' + ${formattedCheckOutDate}+' for '+${item.nights}+' night(s)'"></a></strong>
-                            <br>
+                        <strong>
+                            <span th:text="${item.quantity + ' room(s) ' + item.roomType.name + ' from ' + #temporals.format(item.checkInDate, 'dd MMM yyyy') + ' to ' + #temporals.format(item.checkOutDate, 'dd MMM yyyy') + ' for ' + item.nights + ' night(s)'}"></span>
+ </strong>
+                        <br>
                             <strong><a th:text="'Adults: ' + ${item.adult} + ', Child: ' + ${item.child}"></a></strong>
                         </div>
                         <hr>
@@ -83,8 +86,7 @@
                         Any amount given in a currency other than the local currency is indicative and not contractual.</p>
 
                         <p><strong>Cancellation Policy:</strong><br/>
-                        <p>The price is per accommodation, for the selected number of people and dates, unless otherwise stated (fixed prices). However, you may be required to pay additional and/or increased taxes upon arrival at the hotel, depending on the evolution of the local regulations in force and applicable on the day of your stay. Thus, prices include VAT and other taxes applicable on the day of booking, and any change or creation of a new tax will be automatically reflected in the price stated on the date of stay and billing.
-                            Any amount given in a currency other than the local currency is indicative and not contractual.</p>
+                        <p>Once booked, 100% value of booking will be charged at the time of booking and non refund in any situation.</p>
 
                         <p><strong>Children Policy:</strong><br/>
                         <p>Accommodation and buffet breakfast are free for two children under the age of 16 staying in their parents' or grandparents' room and having breakfast as a family.</p>
@@ -106,7 +108,7 @@
                     <td width="36"></td>
                     <td>
                         <p><strong>Transaction reference: <span th:text="${transactionId}">[transaction ID]</span></strong></p>
-<!--                        <p>Order date: <span th:text="${time}"></span> <span th:text="${date}"></span></p>-->
+                        <p><a th:href="@{http://localhost:8080/reservations}">Cancel Booking</a></p>
                     </td>
                     <td width="36"></td>
                 </tr>

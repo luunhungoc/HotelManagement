@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Edit - La Siesta Danang Resort</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/admin_style.css}">
+    <link rel="icon" th:href="@{img/favicon.jpg}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <!--     SIDE AREA -->
+    <div th:replace="~{ADMIN/admin-header :: admin-header}"></div>
+    <!--     SIDE AREA -->
+    <div class="mainArea">
+        <!-- BEGIN NAV -->
+        <div th:replace="~{ADMIN/admin-nav :: admin-nav}"></div>
+        <!-- END NAV -->
+        <!-- CONTAINER  -->
+        <div class="mainContent">
+            <!-- LIST FORM -->
+            <div class="transaction-form">
+                <h1>Edit Transaction Details</h1>
+                <div class="row">
+                    <label for="reservationId">Confirmation Code</label>
+                    <input type="text" id="reservationId" th:field="*{transaction.reservation.id}" readonly>
+                </div>
+                <div class="row">
+                    <label for="transactionId">Transaction Id</label>
+                    <input type="text" id="transactionId" th:field="*{transaction.id}" readonly>
+                </div>
+                <div class="row">
+                    <label for="room">Room</label>
+                    <input type="text" id="room" th:field="*{transaction.reservation.room.number}">
+                </div>
+
+                <div class="row">
+                    <label for="guest-name">Name</label>
+                    <input type="text" id="guest-name" th:field="*{transaction.reservation.profile.firstName}">
+                </div>
+
+                <div class="row">
+                    <label for="code">Code</label>
+                    <input type="text" id="code" th:field="${transaction.transactionType.code}">
+                    <span th:text="${transaction.transactionType.name}">Room Service Food</span>
+                </div>
+
+
+
+                <div class="row">
+                    <label for="quantity">Quantity</label>
+                    <input type="text" id="quantity" th:field="*{transaction.quantity}">
+                </div>
+
+                <div class="row">
+                    <label for="amount">Amount</label>
+                    <input type="text" id="amount" th:field="*{transaction.amount}" th:value="${#numbers.formatDecimal(transaction.amount, 0, 'POINT', 0, 'COMMA')}">
+                </div>
+
+                <div class="row">
+                    <label for="cashier">Cashier</label>
+                    <input type="text" id="cashier" value="44">
+                    <span>Document</span>
+                </div>
+
+
+
+                <div class="row">
+                    <label for="posting-date">Posting Date</label>
+                    <input type="date" id="posting-date" th:field="*{transaction.date}">
+                </div>
+
+                <div class="row buttons">
+                    <button type="submit">OK</button>
+                    <button type="button">Close</button>
+                </div>
+            </div>
+
+        </div>
+        <!-- END CONTAINER  -->
+    </div>
+</div>
+
+
+<script th:src="@{/js/admin.js}"></script>
+</body>
+
+</html>

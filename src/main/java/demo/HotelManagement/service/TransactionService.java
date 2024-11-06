@@ -16,20 +16,34 @@ public class TransactionService {
     public List<Transaction> findAll() {
         return (List<Transaction>) transactionRepository.findAll();
     }
+
     public Transaction save(Transaction transaction) {
         return transactionRepository.save(transaction);
     }
+
     public void deleteById(Long id) {
         transactionRepository.deleteById(id);
     }
-    public void saveAll(List<Transaction > transaction) {
+
+    public void saveAll(List<Transaction> transaction) {
         transactionRepository.saveAll(transaction);
     }
 
     public Transaction findById(Long id) {
         return transactionRepository.findById(id).orElse(null);
     }
+
     public List<Transaction> getTransactionsByReservationId(Long reservationId) {
         return transactionRepository.findByReservationId(reservationId);
     }
+
+    public Long getTotalRoomRevenueByReservationId(Long reservationId) {
+        // Gọi phương thức trong TransactionRepository để tính tổng amount
+        return transactionRepository.getTotalRoomRevenueByReservationId(reservationId);
+    }
+    public Long getTotalOtherRevenueByReservationId(Long reservationId) {
+        // Gọi phương thức trong TransactionRepository để tính tổng amount
+        return transactionRepository.getTotalOtherRevenueByReservationId(reservationId);
+    }
+
 }

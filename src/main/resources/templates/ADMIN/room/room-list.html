@@ -1,94 +1,410 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="ISO-8859-1">
-    <title>List Rooms</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Management List - La Siesta Danang Resort</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/admin_style.css}">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
 </head>
+
 <body>
+<div class="container">
+    <!--     SIDE AREA -->
+    <div th:replace="~{ADMIN/admin-header :: admin-header}"></div>
+    <!--     SIDE AREA -->
+    <div class="mainArea">
+        <!-- BEGIN NAV -->
+        <div th:replace="~{ADMIN/admin-nav :: admin-nav}"></div>
+        <!-- END NAV -->
+        <!-- CONTAINER  -->
+        <div class="add-room-container">
+            <h2 class="text-1 fl">Add New Room </h2>
+            <form id="addRoomForm">
+                <div class="add-room-form">
+                    <div class="form-row">
+                        <div class="field-group">
+                            <label for="number">Room Number</label>
+                            <input type="number" name="number" id="number" placeholder="Room Number" required>
+                        </div>
+                        <div class="field-group">
+                            <label>Room Type Name</label>
+                            <select name="roomTypeId">
+                                <option th:each="roomType : ${roomTypeList}" th:value="${roomType.id}"
+                                        th:text="${roomType.name}"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="add-room-buttons btnSave bg-1 text-fff text-bold fr">SAVE</button>
+            </form>
+        </div>
 
-<div style="margin-top: 80px;" class="container text-center">
-<!--    <div sec:authorize="isAuthenticated()">-->
-<!--        Welcome <b><span sec:authentication="name">Username</span></b>-->
-<!--        &nbsp;-->
-<!--        <i><span sec:authentication="principal.authorities">Roles</span></i>-->
-<!--    </div>-->
+        <div class="room-type-mainContent">
+            <!-- LIST FORM -->
 
-<!--    <form th:action="@{/logout}" method="post">-->
-<!--        <input type="submit" value="Logout"/>-->
-<!--    </form>-->
-    <div class="row">
+            <div class="room-type">
+                <form th:action="@{/admin/room-type/search}" method="GET" name="listForm" class="form scrollX">
+                    <div class="formHeader row">
+                        <h2 class="text-1 fl">Room Type List</h2>
+                        <br>
+                        <br>
+                        <div class="search">
+                            <input type="text" class="search-bar" name="searchInput"
+                                   placeholder="Search by room type or name">
+                            <button type="submit" class="btn-search">🔍</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="table">
+                    <table>
+                        <thead class="row bg-1">
+                        <tr>
+                            <th style="width: 150px;">Photo</th>
+                            <th style="width: 40px;">Code</th>
+                            <th style="width: 140px;">Name</th>
+                            <th style="width: 60px;">Max Adult</th>
+                            <th style="width: 60px;">Max Child</th>
+                            <th style="width: 60px;">Max Occ.</th>
+                            <th style="width: 140px;">Price</th>
+                            <th style="width: 60px;">Disc.</th>
+                            <th style="width: 50px;">No. of rms</th>
+                            <th style="width: 80px;">Options</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Existing room types from database (rendered dynamically using Thymeleaf) -->
+                        <tr th:each="roomType : ${roomTypeList}">
+                            <td></td>
+                            <td>
+                                <span th:text="${roomType.code}"></span>
+                                <input type="text" class="edit-code" th:value="${roomType.code}" style="display:none;"/>
+                            </td>
+                            <td>
+                                <span th:text="${roomType.name}"></span>
+                                <input type="text" class="edit-name" th:value="${roomType.name}" style="display:none;"/>
+                            </td>
+                            <td>
+                                <span th:text="${roomType.maxAdult}"></span>
+                                <input type="text" class="edit-max-adult" th:value="${roomType.maxAdult}"
+                                       style="display:none;"/>
+                            </td>
+                            <td>
+                                <span th:text="${roomType.maxChild}"></span>
+                                <input type="text" class="edit-max-child" th:value="${roomType.maxChild}"
+                                       style="display:none;"/>
+                            </td>
+                            <td>
+                                <span th:text="${roomType.maxOccupancy}"></span>
+                                <input type="text" class="edit-max-occupancy" th:value="${roomType.maxOccupancy}"
+                                       style="display:none;"/>
+                            </td>
+                            <td>
+                                <span th:text="${roomType.price}"></span>
+                                <input type="number" class="edit-price" th:value="${roomType.price}"
+                                       style="display:none;"/>
+                            </td>
+                            <td>
+                                <span th:text="${roomType.discount}"></span>
+                                <input type="number" class="edit-discount" th:value="${roomType.discount}"
+                                       style="display:none;"/>
+                            </td>
+                            <td>
+                                <span th:text="${roomType.quantity}"></span>
+                                <input type="text" class="edit-quantity" th:value="${roomType.quantity}"
+                                       style="display:none;"/>
+                            </td>
+                            <td>
+                                <!-- Hidden input to store the roomTypeId -->
+                                <input type="hidden" class="room-type-id" th:value="${roomType.id}"/>
+                                <!-- Buttons to Edit, Save, and Delete -->
+                                <a class="edit-btn fa-regular fa-pen-to-square bg-1 text-fff btnSave" type="button"></a>
+                                <a class="save-btn fa-regular fa-floppy-disk bg-1 text-fff  btnSave" type="button"
+                                   style="display:none;"></a>
+                                <a class="delete-btn  fa-solid fa-trash bg-1 text-fff btnSave" type="button"></a>
+                            </td>
+                        </tr>
 
-        <form th:action="@{/search}" class="form-inline my-2 my-lg-0">
-            <input name="searchInput" type="text" class="form-control mr-sm-2" placeholder="Search by name...">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </div>
-    <div>
-        <h1>List of Rooms</h1>
-    </div>
-<!--    <div sec:authorize="hasAnyAuthority('CREATOR', 'ADMIN')">-->
-        <a class="btn btn-primary" th:href="@{/room/add-room}">Add New Room</a>
-    <a class="btn btn-primary" th:href="@{/room/edit}">Edit Room</a>
-<!--    </div>-->
-<!--    <div>-->
-<!--        <span th:text="${RoomList.number+1}">Page Number</span> of-->
-<!--        <span th:text="${RoomList.totalPages}">Total Pages</span>-->
-<!--    </div>-->
+                        <!-- Empty row for adding a new room type -->
+                        <tr id="newRoomTypeRow">
+                            <td></td>
+                            <td><input type="text" id="newCode" placeholder="Code"/></td>
+                            <td><input type="text" id="newName" placeholder="Name"/></td>
+                            <td><input type="number" id="newMaxAdult" placeholder="Max Adults"/></td>
+                            <td><input type="number" id="newMaxChild" placeholder="Max Children"/></td>
+                            <td><input type="number" id="newMaxOccupancy" placeholder="Max Occupancy"/></td>
+                            <td><input type="number" id="newPrice" placeholder="Price"/></td>
+                            <td><input type="number" id="newDiscount" placeholder="Discount"/></td>
+                            <td><input type="number" id="newQuantity" placeholder="Quantity"/></td>
+                            <td><a id="addRoomTypeBtn" class="fa-solid fa-plus bg-1 text-fff btnSave">Add</a></td>
+                        </tr>
+                        <!-- Add more rows as needed -->
+                        </tbody>
+                    </table>
+                </div>
 
-<!--    <div>-->
-<!--        <a class="btn btn-primary"-->
-<!--           th:href="@{/Room(page=${RoomList.number-1}, size=${RoomList.size})}"-->
-<!--           th:if="${RoomList.hasPrevious()}">Previous</a>-->
+            </div>
+            <!-- LIST FORM -->
+            <div class="room">
+                <form th:action="@{/admin/room/search}" method="GET" name="listForm" class="form scrollX">
+                    <div class="formHeader row">
+                        <h2 class="text-1 fl">Room List </h2>
+                        <br>
+                        <br>
+                        <div class="search">
+                            <input type="text" class="search-bar" name="searchRoomInput"
+                                   placeholder="Search by room number or type">
+                            <button type="submit" class="btn-search">🔍</button>
+                        </div>
+                    </div>
+                    <div class="table">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Room Number</th>
+                                <th>Room Type</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="room : ${roomList}">
+                                <td>
+                                    <span class="room-number" th:text="${room.number}"></span>
+                                    <input type="number" class="edit-room-number" th:value="${room.number}"
+                                           style="display:none;"/>
+                                </td>
+                                <td>
+                                    <span class="room-type-name" th:text="${room.roomType.name}"></span>
+                                    <select class="edit-room-type" style="display:none;">
+                                        <option th:each="type : ${roomTypeList}" th:value="${type.id}"
+                                                th:text="${type.name}"
+                                                th:selected="${room.roomType.id == type.id}"></option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="hidden" class="room-id" th:value="${room.id}"/>
+                                    <button class="edit-room-btn">Edit</button>
+                                    <button class="save-room-btn" style="display:none;">Save</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
 
-<!--        <a class="btn btn-primary"-->
-<!--           th:href="@{/Room(page=${RoomList.number+1}, size=${RoomList.size})}"-->
-<!--           th:if="${RoomList.hasNext()}">Next</a>-->
-<!--    </div>-->
-    <form action="/searchAvailability" method="get" class="form-inline mb-4">
-        <label class="mr-2">Check-in Date:</label>
-        <input type="date" name="checkInDate" class="form-control mr-2" th:value="${#temporals.format(currentDate, 'yyyy-MM-dd')}">
+                    </div>
 
-        <label class="mr-2">Check-out Date:</label>
-        <input type="date" name="checkOutDate" class="form-control mr-2" th:value="${#temporals.format(currentDatePlus, 'yyyy-MM-dd')}">
-
-        <button type="submit" class="btn btn-primary">Search</button>
-    </form>
-    <div>
-        <table class="table table-striped table-bordered">
-            <thead class="thead-dark">
-            <tr>
-
-                <th>Room ID</th>
-                <th>Room Number</th>
-                <th>Room Status</th>
-                <th>Room Type Code</th>
-                <th>Room Type Name</th>
-                <th>Public Rate per Night</th>
-                <th>Max Adult</th>
-                <th>Max Children</th>
-
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="room: ${roomList}">
-
-                <td th:text="${room.id}"></td>
-                <td th:text="${room.number}"></td>
-                <td th:text="${room.roomStatus}"></td>
-                <td th:text="${room.roomType.code}"></td>
-                <td th:text="${room.roomType.name}"></td>
-
-                <td th:text="${#numbers.formatDecimal(room.roomType.price, 0, 'COMMA', 0, 'POINT')} +' VND'"></td>
-                <td th:text="${room.roomType.maxAdult}"></td>
-                <td th:text="${room.roomType.maxChild}"></td>
-                </tr>
-
-            </tbody>
-        </table>
+                    <div id="pagination">
+                        <ul class="pagination list-inline text-center">
+                            <li class="is-active"><a href="?page=1">1</a></li>
+                            <li><a href="?page=2">2</a></li>
+                            <li><a href="?page=3">3</a></li>
+                            <li><a href="?page=4">4</a></li>
+                            <li><a href="?page=5">5</a></li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- END CONTAINER  -->
     </div>
 </div>
+
+<script>
+    // AJAX for adding a room
+    $('#addRoomForm').on('submit', function (event) {
+        event.preventDefault();
+        var formData = $(this).serialize();
+
+        $.post('/admin/room/add', formData, function () {
+            location.reload();  // Reload room list dynamically
+        });
+    });
+
+    // AJAX for deleting a room
+   $(document).ready(function() {
+    $(".delete-room-btn").click(function() {
+        // Get the roomId from the hidden input
+        var roomId = $(this).closest("td").find(".room-id").val();
+        console.log(roomId);  // For debugging
+
+        if (confirm("Are you sure you want to delete this room?")) {
+            $.ajax({
+                type: "POST",
+                url: "/admin/room/delete",
+                data: { roomId: roomId },
+                success: function(response) {
+                    console.log("Room deleted successfully:", response);
+                    location.reload();  // Optionally reload the page
+                },
+                error: function(error) {
+                    console.error("Error deleting room:", error);
+                }
+            });
+        }
+    });
+});
+
+    // AJAX for adding a room type
+    $(document).ready(function() {
+    // AJAX for adding a new RoomType
+    $('#addRoomTypeBtn').on('click', function() {
+        var newRoomTypeData = {
+            code: $('#newCode').val(),
+            name: $('#newName').val(),
+            maxAdult: $('#newMaxAdult').val(),
+            maxChild: $('#newMaxChild').val(),
+            maxOccupancy: $('#newMaxOccupancy').val(),
+            price: $('#newPrice').val(),
+            discount: $('#newDiscount').val(),
+            quantity: $('#newQuantity').val()
+        };
+
+        // Kiểm tra các trường dữ liệu
+        if (!newRoomTypeData.code || !newRoomTypeData.name) {
+            alert("Please fill all required fields!");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/room/add-room-type",
+            data: newRoomTypeData,
+            success: function(response) {
+
+            location.reload();  // Reload room list dynamically
+
+                // Reset the input fields
+                $('#newCode').val('');
+                $('#newName').val('');
+                $('#newMaxAdult').val('');
+                $('#newMaxChild').val('');
+                $('#newMaxOccupancy').val('');
+                $('#newPrice').val('');
+                $('#newDiscount').val('');
+                $('#newQuantity').val('');
+            },
+            error: function(response) {
+                alert("Error adding new room type");
+            }
+        });
+    });
+});
+
+
+    // AJAX for deleting a room type
+    $(document).ready(function() {
+    $(".delete-btn").click(function() {
+        // Get the roomTypeId from the hidden input
+        var roomTypeId = $(this).closest("td").find(".room-type-id").val();
+        console.log(roomTypeId);  // For debugging
+
+        if (confirm("Are you sure you want to delete this room type?")) {
+            $.ajax({
+                type: "POST",
+                url: "/admin/room/delete-room-type",
+                data: { roomTypeId: roomTypeId },
+                success: function(response) {
+                    console.log("Room type deleted successfully:", response);
+                    location.reload();  // Optionally reload the page
+                },
+                error: function(error) {
+                    console.error("Error deleting room type:", error);
+                }
+            });
+        }
+    });
+});
+
+
+    //AJAX for Edit and Save Actions
+    $(document).ready(function() {
+    // Handle the Edit button click
+    $(".edit-btn").click(function() {
+        var $row = $(this).closest("tr");  // Get the current row
+        $row.find("span").hide();  // Hide text spans
+        $row.find("input[type='text'], input[type='number']").show();  // Show input fields
+        $(this).hide();  // Hide the Edit button
+        $row.find(".save-btn").show();  // Show the Save button
+    });
+
+    // Handle the Save button click
+    $(".save-btn").click(function() {
+        var $row = $(this).closest("tr");  // Get the current row
+        var roomTypeId = $row.find(".room-type-id").val();  // Get the hidden roomTypeId
+
+        // Get the updated values from the input fields
+        var updatedRoomType = {
+            code: $row.find(".edit-code").val(),
+            name: $row.find(".edit-name").val(),
+            maxAdult: $row.find(".edit-max-adult").val(),
+            maxChild: $row.find(".edit-max-child").val(),
+            maxOccupancy: $row.find(".edit-max-occupancy").val(),
+            price: $row.find(".edit-price").val(),
+            discount: $row.find(".edit-discount").val(),
+            quantity: $row.find(".edit-quantity").val()
+        };
+
+        // Make an AJAX call to update the room type
+        $.ajax({
+            type: "POST",
+            url: "/admin/room/edit-room-type",  // Your Spring Boot endpoint
+            data: { roomTypeId: roomTypeId, ...updatedRoomType },  // Pass updated data
+            success: function(response) {
+                console.log("Room type updated successfully:", response);
+                // Optionally, refresh the row or reload the page
+                location.reload();
+            },
+            error: function(error) {
+                console.error("Error updating room type:", error);
+            }
+        });
+    });
+});
+
+     //AJAX for Edit and Save Actions ROOM
+$(".save-room-btn").click(function() {
+    var $row = $(this).closest("tr");  // Lấy hàng hiện tại
+    var roomId = $row.find(".room-id").val();  // Lấy roomId ẩn trong input
+    var roomTypeId = $row.find(".edit-room-type").val();  // Lấy roomTypeId từ danh sách chọn
+
+    // Lấy giá trị mới từ các ô input
+    var updatedRoom = {
+        number: $row.find(".edit-room-number").val(),
+        roomTypeId: roomTypeId // Sửa lại để gửi roomTypeId đúng cách
+    };
+
+    // Gửi AJAX để cập nhật Room
+    $.ajax({
+        type: "POST",
+        url: "/admin/room/edit-room",  // Endpoint Spring Boot của bạn để cập nhật Room
+        data: { roomId: roomId, ...updatedRoom },  // Gửi dữ liệu
+        success: function(response) {
+            console.log("Room updated successfully:", response);
+
+            // Cập nhật giá trị mới vào hàng trên bảng
+            $row.find(".room-number").text(updatedRoom.number);
+            $row.find(".room-type-name").text($row.find(".edit-room-type option:selected").text()); // Hiển thị tên roomType đã chọn
+
+            // Ẩn ô input và hiện lại các giá trị ban đầu
+            $row.find("span").show();
+            $row.find(".edit-room-number, .edit-room-type, .save-room-btn").hide(); // Ẩn input và nút save
+            $row.find(".edit-room-btn").show();  // Hiển thị lại nút edit
+        },
+        error: function(error) {
+            console.error("Error updating room:", error);
+        }
+    });
+});
+
+
+</script>
+<script th:src="@{/js/admin.js}"></script>
 </body>
+
 </html>
